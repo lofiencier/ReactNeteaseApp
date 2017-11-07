@@ -1,0 +1,32 @@
+{
+  "name": "ReactNeteaseApp",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha -r intelli-espower-loader -t 20000 test",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "apicache": "^0.9.0",
+    "big-integer": "^1.6.17",
+    "express": "^4.15.2",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "husky": "^0.14.3",
+    "intelli-espower-loader": "^1.0.1",
+    "lint-staged": "^4.0.3",
+    "mocha": "^3.2.0",
+    "power-assert": "^1.4.2",
+    "prettier": "^1.5.3"
+  }
+}
