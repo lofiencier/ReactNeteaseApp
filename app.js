@@ -165,7 +165,7 @@ app.use('/recommend/dislike', require('./router/recommend_dislike'))
 app.use('/resource/like', require('./router/resource_like'))
 
 // 搜索
-app.use('/search', require('./router/search'))
+app.use('/api/search', require('./router/search'))
 
 //搜索 multimatch
 app.use('/search/multimatch', require('./router/search_multimatch'))
