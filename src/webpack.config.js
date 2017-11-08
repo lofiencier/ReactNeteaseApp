@@ -8,6 +8,12 @@ module.exports = {
     filename: "bundle.js" //可以添加hash值，id,name,使用不同名字的bundle时，可以使用html-webpack-plugin这个webpack插件生成生成一个自动引用你打包后的JS文件的新index.html,放在此webpack.config.js后面的plugins中
   },
   devtool: "eval-source-map", //生成source-map，方便调试，具体有什么用？
+  devServer: {
+    //可能是webpack-dev-server那个的？当你没有使用react/nodejs/等时开的服务器？
+    contentBase: "./public", //本地服务器所加载的页面所在的目录
+    historyApiFallback: true, //不跳转
+    inline: true //实时刷新
+  },
   module: {
     rules: [
       {

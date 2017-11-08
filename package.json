@@ -7,6 +7,7 @@
     "build": "webpack --config=src/webpack.config.js",
     "test": "mocha -r intelli-espower-loader -t 20000 test",
     "precommit": "lint-staged",
+    "server": "webpack-dev-server --config=src/webpack.config.js --open",
     "watch": "onchange \"./src/**/*.js\"  \"./src/**/*.jsx\"  \"./src/**/*.css\" -- npm run build"
   },
   "lint-staged": {
