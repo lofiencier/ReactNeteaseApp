@@ -19,4 +19,10 @@ export class Routers extends React.Component {
     );
   }
 }
-const IndexPage = () => <h1>this is homepage</h1>;
+const IndexPage = () => (
+  <h2>
+    <Link to="/search">搜索</Link>
+    <br />
+    <Link to="/test">测试</Link>
+  </h2>
+);

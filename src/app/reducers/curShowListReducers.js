@@ -1,13 +1,6 @@
-export default function reducer(
-  state = {
-    user: [],
-    sum: 0,
-    fetching: false,
-    fetched: false,
-    error: null
-  },
-  action
-) {
+import initialState from "../initialState";
+
+export default function reducer(state = {}, action) {
   switch (action.type) {
     case "FETCH_USERS_PENDING": {
       state = { ...state, fetching: true };
@@ -26,6 +19,5 @@ export default function reducer(
       break;
     }
   }
-
   return state;
 }
