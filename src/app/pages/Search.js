@@ -40,7 +40,6 @@ export default class Search extends React.Component {
           songs={this.props.curShowList.targetList}
           playHandler={this.playHandler}
         />
-        <AUDIO URL={this.props.Audio.targetURL} />
       </div>
     );
   }

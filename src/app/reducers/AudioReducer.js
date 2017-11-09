@@ -12,6 +12,8 @@ export default function AudioReducer(state = initialState, action) {
         fetched: true,
         targetURL: action.url
       };
+      state.AudioDom.src = state.targetURL;
+      state.AudioDom.play();
       break;
     }
     case "FETCH_SONG_ERR": {
