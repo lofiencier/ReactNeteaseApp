@@ -1,6 +1,9 @@
 const initialState = {
   curShowList: {
-    fetch: false
+    fetching: false,
+    fetched: false,
+    err: null,
+    targetList: []
   }
 };
 //可以在这里读取cookie重置state哟
