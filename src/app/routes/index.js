@@ -3,7 +3,7 @@ import { HashRouter, Route, Switch, Link } from "react-router-dom";
 import Test from "../pages/test";
 import NoMatch from "../pages/NoMatch";
 import Search from "../pages/Search";
-
+import Playbox from "../pages/Playbox";
 export class Routers extends React.Component {
   render() {
     return (
@@ -13,6 +13,7 @@ export class Routers extends React.Component {
             <Route exact path="/" component={IndexPage} />
             <Route path="/test" component={Test} />
             <Route path="/search" component={Search} />
+            <Route path="/playbox" component={Playbox} />
           </Switch>
         </main>
       </HashRouter>
@@ -24,5 +25,7 @@ const IndexPage = () => (
     <Link to="/search">搜索</Link>
     <br />
     <Link to="/test">测试</Link>
+    <br />
+    <Link to="/playbox">播放盒子</Link>
   </h2>
 );

@@ -1,7 +1,7 @@
-export default function fetchList(keywords) {
+export default function fetchList(song_id) {
   return function(dispatch) {
-    dispatch({ type: "FETCHING_LIST" });
-    fetch(`http://localhost:3000/api/search?keywords=${keywords}`, {
+    dispatch({ type: "FETCHING_SONG" });
+    fetch(`http://localhost:3000/music/url?id=${song_id}`, {
       method: "GET",
       mode: "cors"
     })
@@ -10,10 +10,10 @@ export default function fetchList(keywords) {
       })
       .then(function(data) {
         console.log("data from action:", data);
-        dispatch({ type: "RECIEVE_LIST", data: data.result.songs });
+        dispatch({ type: "RECIEVE_SONG_URL", url: data.data["0"].url });
       })
       .catch(function(err) {
-        dispatch({ type: "FETCH_LIST_FAILED", err: err });
+        dispatch({ type: "FETCH_SONG_ERR", err: err });
       });
   };
 }
