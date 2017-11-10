@@ -9,7 +9,6 @@ export default function fetchList(song_id) {
         return res.json();
       })
       .then(function(data) {
-        console.log("data from action:", data);
         dispatch({ type: "RECIEVE_SONG_URL", url: data.data["0"].url });
       })
       .catch(function(err) {

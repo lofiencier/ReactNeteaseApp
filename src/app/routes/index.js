@@ -4,6 +4,7 @@ import Test from "../pages/test";
 import NoMatch from "../pages/NoMatch";
 import Search from "../pages/Search";
 import Playbox from "../pages/Playbox";
+import Login from "../pages/login";
 export class Routers extends React.Component {
   render() {
     return (
@@ -14,6 +15,7 @@ export class Routers extends React.Component {
             <Route path="/test" component={Test} />
             <Route path="/search" component={Search} />
             <Route path="/playbox" component={Playbox} />
+            <Route path="/login" component={Login} />
           </Switch>
         </main>
       </HashRouter>
@@ -27,5 +29,7 @@ const IndexPage = () => (
     <Link to="/test">测试</Link>
     <br />
     <Link to="/playbox">播放盒子</Link>
+    <br />
+    <Link to="/login">登录</Link>
   </h2>
 );
