@@ -74,11 +74,13 @@ export default class Test extends React.Component {
 const Collection = props => {
   const lis = props.favourite.map(item => (
     <li key={item.playlistId}>
-      <img src={item.coverImgUrl} style={style1} />
-      <span>{item.playlistName}</span>
-      <i>
-        <small>COUNT:{item.trackCount}</small>
-      </i>
+      <a href={"/#/playlist?id=" + item.playlistId} data-id={item.playlistId}>
+        <img src={item.coverImgUrl} style={style1} />
+        <span>{item.playlistName}</span>
+        <i>
+          <small>COUNT:{item.trackCount}</small>
+        </i>
+      </a>
     </li>
   ));
   return <ul>{lis}</ul>;

@@ -5,6 +5,7 @@ import NoMatch from "../pages/NoMatch";
 import Search from "../pages/Search";
 import Playbox from "../pages/Playbox";
 import Login from "../pages/login";
+import Playlist from "../pages/Playlist";
 export class Routers extends React.Component {
   render() {
     return (
@@ -16,6 +17,7 @@ export class Routers extends React.Component {
             <Route path="/search" component={Search} />
             <Route path="/playbox" component={Playbox} />
             <Route path="/login" component={Login} />
+            <Route path="/playlist" component={Playlist} />
           </Switch>
         </main>
       </HashRouter>
