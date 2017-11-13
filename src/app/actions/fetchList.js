@@ -9,6 +9,7 @@ export default function fetchList(keywords) {
         return res.json();
       })
       .then(function(data) {
+        console.log(data);
         dispatch({ type: "RECIEVE_LIST", data: data.result.songs });
       })
       .catch(function(err) {

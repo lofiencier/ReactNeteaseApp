@@ -1,6 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 
+@connect(store => {
+  return {
+    curShowList: store.curShowList,
+    Audio: store.Audio
+  };
+})
 export default class Search extends React.Component {
   constructor() {
     super();
