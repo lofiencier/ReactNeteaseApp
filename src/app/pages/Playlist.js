@@ -1,47 +1,46 @@
 import React from "react";
 import { connect } from "react-redux";
+import fetchPlaylist from "../actions/fetchPlaylist";
+import List from "../components/list";
+import fetchAudio from "../actions/fetchAudio";
 
 @connect(store => {
   return {
-    curShowList: store.curShowList,
+    playlist: store.playlist,
     Audio: store.Audio
   };
 })
-export default class Search extends React.Component {
+export default class Playlist extends React.Component {
   constructor() {
     super();
-    this.state = {
-      defaultView: <h1>default</h1>
-    };
+    this.playHandler = this.playHandler.bind(this);
   }
   componentDidMount() {
-    if (this.props.location.search === "") {
-      this.setState({ defaultView: <h1>404</h1> });
-    } else {
-      let listId = this.props.location.search;
-      fetch(`http://localhost:3000/playlist/detail${listId}`, {
-        method: "GET",
-        mode: "cors"
-      })
-        .then(function(res) {
-          return res.json();
-        })
-        .then(function(data) {
-          console.log(data);
-        });
+    let listId = this.props.location.search;
+    if (listId !== "") {
+      this.props.dispatch(fetchPlaylist(listId));
     }
   }
+  playHandler(e) {
+    let song_id = e.currentTarget.getAttribute("data-id");
+    this.props.dispatch(fetchAudio(song_id));
+  }
   render() {
-    return this.state.defaultView;
+    if (this.props.location.search === "") {
+      return <h1>404</h1>;
+    } else {
+      if (this.props.playlist.fetched) {
+        return (
+          <List
+            songs={this.props.playlist.songs}
+            playHandler={this.playHandler}
+          />
+        );
+      } else {
+        return this.props.playlist.view;
+      }
+    }
   }
 }
 
 const songlist = props => {};
-
-// .playlist.name
-// .playlist.coverImgId
-// .playlist.tracks["0"].id
-// .playlist.tracks["0"].name
-// .playlist.tracks["0"].mv
-// .playlist.tracks["0"].al.name
-// .playlist.tracks["0"].al.picUrl

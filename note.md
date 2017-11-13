@@ -22,3 +22,13 @@ SEARCH LIST
 	.result.songs["0"].album.name
 	.result.songs["0"].album.artist.id
 	.result.songs["0"].album.artist.name
+
+
+
+[].songid
+[].songname
+[].songmv
+[].album.id
+[].album.name
+[].artist.id
+[].artist.name

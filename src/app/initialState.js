@@ -1,12 +1,15 @@
+import React from "react";
+
 function initialState() {
   let AudioDom = document.createElement("Audio");
 
   return {
-    curShowList: {
+    searchlist: {
       fetching: false,
       fetched: false,
       err: null,
-      targetList: []
+      songs: [],
+      songCount: NaN
     },
     Audio: {
       AudioDom: AudioDom,
@@ -26,6 +29,18 @@ function initialState() {
       loginErr: null,
       collection: [],
       collection_err: null
+    },
+    playlist: {
+      fetching: false,
+      fetched: false,
+      err: null,
+      name: "",
+      playCount: NaN,
+      coverImgUrl: "",
+      creator: {},
+      songs: [],
+      songCount: NaN,
+      view: <h1>Loading...</h1>
     }
   };
 }

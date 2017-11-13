@@ -2,12 +2,12 @@ import React from "react";
 import List from "../components/list";
 import AUDIO from "../components/AUDIO";
 import { connect } from "react-redux";
-import fetchList from "../actions/fetchList";
+import fetchSearchList from "../actions/fetchSearchList";
 import fetchAudio from "../actions/fetchAudio";
 
 @connect(store => {
   return {
-    curShowList: store.curShowList,
+    searchlist: store.searchlist,
     Audio: store.Audio
   };
 })
@@ -20,7 +20,7 @@ export default class Search extends React.Component {
   submitHandler(e) {
     e.preventDefault();
     let keywords = document.getElementById("song_name").value;
-    this.props.dispatch(fetchList(keywords));
+    this.props.dispatch(fetchSearchList(keywords));
   }
 
   playHandler(e) {
@@ -37,7 +37,7 @@ export default class Search extends React.Component {
           <input type="submit" />
         </form>
         <List
-          songs={this.props.curShowList.targetList}
+          songs={this.props.searchlist.songs}
           playHandler={this.playHandler}
         />
       </div>
