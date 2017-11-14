@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { login, getCollect } from "../actions/userActions";
+import { login, getCollect } from "../redux/actions";
 
 let style1 = {
   width: "100px",

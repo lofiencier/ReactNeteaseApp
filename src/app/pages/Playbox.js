@@ -1,7 +1,6 @@
 import React from "react";
 import List from "../components/list";
 import { connect } from "react-redux";
-import fetchSearchList from "../actions/fetchSearchList";
 
 @connect(store => {
   return {

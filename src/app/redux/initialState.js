@@ -41,6 +41,14 @@ function initialState() {
       songs: [],
       songCount: NaN,
       view: <h1>Loading...</h1>
+    },
+    album: {
+      fetching: false,
+      fetched: false,
+      err: null,
+      album: [],
+      songs: [],
+      view: <h1>Loading...</h1>
     }
   };
 }

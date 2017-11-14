@@ -1,9 +1,7 @@
 import React from "react";
 import List from "../components/list";
-import AUDIO from "../components/AUDIO";
 import { connect } from "react-redux";
-import fetchSearchList from "../actions/fetchSearchList";
-import fetchAudio from "../actions/fetchAudio";
+import { fetchSearchList, fetchAudio } from "../redux/actions";
 
 @connect(store => {
   return {

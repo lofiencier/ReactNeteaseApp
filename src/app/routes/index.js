@@ -6,6 +6,8 @@ import Search from "../pages/Search";
 import Playbox from "../pages/Playbox";
 import Login from "../pages/login";
 import Playlist from "../pages/Playlist";
+import Album from "../pages/Album";
+import IndexPage from "../pages/index";
 export class Routers extends React.Component {
   render() {
     return (
@@ -18,20 +20,10 @@ export class Routers extends React.Component {
             <Route path="/playbox" component={Playbox} />
             <Route path="/login" component={Login} />
             <Route path="/playlist" component={Playlist} />
+            <Route path="/album" component={Album} />
           </Switch>
         </main>
       </HashRouter>
     );
   }
 }
-const IndexPage = () => (
-  <h2>
-    <Link to="/search">搜索</Link>
-    <br />
-    <Link to="/test">测试</Link>
-    <br />
-    <Link to="/playbox">播放盒子</Link>
-    <br />
-    <Link to="/login">登录</Link>
-  </h2>
-);

@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import fetchPlaylist from "../actions/fetchPlaylist";
+import { fetchPlaylist, fetchAudio } from "../redux/actions";
 import List from "../components/list";
-import fetchAudio from "../actions/fetchAudio";
 
 @connect(store => {
   return {
