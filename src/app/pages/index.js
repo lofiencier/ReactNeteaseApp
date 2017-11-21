@@ -1,5 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
+import Header from "../components/Header";
+import Banner from "../components/Banner";
+import { Recommand } from "../components/common";
 
 @connect(store => {
   return {
@@ -9,6 +12,12 @@ import { connect } from "react-redux";
 })
 export default class IndexPage extends React.Component {
   render() {
-    return <h1 />;
+    return (
+      <div>
+        <Header />
+        <Banner />
+        <Recommand />
+      </div>
+    );
   }
 }
