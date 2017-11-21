@@ -26,7 +26,11 @@ export default class Search extends React.Component {
   render() {
     if (this.props.album.fetched) {
       return (
-        <List songs={this.props.album.songs} playHandler={this.playHandler} />
+        <div className="album_page">
+          <div className="album_bg_mask" />
+          <div className="album_page_bg" />
+          <List songs={this.props.album.songs} playHandler={this.playHandler} />
+        </div>
       );
     } else {
       return this.props.album.view;

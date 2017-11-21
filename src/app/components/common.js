@@ -10,10 +10,16 @@ export class Album extends React.Component {
         >
           <div className="album_cover">
             <img src={this.props.coverUrl} alt="" />
+            <div className="album_info_playCount">
+              <span>
+                {parseInt(this.props.albumPlayCount) > 10000
+                  ? parseInt(this.props.albumPlayCount / 10000) + "W"
+                  : this.props.albumPlayCount}
+              </span>
+            </div>
           </div>
           <div className="album_info">
             <p className="album_info_name">{this.props.albumName}</p>
-            <p className="album_info_playCount">{this.props.albumPlayCount}</p>
           </div>
         </a>
       </div>
@@ -56,7 +62,14 @@ export class Recommand extends React.Component {
           />
         );
       });
-      return <div className="recommand_playlist">{lis}</div>;
+      return (
+        <div className="recommand_playlist">
+          <div className="recommand_wrap">
+            <p className="feather_title">New Releast For You</p>
+            {lis}
+          </div>
+        </div>
+      );
     } else {
       return <h1>loading...</h1>;
     }

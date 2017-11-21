@@ -1,13 +1,17 @@
 import React from "react";
 
 export default class Header extends React.Component {
+  constructor() {
+    super();
+  }
+
   render() {
     return (
       <header>
         <div className="header_fixed">
           <div className="header_content">
             <div className="logo">
-              <h1>LOGO</h1>
+              <h1>NETEASE</h1>
             </div>
             <div className="header_nav_search">
               <a href="javascript:void(0)">
@@ -20,8 +24,8 @@ export default class Header extends React.Component {
             <div className="header_nav">
               <a href="javascript:void(0)">MINE</a>
             </div>
-            <div className="header_nav">
-              <a href="javascript:void(0)">ARTISTS</a>
+            <div className="header_nav active">
+              <a href="javascript:void(0)">DISCOVER</a>
             </div>
           </div>
         </div>

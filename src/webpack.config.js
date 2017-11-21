@@ -29,6 +29,10 @@ module.exports = {
         test: /(\.css|\.less)$/,
         use: ["style-loader", "css-loader", "less-loader"],
         exclude: /node_modules/
+      },
+      {
+        test: /.(png|svg|jpg|gif)$/,
+        use: ["url-loader?limit=2048&name=./static/images/[name].[ext]?[hash]"]
       }
     ]
   }
