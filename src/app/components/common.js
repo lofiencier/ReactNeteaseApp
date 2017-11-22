@@ -75,3 +75,22 @@ export class Recommand extends React.Component {
     }
   }
 }
+
+export class Album_info extends React.Component {
+  render() {
+    return (
+      <div className="album_info">
+        <div className="album_info_cover">
+          <p>Album</p>
+          <img src={this.props.coverUrl} alt="" />
+        </div>
+        <div className="album_info_descrition">
+          <p className="album_info_name">{this.props.alname}</p>
+          <p className="album_info_aritist">{this.props.artist}</p>
+          <p className="album_public_time">{this.props.time}</p>
+          <p className="album_company">{this.props.company}</p>
+        </div>
+      </div>
+    );
+  }
+}

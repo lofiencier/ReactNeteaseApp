@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html class="yui3-js-enabled" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <title>StackBlur - A fast, almost Gaussian blur for Canvas by Mario Klingemann, Quasimondo</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style type="text/css" media="screen">
+    body {
+        text-align: center;
+        background-color: #ffffff;
+    }
+
+    .slider {
+        position: relative;
+        text-align: center;
+        cursor: move;
+        padding: 0;
+        margin: 0;
+        height: 21px;
+        width: 21px;
+    }
+
+    .slider div {}
+
+    #slider-contentbox {
+        position: absolute;
+        top: 400px;
+        left: 20px;
+        height: 1px;
+        width: 181px;
+        padding: 10px;
+        background-color: #CDCDCD;
+    }
+
+    #slider-valuebox {
+        position: relative;
+        height: 1px;
+        background-color: #666;
+    }
+
+    #slider-thumb {
+        background-color: #202020;
+        top: -10px;
+        left: -10px;
+        color: #000;
+    }
+    </style>
+    <script src="StackBlurDemo_files/yui-min.js"></script>
+    <script src="StackBlurDemo_files/yui.js" type="text/javascript"></script>
+    <script src="StackBlur.js" language="javascript"></script>
+    <script type="text/javascript">
+    /* <![CDATA[ */
+    (function() {
+        var s = document.createElement('script'),
+            t = document.getElementsByTagName('script')[0];
+
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'http://api.flattr.com/js/0.5.0/load.js?mode=auto';
+
+        t.parentNode.insertBefore(s, t);
+    })();
+    /* ]]> */
+    </script>
+    <script src="StackBlurDemo_files/loader-min.js" type="text/javascript" id="yui_3_1_0_1_12868170921042"></script>
+    <script src="StackBlurDemo_files/combo.js" type="text/javascript" id="yui_3_1_0_1_12868170921043"></script>
+</head>
+
+<body>
+    <div id="imageHolder" style="position:absolute;left:20px; top:20px;text-align:center;font-size:10px;">
+        <img id="srcimg" src="StackBlurDemo_files/lonerider2.jpg">
+        <br>
+    </div>
+    <div id="canvasHolder" style="position:absolute;left:20px; top:20px;text-align:center;font-size:10px;">
+        <canvas height="375" width="500" style="width: 500px; height: 375px;" id="canvas">
+        </canvas>
+    </div>
+    <div id="slider-contentbox">
+        <div id="slider-valuebox">
+            <div style="left: -5px; top: -10px;" id="slider-thumb" class="slider yui3-dd-draggable"> </div>
+        </div>
+    </div>
+    <div id="centerlog" style="position:absolute; left: 230px; top:403px;font-size:12px;">Radius: 0</div>
+    <div style="position:absolute; left: 450px; top:400px;">
+        <script type="text/javascript">
+        var blurRadius = 0;
+
+        YUI({
+            //Last Gallery Build of this module
+            gallery: 'gallery-2010.02.19-03'
+        }).use('dd-constrain', 'node', 'gallery-center', 'gallery-simpleslider', function(Y) {
+            var thumb = Y.one('#slider-thumb'),
+                slider = new Y.apm.SimpleSlider({
+                    node: '#slider-contentbox'
+                }).render();
+
+            slider.on('valueChange', function(e) {
+                blurRadius = e.newVal[0];
+                Y.one('#centerlog').set('innerHTML', "Radius: " + e.newVal[0]);
+                stackBlurImage('srcimg', 'canvas', blurRadius, false);
+            });
+        })
+        </script>
+    </div>
+    <div style="position:absolute; left: 20px; top:430px;font-size:12px;text-align:left;">This is a demo for a Javascript / Canvas based implementation of my <a href="http://incubator.quasimondo.com/processing/fast_blur_deluxe.php">StackBlur algorithm</a>.
+        <br/>
+        <br/> Usage: stackBlurImage( sourceImageID, targetCanvasID, radius, blurAlphaChannel );
+        <br/> or: stackBlurCanvasRGBA( targetCanvasID, top_x, top_y, width, height, radius );
+        <br/> or: stackBlurCanvasRGB( targetCanvasID, top_x, top_y, width, height, radius );
+        <br/>
+        <br /> Download source: <a href="StackBlur.js" />StackBlur v0.5</a>
+        <a class="FlattrButton" style="display:none;" href="http://www.quasimondo.com/StackBlurForCanvas/StackBlurDemo.html"></a>
+        <br/>
+        <br/>
+        <br/> Thank you to <a href="http://shaver.off.net/diary/">Mike Shaver</a> for fixing my first slider implementation.
+        <br/> Thanks to Michael Deal for noticing and fixing the ARGB/RGBA mixup and the pre-multiplied alpha bug.
+        <br/>
+        <br /> For some slightly faster box blurs which do not look as good though check out my <a href="http://www.quasimondo.com/BoxBlurForCanvas/FastBlurDemo.html">Superfast Blur</a>, <a href="http://www.quasimondo.com/BoxBlurForCanvas/FastBlur2Demo.html">StackBox Blur</a> and <a href="http://www.quasimondo.com/IntegralImageForCanvas/IntegralImageBlurDemo.html">Integral Image Blur</a>.
+        <br/>
+        <br /> For a speed comparison of all 4 blur algorithms check <a href="http://jsperf.com/superfastblur-vs-stackboxblur-vs-stackblur/2">this jsPerf test</a>.
+    </div>
+</body>
+
+</html>
