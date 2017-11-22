@@ -1,46 +1,4 @@
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
+
 a{
 	text-decoration: none;
 	color:#000;
@@ -53,8 +11,10 @@ a:active{
 @brick_bg:#222432;
 @nav_bg:#1b1c20;
 @main:#e65454;
-@main_font_color:#fff;
-@second_font_color:#86899e;
+@font1:#333;
+@font2:#666;
+@border:#ddd;
+@border_red:#d64141;
 
 body{
 	background:@bg_black;
@@ -85,7 +45,7 @@ body{
 			float: right;
 			height: inherit;
 			a{
-				color:@second_font_color;
+				color:#c3c3c3;
 				text-align: center;
 				display: block;
 				width: 100px;
@@ -98,7 +58,7 @@ body{
 			a{
 				height:57px;
 				border-bottom: 4px solid @main;
-				color:@main_font_color;
+				color:#fff;
 			}
 		}
 		.header_nav_search{
@@ -262,7 +222,7 @@ body{
 }
 
 .bg_content{
-	position: absolute;
+	position: fixed;
 	top:0;
 	width: 100%;
 	height: 100%;
@@ -312,14 +272,10 @@ body{
 			border-radius: 4px;
 			overflow: hidden;
 			background: #f3f3f3;
+			border:1px solid @border;
 			p{
 				
-				padding:4px;
-				color:#fff;
-				text-align: center;
-				background:@main;
-				position: absolute;
-				top: 0;
+				
 			}
 			img{
 				width: 100%;
@@ -330,9 +286,32 @@ body{
 			width: 270px;
 			height: auto;
 			margin:10px auto;
-			p{
-				line-height: 20px;
+			.album_info_name{
+				color:#000;
+				font-size:18px;
+				line-height: 32px;
+				i{
+					font-size:14px;
+					padding:0 10px;
+					line-height: inherit;
+					background:@main;
+					border-radius: 14px;
+					color:#fff;
+					margin-right: 8px;
+					border:1px solid @border_red;
 
+				}
+			}
+			span{
+				color:@font2;
+				font-size:12px;
+				line-height: 28px;
+				padding:0 8px 0 0;
+			}
+			.album_description{
+				color:@font2;
+				font-size: 14px;
+				line-height: 20px;
 			}
 
 		}
@@ -344,4 +323,42 @@ body{
 		background:#fff;
 	}
 
+}
+
+.list_table{
+	margin:40px auto;
+	border:1px solid @border;
+	border-radius: 4px;
+	overflow:hidden;
+	width:760px;
+	height: auto;
+	font-size:16px;
+	.list_row_head{
+		height: 40px;
+		line-height: 40px;
+		background:#333;
+		color:#fff;
+	}
+	.list_row{
+		height:32px;
+		overflow:hidden;
+		.list_col_body{
+			text-overflow:ellipsis;
+			white-space: nowrap;
+			overflow:hidden;
+			line-height: 32px;
+			&.list_col_name{
+				span{
+					margin:0 4px;
+					font-size: 10px;
+					line-height: inherit;
+					color:@font2;
+				}
+			}
+			
+		}
+		&:nth-child(even){
+			background:#f3f3f3;
+		}
+	}
 }

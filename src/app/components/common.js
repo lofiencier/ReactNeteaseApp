@@ -81,14 +81,33 @@ export class Album_info extends React.Component {
     return (
       <div className="album_info">
         <div className="album_info_cover">
-          <p>Album</p>
           <img src={this.props.coverUrl} alt="" />
         </div>
         <div className="album_info_descrition">
-          <p className="album_info_name">{this.props.alname}</p>
-          <p className="album_info_aritist">{this.props.artist}</p>
-          <p className="album_public_time">{this.props.time}</p>
-          <p className="album_company">{this.props.company}</p>
+          <p className="album_info_name">
+            <i>ALBUM</i>
+            {this.props.name}
+          </p>
+          <span className="album_company">
+            发行：{this.props.company ? this.props.company : "未知"}
+          </span>
+          <br />
+          <span className="album_public_time">
+            发行时间：{new Date(
+              parseInt(("/Date(" + this.props.time + ")/").substr(6, 13))
+            ).toLocaleDateString()}
+          </span>
+          <hr />
+          <p className="album_description">
+            <small>
+              简介：{this.props.description
+                ? this.props.description
+                    .split("")
+                    .splice(0, 300)
+                    .join("")
+                : "无简介"}
+            </small>
+          </p>
         </div>
       </div>
     );

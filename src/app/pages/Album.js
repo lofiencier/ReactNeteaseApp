@@ -21,14 +21,18 @@ export default class Search extends React.Component {
     console.log(this.props.location.search);
     let al_id = this.props.location.search;
     this.props.dispatch(fetchAlbum(al_id));
+    this.blurHandler();
   }
 
-  componentDidUpdate() {
+  blurHandler() {
     if (this.props.album.fetched) {
       document.getElementById("blurImg").onload = function() {
         StackBlur.image("blurImg", "album_blur_canvas", 10, false);
       };
     }
+  }
+  componentDidUpdate() {
+    this.blurHandler();
   }
 
   playHandler(e) {
@@ -40,12 +44,20 @@ export default class Search extends React.Component {
       <div>
         <Header />
         <div className="album_content_wrap">
-          <Album_info coverUrl={this.props.album.album.picUrl} />
+          <Album_info
+            coverUrl={this.props.album.album.picUrl}
+            name={this.props.album.album.name}
+            time={this.props.album.album.publishTime}
+            company={this.props.album.album.company}
+            description={this.props.album.album.description}
+          />
           <div className="album_list_firmi">
-            <List
-              songs={this.props.album.songs}
-              playHandler={this.playHandler}
-            />
+            <div className="song_list">
+              <List
+                songs={this.props.album.songs}
+                playHandler={this.playHandler}
+              />
+            </div>
           </div>
         </div>
         <div className="bg_content">
