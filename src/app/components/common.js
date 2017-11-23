@@ -83,7 +83,7 @@ export class Album_info extends React.Component {
         <div className="album_info_cover">
           <img src={this.props.coverUrl} alt="" />
         </div>
-        <div className="album_info_descrition">
+        <div className="album_info_details">
           <p className="album_info_name">
             <i>ALBUM</i>
             {this.props.name}
@@ -97,17 +97,26 @@ export class Album_info extends React.Component {
               parseInt(("/Date(" + this.props.time + ")/").substr(6, 13))
             ).toLocaleDateString()}
           </span>
-          <hr />
-          <p className="album_description">
-            <small>
-              简介：{this.props.description
-                ? this.props.description
-                    .split("")
-                    .splice(0, 300)
-                    .join("")
-                : "无简介"}
-            </small>
-          </p>
+          <div className="album_action_playall">
+            <a href="javascript:void(0)">
+              <p>PLAY ALL</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export class Blur_bg extends React.Component {
+  render() {
+    return (
+      <div className="bg_content">
+        <div className="album_page_bg">
+          <img src="../static/images/banner.jpg" alt="" id="blurImg" />
+        </div>
+        <div className="canvasHolder">
+          <canvas id="album_blur_canvas" />
         </div>
       </div>
     );

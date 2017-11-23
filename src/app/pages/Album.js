@@ -4,7 +4,7 @@ import { fetchAlbum, fetchAudio } from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
 import Header from "../components/Header";
-import { Album_info } from "../components/common";
+import { Album_info, Blur_bg } from "../components/common";
 
 @connect(store => {
   return {
@@ -49,25 +49,43 @@ export default class Search extends React.Component {
             name={this.props.album.album.name}
             time={this.props.album.album.publishTime}
             company={this.props.album.album.company}
-            description={this.props.album.album.description}
           />
-          <div className="album_list_firmi">
-            <div className="song_list">
-              <List
-                songs={this.props.album.songs}
-                playHandler={this.playHandler}
-              />
+          <div className="album_list_bg">
+            <div className="album_list_wrap">
+              <div className="album_description">
+                <span>DESCRIPTION</span>
+                <p>
+                  <small>
+                    {this.props.album.album.description
+                      ? this.props.album.album.description
+                          .split("")
+                          .splice(0, 300)
+                          .join("")
+                      : "无简介"}
+                  </small>
+                </p>
+              </div>
+              <div className="album_actions">
+                <div className="play_chosen">
+                  <a href="javascript:void(0)">PLAY</a>
+                </div>
+                <div className="download_chosen">
+                  <a href="javascript:void(0)">LIKE</a>
+                </div>
+                <div className="collect_chosen">
+                  <a href="javascript:void(0)">DOWN</a>
+                </div>
+              </div>
+              <div className="song_list">
+                <List
+                  songs={this.props.album.songs}
+                  playHandler={this.playHandler}
+                />
+              </div>
             </div>
           </div>
         </div>
-        <div className="bg_content">
-          <div className="album_page_bg">
-            <img src="../static/images/banner.jpg" alt="" id="blurImg" />
-          </div>
-          <div className="canvasHolder">
-            <canvas id="album_blur_canvas" />
-          </div>
-        </div>
+        <Blur_bg />
       </div>
     );
   }
