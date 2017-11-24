@@ -6,7 +6,8 @@ export default combineReducers({
   Audio: AudioReducer,
   user: userReducer,
   playlist: playlistReducer,
-  album: albumReducer
+  album: albumReducer,
+  artist: artistReducer
 });
 
 export function albumReducer(state = initialState, action) {
@@ -140,6 +141,29 @@ export function userReducer(state = initialState, action) {
     }
     case "FETCH_USER_COLLECTION_REJECTED": {
       state = { ...state, collection_err: action.err };
+    }
+  }
+  return state;
+}
+
+export function artistReducer(state = initialState, action) {
+  switch (action.type) {
+    case "FETCHING_ARTIST_ALBUMS": {
+      state = { ...state, fetching: true };
+      break;
+    }
+    case "RECIEVE_ARTIST_ALBUMS": {
+      state = {
+        ...state,
+        fetching: false,
+        fetched: true,
+        data: action.data
+      };
+      break;
+    }
+    case "FETCH_ARTIST_ALBUMS_FAILED": {
+      state = { ...state, fetching: false, fetched: false, err: action.err };
+      break;
     }
   }
   return state;

@@ -1,26 +1,27 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchAlbum, fetchAudio } from "../redux/actions";
+import { fetchArtistAlbum, fetchAlbum, fetchAudio } from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
 import Header from "../components/Header";
-import { Album_info, Blur_bg } from "../components/common";
+import { Album, Album_info, Blur_bg } from "../components/common";
 
 @connect(store => {
   return {
     album: store.album,
-    Audio: store.Audio
+    Audio: store.Audio,
+    artist: store.artist
   };
 })
-export default class Search extends React.Component {
+export default class AlbumPage extends React.Component {
   constructor() {
     super();
     this.playHandler = this.playHandler.bind(this);
   }
   componentDidMount() {
-    console.log(this.props.location.search);
     let al_id = this.props.location.search;
     this.props.dispatch(fetchAlbum(al_id));
+    console.log(this.props);
     this.blurHandler();
   }
 
@@ -52,8 +53,15 @@ export default class Search extends React.Component {
           />
           <div className="album_list_bg">
             <div className="album_list_wrap">
+              <span className="album_h1">
+                DESCRIPTION<a
+                  href="javascript:void(0)"
+                  className="description_more"
+                >
+                  MORE
+                </a>
+              </span>
               <div className="album_description">
-                <span>DESCRIPTION</span>
                 <p>
                   <small>
                     {this.props.album.album.description
@@ -65,23 +73,21 @@ export default class Search extends React.Component {
                   </small>
                 </p>
               </div>
-              <div className="album_actions">
-                <div className="play_chosen">
-                  <a href="javascript:void(0)">PLAY</a>
-                </div>
-                <div className="download_chosen">
-                  <a href="javascript:void(0)">LIKE</a>
-                </div>
-                <div className="collect_chosen">
-                  <a href="javascript:void(0)">DOWN</a>
-                </div>
-              </div>
               <div className="song_list">
                 <List
                   songs={this.props.album.songs}
                   playHandler={this.playHandler}
                 />
               </div>
+              <span className="album_h1">
+                ANY OTHER ALBUMS<a
+                  href="javascript:void(0)"
+                  className="description_more"
+                >
+                  MORE
+                </a>
+              </span>
+              <div className="other_albums" />
             </div>
           </div>
         </div>

@@ -1,3 +1,8 @@
+const fetch_config = {
+  method: "GET",
+  mode: "cors"
+};
+
 export function fetchAudio(song_id) {
   return function(dispatch) {
     dispatch({ type: "FETCHING_SONG" });
@@ -194,6 +199,7 @@ export function fetchAlbum(al_id) {
         return res.json();
       })
       .then(function(data) {
+        console.log("data from album", data);
         let { album, songs } = data;
         songs = songs.map(song => {
           let { id, name, mv, dt, ar, al } = song;
@@ -223,6 +229,22 @@ export function fetchAlbum(al_id) {
       })
       .catch(function(err) {
         dispatch({ type: "FETCH_ALBUMLIST_FAILED", err: err });
+      });
+  };
+}
+
+export function fetchArtistAlbum(ar_id) {
+  return function(dispatch) {
+    dispatch({ type: "FETCHING_ARTIST_ALBUMS", fetching: true });
+    fetch(
+      `http://localhost:3000/artist/album?id=${ar_id}&limit=6`,
+      fetch_config
+    )
+      .then(function(res) {
+        return res.json();
+      })
+      .then(function(data) {
+        console.log(data);
       });
   };
 }

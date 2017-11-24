@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchPlaylist, fetchAudio } from "../redux/actions";
 import List from "../components/list";
+import { Album_info, Blur_bg } from "../components/common";
 
 @connect(store => {
   return {

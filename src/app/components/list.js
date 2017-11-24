@@ -16,19 +16,27 @@ export default class List extends React.Component {
           </div>
           <div className="list_col_body col-xs-1">{song.artists[0].name}</div>
           <div className="list_col_body col-xs-1">{song.duration}</div>
-          <div className="list_col_body col-xs-3">
+          <div className="list_col_body col-xs-4 album_user_actions">
             <a href={"/#/album?id=" + song.album.id}>{song.album.name}</a>
           </div>
-          <div className="list_col_body col-xs-3">
-            <a href={"/#/mv?id=" + song.mvid}>MV |</a>
+          <div className="list_col_body col-xs-2 row">
+            <a href={"/#/mv?id=" + song.mvid} className="col-xs-3">
+              M{" "}
+            </a>
             <a
               href="javascript:void(0)"
               onClick={this.props.playHandler}
               data-id={song.id}
+              className="col-xs-3"
             >
-              &nbsp;PLAY |
+              &nbsp;P
             </a>
-            <a href="#">+</a>
+            <a href="#" className="col-xs-3">
+              D&nbsp;
+            </a>
+            <a href="#" className="col-xs-3">
+              +
+            </a>
           </div>
         </div>
       );
@@ -37,11 +45,11 @@ export default class List extends React.Component {
       <div className="list_table">
         <div className="list_body">
           <div className="list_row_head row">
-            <div className="list_col_head col-xs-2" />
-            <div className="list_col_head col-xs-4">NAME</div>
-            <div className="list_col_head col-xs-2">ARITIST</div>
-            <div className="list_col_head col-xs-2">DUR</div>
-            <div className="list_col_head col-xs-2">AL</div>
+            <div className="list_col_head col-xs-3 col-xs-offset-1">NAME</div>
+            <div className="list_col_head col-xs-1">ARITIST</div>
+            <div className="list_col_head col-xs-1">DUR</div>
+            <div className="list_col_head col-xs-4">AL</div>
+            <div className="list_col_head col-xs-2">ACTIONS</div>
           </div>
           {lists}
         </div>

@@ -49,6 +49,12 @@ function initialState() {
       album: [],
       songs: [],
       view: <h1>Loading...</h1>
+    },
+    artist: {
+      fetching: false,
+      fetched: false,
+      err: null,
+      data: []
     }
   };
 }
