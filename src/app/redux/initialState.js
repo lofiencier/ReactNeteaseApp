@@ -48,6 +48,7 @@ function initialState() {
       err: null,
       album: [],
       songs: [],
+      artistId: NaN,
       view: <h1>Loading...</h1>
     },
     artist: {

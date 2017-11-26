@@ -1,27 +1,38 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export class Album extends React.Component {
   render() {
     return (
       <div className="album_cover_bg">
-        <a
+        <Link
           className="album_cover_bg_href"
-          href={"/#/playlist?id=" + this.props.playlistId}
+          to={
+            this.props.playlistId
+              ? "/playlist?id=" + this.props.playlistId
+              : "/album?id=" + this.props.albumId
+          }
         >
           <div className="album_cover">
             <img src={this.props.coverUrl} alt="" />
-            <div className="album_info_playCount">
+            <div
+              className={
+                this.props.albumPlayCount
+                  ? "album_info_playCount"
+                  : "album_info_subType"
+              }
+            >
               <span>
-                {parseInt(this.props.albumPlayCount) > 10000
-                  ? parseInt(this.props.albumPlayCount / 10000) + "W"
-                  : this.props.albumPlayCount}
+                {this.props.albumPlayCount
+                  ? this.props.albumPlayCount
+                  : this.props.subType}
               </span>
             </div>
           </div>
           <div className="album_info">
             <p className="album_info_name">{this.props.albumName}</p>
           </div>
-        </a>
+        </Link>
       </div>
     );
   }
@@ -52,13 +63,17 @@ export class Recommand extends React.Component {
   render() {
     if (this.state.songs.length != 0) {
       let lis = this.state.songs.map(song => {
+        let { playCount } = song;
+        if (playCount > 10000) {
+          playCount = parseInt(playCount / 10000) + "W";
+        }
         return (
           <Album
             key={song.id}
             playlistId={song.id}
             coverUrl={song.picUrl}
             albumName={song.name}
-            albumPlayCount={song.playCount}
+            albumPlayCount={playCount}
           />
         );
       });
@@ -120,5 +135,50 @@ export class Blur_bg extends React.Component {
         </div>
       </div>
     );
+  }
+}
+
+export class HotAlbums extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      result: []
+    };
+  }
+  componentDidMount() {
+    let that = this;
+    fetch(
+      `http://localhost:3000/artist/album?id=${this.props.artist_id}&limit=5`
+    )
+      .then(function(res) {
+        return res.json();
+      })
+      .then(function(data) {
+        data = data.hotAlbums.map(album => {
+          let { id, name, picUrl, subType } = album;
+          return {
+            id: id,
+            name: name,
+            picUrl: picUrl,
+            subType: subType
+          };
+        });
+        that.setState({ result: data });
+      });
+  }
+  componentWillUnmount() {
+    this.setState({ result: [] });
+  }
+  render() {
+    let ele = this.state.result.map((album, index) => (
+      <Album
+        key={index}
+        albumId={album.id}
+        albumName={album.name}
+        coverUrl={album.picUrl}
+        subType={album.subType}
+      />
+    ));
+    return <div className="artist_hot_albums">{ele}</div>;
   }
 }

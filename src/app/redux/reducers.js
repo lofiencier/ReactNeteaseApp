@@ -13,7 +13,7 @@ export default combineReducers({
 export function albumReducer(state = initialState, action) {
   switch (action.type) {
     case "FETCHING_ALBUMLIST": {
-      state = { ...state, fetching: true, songs: [] };
+      state = { ...state, fetching: true, songs: [], artistId: NaN };
       break;
     }
     case "RECIEVE_ALBUMLIST": {
@@ -22,7 +22,8 @@ export function albumReducer(state = initialState, action) {
         fetching: false,
         fetched: true,
         songs: action.songs,
-        album: action.album
+        album: action.album,
+        artistId: action.artistId
       };
       break;
     }

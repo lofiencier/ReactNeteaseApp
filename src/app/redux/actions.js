@@ -199,7 +199,6 @@ export function fetchAlbum(al_id) {
         return res.json();
       })
       .then(function(data) {
-        console.log("data from album", data);
         let { album, songs } = data;
         songs = songs.map(song => {
           let { id, name, mv, dt, ar, al } = song;
@@ -224,8 +223,13 @@ export function fetchAlbum(al_id) {
             album: al
           };
         });
-
-        dispatch({ type: "RECIEVE_ALBUMLIST", album: album, songs: songs });
+        let artistId = album.artist.id;
+        dispatch({
+          type: "RECIEVE_ALBUMLIST",
+          album: album,
+          songs: songs,
+          artistId: artistId
+        });
       })
       .catch(function(err) {
         dispatch({ type: "FETCH_ALBUMLIST_FAILED", err: err });

@@ -4,7 +4,7 @@ import { fetchArtistAlbum, fetchAlbum, fetchAudio } from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
 import Header from "../components/Header";
-import { Album, Album_info, Blur_bg } from "../components/common";
+import { Album, Album_info, Blur_bg, HotAlbums } from "../components/common";
 
 @connect(store => {
   return {
@@ -19,28 +19,40 @@ export default class AlbumPage extends React.Component {
     this.playHandler = this.playHandler.bind(this);
   }
   componentDidMount() {
+    this.fetchHandler();
+    this.blurHandler();
+  }
+
+  fetchHandler() {
+    console.log("fetch");
     let al_id = this.props.location.search;
     this.props.dispatch(fetchAlbum(al_id));
-    console.log(this.props);
-    this.blurHandler();
   }
 
   blurHandler() {
-    if (this.props.album.fetched) {
-      document.getElementById("blurImg").onload = function() {
-        StackBlur.image("blurImg", "album_blur_canvas", 10, false);
-      };
+    document.getElementById("blurImg").onload = function() {
+      StackBlur.image("blurImg", "album_blur_canvas", 10, false);
+    };
+  }
+  componentWillReceiveProps() {
+    console.log(this.props);
+  }
+  componentDidUpdate() {}
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.location.search != nextProps.location.search) {
+      this.props.history.go(0);
     }
+    return true;
   }
-  componentDidUpdate() {
-    this.blurHandler();
-  }
-
   playHandler(e) {
     let song_id = e.currentTarget.getAttribute("data-id");
     this.props.dispatch(fetchAudio(song_id));
   }
   render() {
+    let hotAlbumsView = <h1>Loading...</h1>;
+    if (this.props.album.artistId) {
+      hotAlbumsView = <HotAlbums artist_id={this.props.album.artistId} />;
+    }
     return (
       <div>
         <Header />
@@ -87,7 +99,7 @@ export default class AlbumPage extends React.Component {
                   MORE
                 </a>
               </span>
-              <div className="other_albums" />
+              {hotAlbumsView}
             </div>
           </div>
         </div>
