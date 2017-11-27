@@ -3,18 +3,47 @@ const fetch_config = {
   mode: "cors"
 };
 
-export function fetchAudio(song_id) {
+export function unshift_song_list(song_id) {
   return function(dispatch) {
-    dispatch({ type: "FETCHING_SONG" });
-    fetch(`http://localhost:3000/music/url?id=${song_id}`, {
-      method: "GET",
-      mode: "cors"
-    })
+    console.log(song_id);
+    // .songs["0"].name
+    // .songs["0"].al.name
+    // .songs["0"].al.picUrl
+    // .songs["0"].ar["0"].name
+
+    fetch(`http://localhost:3000/song/detail?ids=${song_id}`, fetch_config)
+      .then(res => res.json())
+      .then(data => {
+        console.log("song detail:", data);
+        let song = data.songs[0];
+        let { name, al, ar, id } = song;
+        ar = ar.map(artist => {
+          let { id, name } = artist;
+          return { id: id, name: name };
+        });
+        song = {
+          name: name,
+          al: al,
+          ar: ar,
+          id: id
+        };
+        dispatch({ type: "UNSHIFT_LIST", single: song });
+      });
+  };
+}
+
+export function fetchSingleSong(song_id) {
+  return function(dispatch) {
+    dispatch({ type: "FETCH_SONG" });
+    fetch(`http://localhost:3000/music/url?id=${song_id}`, fetch_config)
       .then(function(res) {
         return res.json();
       })
       .then(function(data) {
-        dispatch({ type: "RECIEVE_SONG_URL", url: data.data["0"].url });
+        console.log("single song:", data);
+        let url = data.data[0].url;
+        let id = data.data[0].id;
+        dispatch({ type: "RECIEVE_SONG_URL", url: url, id: id });
       })
       .catch(function(err) {
         dispatch({ type: "FETCH_SONG_ERR", err: err });
@@ -251,14 +280,3 @@ export function fetchArtistAlbum(ar_id) {
       });
   };
 }
-// .album.name
-// .album.picUrl
-// .album.size
-// .album.company
-// .songs
-// .songs["0"].id
-// .songs["0"].name
-// .songs["0"].mv
-// .songs["0"].dt
-// .songs["0"].ar["0"].id
-// .songs["0"].ar["0"].name

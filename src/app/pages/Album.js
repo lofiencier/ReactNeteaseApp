@@ -1,6 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchArtistAlbum, fetchAlbum, fetchAudio } from "../redux/actions";
+import {
+  fetchArtistAlbum,
+  fetchAlbum,
+  fetchSingleSong
+} from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
 import Header from "../components/Header";
@@ -9,7 +13,7 @@ import { Album, Album_info, Blur_bg, HotAlbums } from "../components/common";
 @connect(store => {
   return {
     album: store.album,
-    Audio: store.Audio,
+    Playbox: store.Playbox,
     artist: store.artist
   };
 })
@@ -40,7 +44,7 @@ export default class AlbumPage extends React.Component {
 
   playHandler(e) {
     let song_id = e.currentTarget.getAttribute("data-id");
-    this.props.dispatch(fetchAudio(song_id));
+    this.props.dispatch(fetchSingleSong(song_id));
   }
   render() {
     let hotAlbumsView = <h1>Loading...</h1>;
@@ -48,8 +52,7 @@ export default class AlbumPage extends React.Component {
       hotAlbumsView = <HotAlbums artist_id={this.props.album.artistId} />;
     }
     return (
-      <div>
-        <Header />
+      <div className="root_content">
         <div className="album_content_wrap">
           <Album_info
             type="ALBUM"

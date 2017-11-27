@@ -14,11 +14,9 @@ import Playbox from "../components/Playbox";
 export default class IndexPage extends React.Component {
   render() {
     return (
-      <div>
-        <Header />
+      <div className="root_content">
         <Banner />
         <Recommand />
-        <Playbox />
       </div>
     );
   }

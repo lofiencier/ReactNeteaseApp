@@ -3,7 +3,7 @@ import initialState from "./initialState";
 
 export default combineReducers({
   searchlist: searchlistReducer,
-  Audio: AudioReducer,
+  Playbox: PlayboxReducer,
   user: userReducer,
   playlist: playlistReducer,
   album: albumReducer,
@@ -63,7 +63,7 @@ export function playlistReducer(state = initialState, action) {
   return state;
 }
 
-export function AudioReducer(state = initialState, action) {
+export function PlayboxReducer(state = initialState, action) {
   switch (action.type) {
     case "FETCH_SONG": {
       state = { ...state, fetching: true };
@@ -73,15 +73,26 @@ export function AudioReducer(state = initialState, action) {
         ...state,
         fetching: false,
         fetched: true,
-        targetURL: action.url
+        curMusicUrl: action.url,
+        curMusicId: action.id
       };
-      state.AudioDom.src = state.targetURL;
+      state.AudioDom.src = state.curMusicUrl;
       state.AudioDom.play();
       break;
     }
     case "FETCH_SONG_ERR": {
       state = { ...state, fetching: false, fetched: false, err: action.err };
       break;
+    }
+    case "UNSHIFT_LIST": {
+      state.curList.unshift(action.list);
+      state = {
+        ...state,
+        curMusicId: action.single.id,
+        curMusicName: action.single.name,
+        curMusicCover: action.single.al.picUrl,
+        curMusicArtist: action.single.ar[0].name
+      };
     }
   }
   return state;

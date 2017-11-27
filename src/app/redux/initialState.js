@@ -11,12 +11,22 @@ function initialState() {
       songs: [],
       songCount: NaN
     },
-    Audio: {
+    Playbox: {
       AudioDom: AudioDom,
       fetching: false,
       fetched: false,
       err: null,
-      targetURL: ""
+      showlist: false,
+      curMusicUrl: "",
+      curMusicId: NaN,
+      curMusicCover: "",
+      curMusicName: "",
+      curMusicArtist: "",
+      isFm: false,
+      isPlaying: false,
+      curIndex: NaN,
+      volume: 1,
+      curList: []
     },
     user: {
       isLoged: false,

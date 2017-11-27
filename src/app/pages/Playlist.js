@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchPlaylist, fetchAudio } from "../redux/actions";
+import { fetchPlaylist, fetchSingleSong } from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
 import Header from "../components/Header";
@@ -9,7 +9,7 @@ import { Album, Album_info, Blur_bg, HotAlbums } from "../components/common";
 @connect(store => {
   return {
     playlist: store.playlist,
-    Audio: store.Audio
+    Playbox: store.Playbox
   };
 })
 export default class Playlist extends React.Component {
@@ -19,6 +19,7 @@ export default class Playlist extends React.Component {
   }
   blurHandler() {
     document.getElementById("blurImg").onload = function() {
+      console.log("1");
       StackBlur.image("blurImg", "album_blur_canvas", 10, false);
     };
   }
@@ -33,18 +34,15 @@ export default class Playlist extends React.Component {
       mode: "cors"
     })
       .then(res => res.json())
-      .then(data => {
-        console.log("data", data);
-      });
+      .then(data => {});
   }
   playHandler(e) {
     let song_id = e.currentTarget.getAttribute("data-id");
-    this.props.dispatch(fetchAudio(song_id));
+    this.props.dispatch(fetchSingleSong(song_id));
   }
   render() {
     return (
-      <div>
-        <Header />
+      <div className="root_content">
         <div className="playlist_content_wrap">
           <Album_info
             type="COLLECT"

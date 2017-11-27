@@ -1,6 +1,23 @@
 import React from "react";
+import { connect } from "react-redux";
+import { unshift_song_list, fetchSingleSong } from "../redux/actions";
 
+@connect(store => {
+  return {
+    Playbox: store.Playbox
+  };
+})
 export default class Playbox extends React.Component {
+  componentDidMount() {}
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.Playbox.curMusicId &&
+      nextProps.Playbox.curMusicId != this.props.Playbox.curMusicId
+    ) {
+      nextProps.dispatch(unshift_song_list(nextProps.Playbox.curMusicId));
+    }
+  }
   render() {
     return (
       <div id="playbox">
@@ -11,15 +28,20 @@ export default class Playbox extends React.Component {
         <div className="playbox_content">
           <div className="song_info">
             <div className="song_cover">
-              <img src="../static/images/bg.jpg" alt="" />
+              <img
+                src={this.props.Playbox.curMusicCover + "?param=45y45"}
+                alt=""
+              />
             </div>
             <div className="song_text">
-              <p className="song_name">Random Song</p>
-              <small className="song_artist">Random artist</small>
+              <p className="song_name">{this.props.Playbox.curMusicName}</p>
+              <small className="song_artist">
+                {this.props.Playbox.curMusicArtist}
+              </small>
             </div>
           </div>
           <div className="control_center">
-            <div className="btns shuffle">ISFM?</div>
+            <div className="btns isfm">ISFM?</div>
             <div className="btns like">LIKE</div>
             <div className="btns prev">PREV</div>
             <div className="btns play">PLAY</div>
