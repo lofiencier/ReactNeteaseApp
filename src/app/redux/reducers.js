@@ -46,7 +46,7 @@ export function playlistReducer(state = initialState, action) {
         ...state,
         fetching: false,
         fetched: true,
-        name: "",
+        name: action.name,
         playCount: action.playCount,
         coverImgUrl: action.coverImgUrl,
         creator: action.creator,

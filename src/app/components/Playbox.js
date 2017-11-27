@@ -19,11 +19,11 @@ export default class Playbox extends React.Component {
             </div>
           </div>
           <div className="control_center">
+            <div className="btns shuffle">ISFM?</div>
             <div className="btns like">LIKE</div>
             <div className="btns prev">PREV</div>
             <div className="btns play">PLAY</div>
             <div className="btns next">NEXT</div>
-            <div className="btns shuffle">SHUFFLE</div>
             <div className="btns vol">VOLUME</div>
             <div className="btns cur_list">LIST</div>
           </div>

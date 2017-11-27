@@ -33,7 +33,6 @@ export function fetchPlaylist(listId) {
         return res.json();
       })
       .then(function(data) {
-        console.log(data);
         let {
           name,
           playCount,

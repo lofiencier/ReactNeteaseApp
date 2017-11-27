@@ -19,13 +19,11 @@ export default class AlbumPage extends React.Component {
     this.playHandler = this.playHandler.bind(this);
   }
   componentDidMount() {
-    this.fetchHandler();
+    this.fetchHandler(this.props.location.search);
     this.blurHandler();
   }
 
-  fetchHandler() {
-    console.log("fetch");
-    let al_id = this.props.location.search;
+  fetchHandler(al_id) {
     this.props.dispatch(fetchAlbum(al_id));
   }
 
@@ -34,16 +32,12 @@ export default class AlbumPage extends React.Component {
       StackBlur.image("blurImg", "album_blur_canvas", 10, false);
     };
   }
-  componentWillReceiveProps() {
-    console.log(this.props);
-  }
-  componentDidUpdate() {}
-  shouldComponentUpdate(nextProps, nextState) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.location.search != nextProps.location.search) {
-      this.props.history.go(0);
+      this.fetchHandler(nextProps.location.search);
     }
-    return true;
   }
+
   playHandler(e) {
     let song_id = e.currentTarget.getAttribute("data-id");
     this.props.dispatch(fetchAudio(song_id));
@@ -58,6 +52,7 @@ export default class AlbumPage extends React.Component {
         <Header />
         <div className="album_content_wrap">
           <Album_info
+            type="ALBUM"
             coverUrl={this.props.album.album.picUrl}
             name={this.props.album.album.name}
             time={this.props.album.album.publishTime}
@@ -85,12 +80,10 @@ export default class AlbumPage extends React.Component {
                   </small>
                 </p>
               </div>
-              <div className="song_list">
-                <List
-                  songs={this.props.album.songs}
-                  playHandler={this.playHandler}
-                />
-              </div>
+              <List
+                songs={this.props.album.songs}
+                playHandler={this.playHandler}
+              />
               <span className="album_h1">
                 ANY OTHER ALBUMS<a
                   href="javascript:void(0)"

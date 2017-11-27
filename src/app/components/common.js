@@ -96,21 +96,34 @@ export class Album_info extends React.Component {
     return (
       <div className="album_info">
         <div className="album_info_cover">
-          <img src={this.props.coverUrl} alt="" />
+          <img src={this.props.coverUrl + "?param=270y270"} alt="" />
         </div>
         <div className="album_info_details">
           <p className="album_info_name">
-            <i>ALBUM</i>
+            <i>{this.props.type}</i>
             {this.props.name}
           </p>
-          <span className="album_company">
-            发行：{this.props.company ? this.props.company : "未知"}
+          <span
+            className={
+              this.props.company ? "album_company" : "playlist_creator"
+            }
+          >
+            {this.props.company
+              ? this.props.company
+              : "创建者:" + this.props.creator}
           </span>
           <br />
-          <span className="album_public_time">
-            发行时间：{new Date(
-              parseInt(("/Date(" + this.props.time + ")/").substr(6, 13))
-            ).toLocaleDateString()}
+          <span
+            className={
+              this.props.time ? "album_public_time" : "playlist_play_count"
+            }
+          >
+            {this.props.time
+              ? "发行时间：" +
+                new Date(
+                  parseInt(("/Date(" + this.props.time + ")/").substr(6, 13))
+                ).toLocaleDateString()
+              : "播放量：" + this.props.playCount}
           </span>
           <div className="album_action_playall">
             <a href="javascript:void(0)">
@@ -175,7 +188,7 @@ export class HotAlbums extends React.Component {
         key={index}
         albumId={album.id}
         albumName={album.name}
-        coverUrl={album.picUrl}
+        coverUrl={album.picUrl + "?param=140y140"}
         subType={album.subType}
       />
     ));
