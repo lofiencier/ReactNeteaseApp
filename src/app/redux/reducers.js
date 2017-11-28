@@ -77,7 +77,10 @@ export function PlayboxReducer(state = initialState, action) {
         curMusicId: action.id
       };
       state.AudioDom.src = state.curMusicUrl;
-      state.AudioDom.play();
+      state.AudioDom.addEventListener("canplay", function() {
+        this.play();
+      });
+
       break;
     }
     case "FETCH_SONG_ERR": {
@@ -85,7 +88,6 @@ export function PlayboxReducer(state = initialState, action) {
       break;
     }
     case "UNSHIFT_LIST": {
-      state.curList.unshift(action.list);
       state = {
         ...state,
         curMusicId: action.single.id,
@@ -93,11 +95,15 @@ export function PlayboxReducer(state = initialState, action) {
         curMusicCover: action.single.al.picUrl,
         curMusicArtist: action.single.ar[0].name
       };
+      state.curList.unshift(action.single);
     }
     case "SWITCH_MODE": {
       // state.isFm=!state.isFm;
       state = { ...state, isFm: action.isFm };
       break;
+    }
+    case "TOGGLE_LIST": {
+      state = { ...state, showList: action.showlist };
     }
   }
   return state;

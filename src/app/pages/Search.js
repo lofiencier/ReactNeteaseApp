@@ -1,7 +1,7 @@
 import React from "react";
 import List from "../components/list";
 import { connect } from "react-redux";
-import { fetchSearchList, fetchAudio } from "../redux/actions";
+import { fetchSearchList, fetchSingleSong } from "../redux/actions";
 
 @connect(store => {
   return {
@@ -23,12 +23,12 @@ export default class Search extends React.Component {
 
   playHandler(e) {
     let song_id = e.currentTarget.getAttribute("data-id");
-    this.props.dispatch(fetchAudio(song_id));
+    this.props.dispatch(fetchSingleSong(song_id));
   }
 
   render() {
     return (
-      <div>
+      <div className="root_content search">
         <form onSubmit={this.submitHandler.bind(this)}>
           <label htmlFor="song_name" />
           <input type="text" id="song_name" />

@@ -37,7 +37,7 @@ export default class Test extends React.Component {
   render() {
     if (!this.props.user.isLoged) {
       return (
-        <form onSubmit={this.submitHandler}>
+        <form onSubmit={this.submitHandler} className="root_content search">
           <label htmlFor="phone">手机号</label>
           <input type="text" name="phone" id="phone_number" />
           <br />
@@ -48,7 +48,7 @@ export default class Test extends React.Component {
       );
     } else {
       return (
-        <div>
+        <div className="root_content search">
           <img
             src={this.props.user.avatarImgURL}
             style={{ width: "80px", height: "auto" }}

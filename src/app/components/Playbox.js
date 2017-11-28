@@ -3,9 +3,11 @@ import { connect } from "react-redux";
 import {
   switchMode,
   unshift_song_list,
-  fetchSingleSong
+  fetchSingleSong,
+  toggleList
 } from "../redux/actions";
 import { Changer } from "../components/common";
+import PlayBoxList from "../components/PlayBoxList";
 
 @connect(store => {
   return {
@@ -22,7 +24,9 @@ export default class Playbox extends React.Component {
   clickHandler() {
     this.props.dispatch(switchMode(this.props.Playbox.isFm));
   }
-
+  toggleListHandler() {
+    this.props.dispatch(toggleList(this.props.Playbox.showList));
+  }
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.Playbox.curMusicId &&
@@ -66,9 +70,17 @@ export default class Playbox extends React.Component {
             <div className="btns play">PLAY</div>
             <div className="btns next">NEXT</div>
             <div className="btns vol">VOLUME</div>
-            <div className="btns cur_list">LIST</div>
+            <div className="btns cur_list">
+              <a
+                href="javascript:void(0)"
+                onClick={this.toggleListHandler.bind(this)}
+              >
+                LIST
+              </a>
+            </div>
           </div>
         </div>
+        <PlayBoxList show={this.props.Playbox.showList} />
       </div>
     );
   }

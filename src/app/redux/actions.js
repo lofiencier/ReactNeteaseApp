@@ -5,12 +5,6 @@ const fetch_config = {
 
 export function unshift_song_list(song_id) {
   return function(dispatch) {
-    console.log(song_id);
-    // .songs["0"].name
-    // .songs["0"].al.name
-    // .songs["0"].al.picUrl
-    // .songs["0"].ar["0"].name
-
     fetch(`http://localhost:3000/song/detail?ids=${song_id}`, fetch_config)
       .then(res => res.json())
       .then(data => {
@@ -32,6 +26,11 @@ export function unshift_song_list(song_id) {
   };
 }
 
+export function toggleList(showlist) {
+  return function(dispatch) {
+    dispatch({ type: "TOGGLE_LIST", showlist: !showlist });
+  };
+}
 export function switchMode(isFm) {
   return function(dispatch) {
     dispatch({ type: "SWITCH_MODE", isFm: !isFm });
@@ -45,7 +44,6 @@ export function fetchSingleSong(song_id) {
         return res.json();
       })
       .then(function(data) {
-        console.log("single song:", data);
         let url = data.data[0].url;
         let id = data.data[0].id;
         dispatch({ type: "RECIEVE_SONG_URL", url: url, id: id });
@@ -202,7 +200,6 @@ export function getCollect(uid) {
         return res.json();
       })
       .then(function(data) {
-        console.log(data);
         let result = data.playlist.map(item => {
           let { id, name, coverImgUrl, trackCount } = item;
 
@@ -280,8 +277,6 @@ export function fetchArtistAlbum(ar_id) {
       .then(function(res) {
         return res.json();
       })
-      .then(function(data) {
-        console.log(data);
-      });
+      .then(function(data) {});
   };
 }

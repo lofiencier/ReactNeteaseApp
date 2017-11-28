@@ -2,6 +2,9 @@
 	margin-bottom:60px;
 	height:auto;
 	overflow:hidden;
+	&.search{
+		margin-top:60px;
+	}
 }
 a{
 	text-decoration: none;
@@ -530,8 +533,57 @@ body{
 .playbox_list_content{
 		position: fixed;
 		top: 60px;
-		right: -320px;
-		width: 320px;
-		background: #333;
+		right: 0;
+		width: 260px;
+		background: #111113;
 		z-index: 999;
+		color:#fff;
+		overflow-x: hidden;
+		overflow-y:scroll;
+		&.hidden{
+			display:none;
+		}
+		.playbox_lit_wrap{
+			height: auto;
+			.playbox_list_item{
+				width:100%;
+				height:60px;
+				margin-bottom: 6px;
+				background:#0e0e10;
+				.col-xs-6{
+					float:left;
+					display:block;
+					height:100%;
+					color:#fff;
+					text-align:center;
+				}
+				&.close{
+					line-height: 60px;
+					a{
+						color:#fff;
+						margin:0 8px;
+					}
+				}
+				&.active{
+					width: 254px;
+					border-left: 4px solid #ff0d19;
+				}
+				a{
+					color:#fff;
+					height:100%;
+					display:block;
+					.list_item_cover{
+						float:left;
+						img{
+							width:44px;
+							height:auto;
+							margin:4px;
+						}
+					}
+					.list_item_info{
+						float:left
+					}
+				}
+			}
+		}
 	}
