@@ -8,6 +8,7 @@ import Album from "../pages/Album";
 import IndexPage from "../pages/index";
 import Header from "../components/Header";
 import Playbox from "../components/Playbox";
+import PlayBoxList from "../components/PlayBoxList";
 
 export class Routers extends React.Component {
   render() {
@@ -16,6 +17,7 @@ export class Routers extends React.Component {
         <main>
           <Header />
           <Playbox />
+          <PlayBoxList />
           <Switch>
             <Route exact path="/" component={IndexPage} />
             <Route path="/test" component={Test} />

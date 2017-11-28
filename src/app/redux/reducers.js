@@ -94,6 +94,11 @@ export function PlayboxReducer(state = initialState, action) {
         curMusicArtist: action.single.ar[0].name
       };
     }
+    case "SWITCH_MODE": {
+      // state.isFm=!state.isFm;
+      state = { ...state, isFm: action.isFm };
+      break;
+    }
   }
   return state;
 }

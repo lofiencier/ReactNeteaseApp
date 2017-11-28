@@ -1,6 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { unshift_song_list, fetchSingleSong } from "../redux/actions";
+import {
+  switchMode,
+  unshift_song_list,
+  fetchSingleSong
+} from "../redux/actions";
+import { Changer } from "../components/common";
 
 @connect(store => {
   return {
@@ -8,7 +13,15 @@ import { unshift_song_list, fetchSingleSong } from "../redux/actions";
   };
 })
 export default class Playbox extends React.Component {
+  constructor() {
+    super();
+    this.clickHandler = this.clickHandler.bind(this);
+  }
   componentDidMount() {}
+
+  clickHandler() {
+    this.props.dispatch(switchMode(this.props.Playbox.isFm));
+  }
 
   componentWillReceiveProps(nextProps) {
     if (
@@ -26,6 +39,12 @@ export default class Playbox extends React.Component {
           <div className="song_played" />
         </div>
         <div className="playbox_content">
+          <Changer
+            text1="MU"
+            text2="FM"
+            value={this.props.Playbox.isFm}
+            clickHandler={this.clickHandler}
+          />
           <div className="song_info">
             <div className="song_cover">
               <img

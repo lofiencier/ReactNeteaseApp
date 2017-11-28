@@ -195,3 +195,26 @@ export class HotAlbums extends React.Component {
     return <div className="artist_hot_albums">{ele}</div>;
   }
 }
+
+export class Changer extends React.Component {
+  componentDidUpdate() {}
+  render() {
+    return (
+      <div className="changer_content">
+        <a
+          className="changer_bg"
+          onClick={this.props.clickHandler}
+          href="javascript:void(0)"
+        >
+          <div
+            className={this.props.value ? "changer_brick" : "changer_brick fm"}
+          />
+          <div className="changer_text">
+            <p>{this.props.text1}</p>
+            <p>{this.props.text2}</p>
+          </div>
+        </a>
+      </div>
+    );
+  }
+}

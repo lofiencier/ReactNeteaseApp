@@ -32,6 +32,11 @@ export function unshift_song_list(song_id) {
   };
 }
 
+export function switchMode(isFm) {
+  return function(dispatch) {
+    dispatch({ type: "SWITCH_MODE", isFm: !isFm });
+  };
+}
 export function fetchSingleSong(song_id) {
   return function(dispatch) {
     dispatch({ type: "FETCH_SONG" });
