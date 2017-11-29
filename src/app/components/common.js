@@ -218,3 +218,74 @@ export class Changer extends React.Component {
     );
   }
 }
+
+export class PlayboxList extends React.Component {
+  constructor() {
+    super();
+  }
+  componentDidMount() {
+    let ele = document.getElementsByClassName("playbox_list_content")[0];
+    ele.addEventListener("mousewheel", function(e) {
+      let height = ele.querySelectorAll(".playbox_lit_wrap")[0].clientHeight;
+      e = e || window.event;
+      e.stopPropagation();
+    });
+  }
+  componentWillReceiveProps(nextProps) {}
+  render() {
+    let els = (
+      <div className="playbox_list_item">
+        <span>Empty...</span>
+      </div>
+    );
+    if (this.props.curList.length) {
+      els = this.props.curList.map((song, index) => {
+        return (
+          <div key={index} className="playbox_list_item">
+            <a
+              href="javascript:void(0)"
+              className="item_href row"
+              onClick={this.props.playHandler}
+              data-id={song.id}
+              data-index={index}
+            >
+              <span className="item_index col-xs-1">{index + 1}</span>
+              <div className="list_item_cover col-xs-2">
+                <img src={song.al.picUrl + "?param=45y45"} alt="" />
+              </div>
+              <div className="list_item_info col-xs-6">
+                <p className="song_name">{song.name}</p>
+                <p className="song_ar">{song.ar[0].name}</p>
+              </div>
+              <p className="col-xs-1">DEL</p>
+            </a>
+          </div>
+        );
+      });
+    }
+    return (
+      <div
+        className={
+          this.props.show
+            ? "playbox_list_content"
+            : "playbox_list_content hidden"
+        }
+        style={{
+          height: document.documentElement.clientHeight - 60 - 61 + "px"
+        }}
+      >
+        <div className="playbox_lit_wrap">
+          <div className="playbox_list_item row">
+            <a href="javascipt:void(0)" className="col-xs-6">
+              清空
+            </a>
+            <a href="javascipt:void(0)" className="col-xs-6">
+              收藏
+            </a>
+          </div>
+          {els}
+        </div>
+      </div>
+    );
+  }
+}

@@ -557,31 +557,38 @@ body{
 					color:#fff;
 					text-align:center;
 				}
-				&.close{
-					line-height: 60px;
-					a{
-						color:#fff;
-						margin:0 8px;
-					}
-				}
 				&.active{
 					width: 254px;
-					border-left: 4px solid #ff0d19;
+					border-left: 4px solid #ff0d19 inset;
 				}
-				a{
+				.item_href{
 					color:#fff;
-					height:100%;
-					display:block;
+					display: block;
+					width: 100%;
+					height:auto;
+					padding: 10px 0px;
+					overflow: hidden;
+					line-height: 40px;
 					.list_item_cover{
-						float:left;
 						img{
-							width:44px;
+							display:block;
+							width: 100%;
 							height:auto;
-							margin:4px;
 						}
 					}
 					.list_item_info{
-						float:left
+						text-align: left;
+						margin:6px 6px;
+						p{
+							line-height: 16px;
+						}
+						.song_name{
+							font-size:12px;
+						}
+						.song_ar{
+							font-size:10px;
+							color:#fcfcfc;
+						}
 					}
 				}
 			}

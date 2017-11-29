@@ -65,10 +65,7 @@ export function playlistReducer(state = initialState, action) {
 
 export function PlayboxReducer(state = initialState, action) {
   switch (action.type) {
-    case "FETCH_SONG": {
-      state = { ...state, fetching: true };
-    }
-    case "RECIEVE_SONG_URL": {
+    case "PLAY_SINGLE_SONG": {
       state = {
         ...state,
         fetching: false,
@@ -80,11 +77,6 @@ export function PlayboxReducer(state = initialState, action) {
       state.AudioDom.addEventListener("canplay", function() {
         this.play();
       });
-
-      break;
-    }
-    case "FETCH_SONG_ERR": {
-      state = { ...state, fetching: false, fetched: false, err: action.err };
       break;
     }
     case "UNSHIFT_LIST": {
@@ -98,7 +90,6 @@ export function PlayboxReducer(state = initialState, action) {
       state.curList.unshift(action.single);
     }
     case "SWITCH_MODE": {
-      // state.isFm=!state.isFm;
       state = { ...state, isFm: action.isFm };
       break;
     }

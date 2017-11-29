@@ -6,8 +6,7 @@ import {
   fetchSingleSong,
   toggleList
 } from "../redux/actions";
-import { Changer } from "../components/common";
-import PlayBoxList from "../components/PlayBoxList";
+import { Changer, PlayboxList } from "../components/common";
 
 @connect(store => {
   return {
@@ -26,6 +25,12 @@ export default class Playbox extends React.Component {
   }
   toggleListHandler() {
     this.props.dispatch(toggleList(this.props.Playbox.showList));
+  }
+  playHandler(e) {
+    e = e || window.event;
+    let index = e.currentTarget.getAttribute("data-index");
+    let id = e.currentTarget.getAttribute("data-id");
+    console.log(index, id);
   }
   componentWillReceiveProps(nextProps) {
     if (
@@ -80,7 +85,11 @@ export default class Playbox extends React.Component {
             </div>
           </div>
         </div>
-        <PlayBoxList show={this.props.Playbox.showList} />
+        <PlayboxList
+          show={this.props.Playbox.showList}
+          curList={this.props.Playbox.curList}
+          playHandler={this.playHandler}
+        />
       </div>
     );
   }

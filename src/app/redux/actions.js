@@ -26,6 +26,11 @@ export function unshift_song_list(song_id) {
   };
 }
 
+export function changeCurId(song_id) {
+  return function(dispatch) {
+    dispatch({ type: "CHANGE_CUR_ID", curId: song_id });
+  };
+}
 export function toggleList(showlist) {
   return function(dispatch) {
     dispatch({ type: "TOGGLE_LIST", showlist: !showlist });
@@ -46,7 +51,7 @@ export function fetchSingleSong(song_id) {
       .then(function(data) {
         let url = data.data[0].url;
         let id = data.data[0].id;
-        dispatch({ type: "RECIEVE_SONG_URL", url: url, id: id });
+        dispatch({ type: "PLAY_SINGLE_SONG", url: url, id: id });
       })
       .catch(function(err) {
         dispatch({ type: "FETCH_SONG_ERR", err: err });
@@ -54,6 +59,20 @@ export function fetchSingleSong(song_id) {
   };
 }
 
+//添加到列表 按钮 || 歌单，专辑.map之后的ids?
+export function shiftSongId(song_id) {
+  return function(dispatch) {
+    dispatch({ type: "SHIFT_SONG_ID", id: song_id });
+  };
+}
+//专辑、歌单中的播放按钮
+export function unShiftSongId(song_id) {
+  return function(dispatch) {
+    dispatch({ type: "UNSHIFT_SONG_ID", id: song_id });
+  };
+}
+
+//歌单route
 export function fetchPlaylist(listId) {
   return function(dispatch) {
     dispatch({ type: "FETCHING_PLAYLIST" });
