@@ -276,7 +276,11 @@ export class PlayboxList extends React.Component {
       >
         <div className="playbox_lit_wrap">
           <div className="playbox_list_item row">
-            <a href="javascipt:void(0)" className="col-xs-6">
+            <a
+              href="javascipt:void(0)"
+              className="col-xs-6"
+              onClick={this.props.emptyHandler}
+            >
               清空
             </a>
             <a href="javascipt:void(0)" className="col-xs-6">

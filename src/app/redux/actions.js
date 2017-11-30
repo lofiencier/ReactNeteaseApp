@@ -26,9 +26,14 @@ export function unshift_song_list(song_id) {
   };
 }
 
-export function changeCurId(song_id) {
+export function emptyList() {
   return function(dispatch) {
-    dispatch({ type: "CHANGE_CUR_ID", curId: song_id });
+    dispatch({ type: "EMPTY_LIST", empty: [] });
+  };
+}
+export function changeCurIndex(index) {
+  return function(dispatch) {
+    dispatch({ type: "CHANGE_CUR_INDEX", curIndex: index });
   };
 }
 export function toggleList(showlist) {
@@ -43,7 +48,6 @@ export function switchMode(isFm) {
 }
 export function fetchSingleSong(song_id) {
   return function(dispatch) {
-    dispatch({ type: "FETCH_SONG" });
     fetch(`http://localhost:3000/music/url?id=${song_id}`, fetch_config)
       .then(function(res) {
         return res.json();

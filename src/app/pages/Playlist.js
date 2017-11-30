@@ -19,7 +19,6 @@ export default class Playlist extends React.Component {
   }
   blurHandler() {
     document.getElementById("blurImg").onload = function() {
-      console.log("1");
       StackBlur.image("blurImg", "album_blur_canvas", 10, false);
     };
   }

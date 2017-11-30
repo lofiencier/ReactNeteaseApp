@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import {
   fetchArtistAlbum,
   fetchAlbum,
-  fetchSingleSong
+  fetchSingleSong,
+  changeCurId
 } from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";

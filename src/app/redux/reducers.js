@@ -65,29 +65,13 @@ export function playlistReducer(state = initialState, action) {
 
 export function PlayboxReducer(state = initialState, action) {
   switch (action.type) {
-    case "PLAY_SINGLE_SONG": {
-      state = {
-        ...state,
-        fetching: false,
-        fetched: true,
-        curMusicUrl: action.url,
-        curMusicId: action.id
-      };
-      state.AudioDom.src = state.curMusicUrl;
-      state.AudioDom.addEventListener("canplay", function() {
-        this.play();
-      });
+    case "UNSHIFT_LIST": {
+      state.curList.unshift(action.single);
       break;
     }
-    case "UNSHIFT_LIST": {
-      state = {
-        ...state,
-        curMusicId: action.single.id,
-        curMusicName: action.single.name,
-        curMusicCover: action.single.al.picUrl,
-        curMusicArtist: action.single.ar[0].name
-      };
-      state.curList.unshift(action.single);
+    case "CHANGE_CUR_INDEX": {
+      state = { ...state, curIndex: action.curId };
+      break;
     }
     case "SWITCH_MODE": {
       state = { ...state, isFm: action.isFm };
@@ -95,6 +79,12 @@ export function PlayboxReducer(state = initialState, action) {
     }
     case "TOGGLE_LIST": {
       state = { ...state, showList: action.showlist };
+      break;
+    }
+
+    case "EMPTY_LIST": {
+      state = { ...state, curList: [] };
+      break;
     }
   }
   return state;
