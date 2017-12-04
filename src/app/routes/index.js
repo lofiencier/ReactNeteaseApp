@@ -16,7 +16,6 @@ export class Routers extends React.Component {
         <main>
           <Header />
           <Playbox />
-
           <Switch>
             <Route exact path="/" component={IndexPage} />
             <Route path="/test" component={Test} />

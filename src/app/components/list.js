@@ -27,6 +27,7 @@ export default class List extends React.Component {
               href="javascript:void(0)"
               onClick={this.props.playHandler}
               data-id={song.id}
+              data-i={index}
               className="col-xs-3"
             >
               &nbsp;P

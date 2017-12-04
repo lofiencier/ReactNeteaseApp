@@ -26,16 +26,6 @@ export function unshift_song_list(song_id) {
   };
 }
 
-export function emptyList() {
-  return function(dispatch) {
-    dispatch({ type: "EMPTY_LIST", empty: [] });
-  };
-}
-export function changeCurIndex(index) {
-  return function(dispatch) {
-    dispatch({ type: "CHANGE_CUR_INDEX", curIndex: index });
-  };
-}
 export function toggleList(showlist) {
   return function(dispatch) {
     dispatch({ type: "TOGGLE_LIST", showlist: !showlist });
@@ -60,6 +50,27 @@ export function fetchSingleSong(song_id) {
       .catch(function(err) {
         dispatch({ type: "FETCH_SONG_ERR", err: err });
       });
+  };
+}
+export function changeIndex(index) {
+  return function(dispatch) {
+    dispatch({ type: "CHANGE_INDEX", index: index });
+  };
+}
+export function emptyList() {
+  return function(dispatch) {
+    dispatch({ type: "EMPTY_LIST" });
+  };
+}
+//album or playlist点击播放，从playlist复制信息到playbox
+export function copySongInfo(song, index) {
+  return function(dispatch) {
+    dispatch({ type: "COPY_SONG_INFO_UNSHIFT", song: song });
+  };
+}
+export function copyAllSongs(songs) {
+  return function(dispatch) {
+    dispatch({ type: "COPY_ALL_SONGS", songs: songs });
   };
 }
 

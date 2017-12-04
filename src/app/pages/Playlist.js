@@ -1,6 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchPlaylist, fetchSingleSong } from "../redux/actions";
+import {
+  fetchPlaylist,
+  copySongInfo,
+  copyAllSongs,
+  fetchSingleSong
+} from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
 import Header from "../components/Header";
@@ -22,6 +27,9 @@ export default class Playlist extends React.Component {
       StackBlur.image("blurImg", "album_blur_canvas", 10, false);
     };
   }
+  playAllHandler() {
+    this.props.dispatch(copyAllSongs(this.props.playlist.songs));
+  }
   componentDidMount() {
     this.blurHandler();
     let listId = this.props.location.search;
@@ -37,6 +45,10 @@ export default class Playlist extends React.Component {
   }
   playHandler(e) {
     let song_id = e.currentTarget.getAttribute("data-id");
+    let song_i = e.currentTarget.getAttribute("data-i");
+    this.props.dispatch(
+      copySongInfo(this.props.playlist.songs[song_i], song_i)
+    );
     this.props.dispatch(fetchSingleSong(song_id));
   }
   render() {
@@ -44,6 +56,7 @@ export default class Playlist extends React.Component {
       <div className="root_content">
         <div className="playlist_content_wrap">
           <Album_info
+            playAllHandler={this.playAllHandler.bind(this)}
             type="COLLECT"
             coverUrl={this.props.playlist.coverImgUrl}
             name={this.props.playlist.name}

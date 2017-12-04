@@ -20,6 +20,8 @@ function initialState() {
       isFm: false,
       isPlaying: false,
       curIndex: 0,
+      curMusicUrl: "",
+      curIndex: NaN,
       volume: 1,
       curList: []
     },

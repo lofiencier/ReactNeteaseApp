@@ -6,9 +6,11 @@ import {
   fetchSingleSong,
   toggleList,
   changeCurIndex,
-  emptyList
+  emptyList,
+  changeIndex
 } from "../redux/actions";
 import { Changer, PlayboxList } from "../components/common";
+import AudioThunk from "../components/AudioThunk";
 
 @connect(store => {
   return {
@@ -18,59 +20,76 @@ import { Changer, PlayboxList } from "../components/common";
 export default class Playbox extends React.Component {
   constructor() {
     super();
-    this.clickHandler = this.clickHandler.bind(this);
-    this.playHandler = this.playHandler.bind(this);
+    this.switchModeHandler = this.switchModeHandler.bind(this);
+    this.changeIndexHandler = this.changeIndexHandler.bind(this);
   }
   componentDidMount() {}
-
-  emptyHandler() {
-    this.props.dispatch(emptyList());
-  }
-  clickHandler() {
+  switchModeHandler() {
     this.props.dispatch(switchMode(this.props.Playbox.isFm));
   }
   toggleListHandler() {
     this.props.dispatch(toggleList(this.props.Playbox.showList));
   }
-  playHandler(e) {
+  changeIndexHandler(e) {
     e = e || window.event;
     let index = e.currentTarget.getAttribute("data-index");
     let id = e.currentTarget.getAttribute("data-id");
     console.log(index, id);
-    this.props.dispatch(changeCurIndex(index));
+    this.props.dispatch(changeIndex(index));
   }
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.Playbox.curMusicId &&
-      nextProps.Playbox.curMusicId != this.props.Playbox.curMusicId
-    ) {
-      nextProps.dispatch(unshift_song_list(nextProps.Playbox.curMusicId));
+  timeUpdateHandler(e) {
+    e = e || window.event;
+    // console.log(e.path[0].currentTime);
+    let dur = e.path[0].duration;
+    let curTime = e.path[0].currentTime;
+    let play_percent = parseInt(curTime / dur * 10000) / 100 + "%";
+    document.getElementById("process_played").style.width = play_percent;
+
+    if (e.currentTarget.readyState == 4) {
+      let buffer_percent =
+        Math.round(
+          e.currentTarget.buffered.end(0) / e.currentTarget.duration * 100
+        ) + "%";
+      if (buffer_percent != 100) {
+        //you need debounce here
+        document.getElementById(
+          "process_buffered"
+        ).style.width = buffer_percent;
+      }
     }
+  }
+  prevSong() {
+    this.props.dispatch(changeIndex(parseInt(this.props.Playbox.curIndex) - 1));
+  }
+  nextSong() {
+    this.props.dispatch(changeIndex(parseInt(this.props.Playbox.curIndex) + 1));
+  }
+  emptyListHandler() {
+    this.props.dispatch(emptyList());
   }
   render() {
-    let Props = this.props.Playbox;
-    if (Props.curList[Props.curIndex]) {
-      console.log(Props.curList[Props.curIndex].al.picUrl);
-    }
+    let curList = this.props.Playbox.curList;
+    let curIndex = this.props.Playbox.curIndex;
     return (
       <div id="playbox">
+        <AudioThunk timeUpdateHandler={this.timeUpdateHandler} />
         <div className="song_total_process">
-          <div className="song_buffered" />
-          <div className="song_played" />
+          <div className="song_buffered" id="process_buffered" />
+          <div className="song_played" id="process_played" />
         </div>
         <div className="playbox_content">
           <Changer
             text1="MU"
             text2="FM"
             value={this.props.Playbox.isFm}
-            clickHandler={this.clickHandler}
+            clickHandler={this.switchModeHandler}
           />
           <div className="song_info">
             <div className="song_cover">
               <img
                 src={
-                  Props.curList[Props.curIndex]
-                    ? Props.curList[Props.curIndex].al.picUrl + "?param=45y45"
+                  curList[curIndex]
+                    ? curList[curIndex].album.picUrl + "?param=45y45"
                     : "../static/images/bg.jpg"
                 }
                 alt=""
@@ -78,23 +97,29 @@ export default class Playbox extends React.Component {
             </div>
             <div className="song_text">
               <p className="song_name">
-                {Props.curList[Props.curIndex]
-                  ? Props.curList[Props.curIndex].name
-                  : "RandomName"}
+                {curList[curIndex] ? curList[curIndex].name : "Random Song"}
               </p>
               <small className="song_artist">
-                {Props.curList[Props.curIndex]
-                  ? Props.curList[Props.curIndex].ar[0].name
-                  : "RandomArtist"}
+                {curList[curIndex]
+                  ? curList[curIndex].artists[0].name
+                  : "Random Artist"}
               </small>
             </div>
           </div>
           <div className="control_center">
             <div className="btns isfm">ISFM?</div>
             <div className="btns like">LIKE</div>
-            <div className="btns prev">PREV</div>
+            <div className="btns prev">
+              <a href="javascript:void(0)" onClick={this.prevSong.bind(this)}>
+                PREV
+              </a>
+            </div>
             <div className="btns play">PLAY</div>
-            <div className="btns next">NEXT</div>
+            <div className="btns next">
+              <a href="javascript:void(0)" onClick={this.nextSong.bind(this)}>
+                NEXT
+              </a>
+            </div>
             <div className="btns vol">VOLUME</div>
             <div className="btns cur_list">
               <a
@@ -107,10 +132,10 @@ export default class Playbox extends React.Component {
           </div>
         </div>
         <PlayboxList
+          empty={this.emptyListHandler.bind(this)}
           show={this.props.Playbox.showList}
           curList={this.props.Playbox.curList}
-          playHandler={this.playHandler}
-          emptyHandler={this.emptyHandler.bind(this)}
+          changeIndexHandler={this.changeIndexHandler.bind(this)}
         />
       </div>
     );

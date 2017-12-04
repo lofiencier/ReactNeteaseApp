@@ -65,14 +65,21 @@ export function playlistReducer(state = initialState, action) {
 
 export function PlayboxReducer(state = initialState, action) {
   switch (action.type) {
+    case "PLAY_SINGLE_SONG": {
+      state = {
+        ...state,
+        fetching: false,
+        fetched: true,
+        curMusicUrl: action.url
+      };
+      state.AudioDom.src = action.url;
+      break;
+    }
     case "UNSHIFT_LIST": {
       state.curList.unshift(action.single);
       break;
     }
-    case "CHANGE_CUR_INDEX": {
-      state = { ...state, curIndex: action.curId };
-      break;
-    }
+
     case "SWITCH_MODE": {
       state = { ...state, isFm: action.isFm };
       break;
@@ -81,9 +88,21 @@ export function PlayboxReducer(state = initialState, action) {
       state = { ...state, showList: action.showlist };
       break;
     }
-
+    case "COPY_SONG_INFO_UNSHIFT": {
+      state.curList.unshift(action.song);
+      state = { ...state, curIndex: 0, isPlaying: true };
+      break;
+    }
+    case "COPY_ALL_SONGS": {
+      state = { ...state, curList: action.songs, curIndex: 0, isPlaying: true };
+      break;
+    }
     case "EMPTY_LIST": {
-      state = { ...state, curList: [] };
+      state = { ...state, curList: [], isPlaying: false };
+      break;
+    }
+    case "CHANGE_INDEX": {
+      state = { ...state, curIndex: action.index };
       break;
     }
   }
@@ -142,9 +161,11 @@ export function userReducer(state = initialState, action) {
     }
     case "RECIVED_USER_COLLECTION": {
       state = { ...state, collection: action.playlist };
+      break;
     }
     case "FETCH_USER_COLLECTION_REJECTED": {
       state = { ...state, collection_err: action.err };
+      break;
     }
   }
   return state;
