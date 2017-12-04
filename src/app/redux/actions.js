@@ -3,34 +3,6 @@ const fetch_config = {
   mode: "cors"
 };
 
-export function unshift_song_list(song_id) {
-  return function(dispatch) {
-    fetch(`http://localhost:3000/song/detail?ids=${song_id}`, fetch_config)
-      .then(res => res.json())
-      .then(data => {
-        console.log("song detail:", data);
-        let song = data.songs[0];
-        let { name, al, ar, id } = song;
-        ar = ar.map(artist => {
-          let { id, name } = artist;
-          return { id: id, name: name };
-        });
-        song = {
-          name: name,
-          al: al,
-          ar: ar,
-          id: id
-        };
-        dispatch({ type: "UNSHIFT_LIST", single: song });
-      });
-  };
-}
-
-export function changeCurId(song_id) {
-  return function(dispatch) {
-    dispatch({ type: "CHANGE_CUR_ID", curId: song_id });
-  };
-}
 export function toggleList(showlist) {
   return function(dispatch) {
     dispatch({ type: "TOGGLE_LIST", showlist: !showlist });
@@ -56,6 +28,28 @@ export function fetchSingleSong(song_id) {
       .catch(function(err) {
         dispatch({ type: "FETCH_SONG_ERR", err: err });
       });
+  };
+}
+
+export function changeIndex(index) {
+  return function(dispatch) {
+    dispatch({ type: "CHANGE_INDEX", index: index });
+  };
+}
+export function emptyList() {
+  return function(dispatch) {
+    dispatch({ type: "EMPTY_LIST" });
+  };
+}
+//album or playlist点击播放，从playlist复制信息到playbox
+export function copySongInfo(song, index) {
+  return function(dispatch) {
+    dispatch({ type: "COPY_SONG_INFO_UNSHIFT", song: song, index: index });
+  };
+}
+export function copyAllSongs(songs) {
+  return function(dispatch) {
+    dispatch({ type: "COPY_ALL_SONGS", songs: songs });
   };
 }
 

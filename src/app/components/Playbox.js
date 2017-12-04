@@ -4,9 +4,12 @@ import {
   switchMode,
   unshift_song_list,
   fetchSingleSong,
-  toggleList
+  toggleList,
+  emptyList,
+  changeIndex
 } from "../redux/actions";
 import { Changer, PlayboxList } from "../components/common";
+import AudioThunk from "../components/AudioThunk";
 
 @connect(store => {
   return {
@@ -30,19 +33,19 @@ export default class Playbox extends React.Component {
     e = e || window.event;
     let index = e.currentTarget.getAttribute("data-index");
     let id = e.currentTarget.getAttribute("data-id");
-    console.log(index, id);
+    this.props.dispatch(changeIndex(index));
   }
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.Playbox.curMusicId &&
-      nextProps.Playbox.curMusicId != this.props.Playbox.curMusicId
-    ) {
-      nextProps.dispatch(unshift_song_list(nextProps.Playbox.curMusicId));
-    }
+  prevOrNext(index) {}
+  emptyListHandler() {
+    this.props.dispatch(emptyList());
   }
+
   render() {
+    let curList = this.props.Playbox.curList;
+    let curIndex = this.props.Playbox.curIndex;
     return (
       <div id="playbox">
+        <AudioThunk />
         <div className="song_total_process">
           <div className="song_buffered" />
           <div className="song_played" />
@@ -57,14 +60,22 @@ export default class Playbox extends React.Component {
           <div className="song_info">
             <div className="song_cover">
               <img
-                src={this.props.Playbox.curMusicCover + "?param=45y45"}
+                src={
+                  curList[curIndex]
+                    ? curList[curIndex].album.picUrl + "?param=45y45"
+                    : "../static/images/bg.jpg"
+                }
                 alt=""
               />
             </div>
             <div className="song_text">
-              <p className="song_name">{this.props.Playbox.curMusicName}</p>
+              <p className="song_name">
+                {curList[curIndex] ? curList[curIndex].name : "Random Song"}
+              </p>
               <small className="song_artist">
-                {this.props.Playbox.curMusicArtist}
+                {curList[curIndex]
+                  ? curList[curIndex].artists[0].name
+                  : "Random Artist"}
               </small>
             </div>
           </div>
@@ -86,9 +97,10 @@ export default class Playbox extends React.Component {
           </div>
         </div>
         <PlayboxList
+          empty={this.emptyListHandler.bind(this)}
           show={this.props.Playbox.showList}
           curList={this.props.Playbox.curList}
-          playHandler={this.playHandler}
+          playHandler={this.playHandler.bind(this)}
         />
       </div>
     );

@@ -126,7 +126,7 @@ export class Album_info extends React.Component {
               : "播放量：" + this.props.playCount}
           </span>
           <div className="album_action_playall">
-            <a href="javascript:void(0)">
+            <a href="javascript:void(0)" onClick={this.props.playAllHandler}>
               <p>PLAY ALL</p>
             </a>
           </div>
@@ -251,11 +251,11 @@ export class PlayboxList extends React.Component {
             >
               <span className="item_index col-xs-1">{index + 1}</span>
               <div className="list_item_cover col-xs-2">
-                <img src={song.al.picUrl + "?param=45y45"} alt="" />
+                <img src={song.album.picUrl + "?param=45y45"} alt="" />
               </div>
               <div className="list_item_info col-xs-6">
                 <p className="song_name">{song.name}</p>
-                <p className="song_ar">{song.ar[0].name}</p>
+                <p className="song_ar">{song.artists[0].name}</p>
               </div>
               <p className="col-xs-1">DEL</p>
             </a>
@@ -276,7 +276,11 @@ export class PlayboxList extends React.Component {
       >
         <div className="playbox_lit_wrap">
           <div className="playbox_list_item row">
-            <a href="javascipt:void(0)" className="col-xs-6">
+            <a
+              href="javascipt:void(0)"
+              className="col-xs-6"
+              onClick={this.props.empty}
+            >
               清空
             </a>
             <a href="javascipt:void(0)" className="col-xs-6">

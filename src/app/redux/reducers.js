@@ -70,13 +70,8 @@ export function PlayboxReducer(state = initialState, action) {
         ...state,
         fetching: false,
         fetched: true,
-        curMusicUrl: action.url,
-        curMusicId: action.id
+        curMusicUrl: action.url
       };
-      state.AudioDom.src = state.curMusicUrl;
-      state.AudioDom.addEventListener("canplay", function() {
-        this.play();
-      });
       break;
     }
     case "UNSHIFT_LIST": {
@@ -95,6 +90,23 @@ export function PlayboxReducer(state = initialState, action) {
     }
     case "TOGGLE_LIST": {
       state = { ...state, showList: action.showlist };
+      break;
+    }
+    case "COPY_SONG_INFO_UNSHIFT": {
+      state.curList.unshift(action.song);
+      state = { ...state, curIndex: 0, isPlaying: true };
+      break;
+    }
+    case "COPY_ALL_SONGS": {
+      state = { ...state, curList: action.songs, curIndex: 0, isPlaying: true };
+      break;
+    }
+    case "EMPTY_LIST": {
+      state = { ...state, curList: [], isPlaying: false };
+      break;
+    }
+    case "CHANGE_INDEX": {
+      state = { ...state, curIndex: action.index };
     }
   }
   return state;
@@ -152,9 +164,11 @@ export function userReducer(state = initialState, action) {
     }
     case "RECIVED_USER_COLLECTION": {
       state = { ...state, collection: action.playlist };
+      break;
     }
     case "FETCH_USER_COLLECTION_REJECTED": {
       state = { ...state, collection_err: action.err };
+      break;
     }
   }
   return state;
