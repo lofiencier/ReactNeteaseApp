@@ -266,29 +266,15 @@ export class PlayboxList extends React.Component {
     return (
       <div
         className={
-          this.props.show
+          this.props.show && !this.props.isFm
             ? "playbox_list_content"
             : "playbox_list_content hidden"
         }
         style={{
-          height: document.documentElement.clientHeight - 60 - 61 + "px"
+          height: document.documentElement.clientHeight - 61 + "px"
         }}
       >
-        <div className="playbox_lit_wrap">
-          <div className="playbox_list_item row">
-            <a
-              href="javascipt:void(0)"
-              className="col-xs-6"
-              onClick={this.props.empty}
-            >
-              清空
-            </a>
-            <a href="javascipt:void(0)" className="col-xs-6">
-              收藏
-            </a>
-          </div>
-          {els}
-        </div>
+        <div className="playbox_lit_wrap">{els}</div>
       </div>
     );
   }

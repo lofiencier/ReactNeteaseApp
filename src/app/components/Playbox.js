@@ -107,7 +107,6 @@ export default class Playbox extends React.Component {
             </div>
           </div>
           <div className="control_center">
-            <div className="btns isfm">ISFM?</div>
             <div className="btns like">LIKE</div>
             <div className="btns prev">
               <a href="javascript:void(0)" onClick={this.prevSong.bind(this)}>
@@ -121,7 +120,14 @@ export default class Playbox extends React.Component {
               </a>
             </div>
             <div className="btns vol">VOLUME</div>
-            <div className="btns cur_list">
+            <div
+              className="btns cur_list"
+              style={
+                this.props.Playbox.isFm
+                  ? { display: "none" }
+                  : { display: "block" }
+              }
+            >
               <a
                 href="javascript:void(0)"
                 onClick={this.toggleListHandler.bind(this)}
@@ -132,6 +138,7 @@ export default class Playbox extends React.Component {
           </div>
         </div>
         <PlayboxList
+          isFm={this.props.Playbox.isFm}
           empty={this.emptyListHandler.bind(this)}
           show={this.props.Playbox.showList}
           curList={this.props.Playbox.curList}
