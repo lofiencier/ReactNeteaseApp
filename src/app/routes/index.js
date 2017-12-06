@@ -8,7 +8,7 @@ import Album from "../pages/Album";
 import IndexPage from "../pages/index";
 import Header from "../components/Header";
 import Playbox from "../components/Playbox";
-import FmView from "../pages/fm";
+import FM from "../components/FM";
 export class Routers extends React.Component {
   render() {
     return (
@@ -16,6 +16,7 @@ export class Routers extends React.Component {
         <main>
           <Header />
           <Playbox />
+          <FM />
           <Switch>
             <Route exact path="/" component={IndexPage} />
             <Route path="/test" component={Test} />
@@ -23,7 +24,6 @@ export class Routers extends React.Component {
             <Route path="/login" component={Login} />
             <Route path="/playlist" component={Playlist} />
             <Route path="/album" component={Album} />
-            <Route path="/fm" component={FmView} />
           </Switch>
         </main>
       </HashRouter>

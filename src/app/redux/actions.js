@@ -1,6 +1,7 @@
 const fetch_config = {
   method: "GET",
-  mode: "cors"
+  mode: "cors",
+  credentials: true
 };
 
 export function unshift_song_list(song_id) {
@@ -26,6 +27,30 @@ export function unshift_song_list(song_id) {
   };
 }
 
+export function fetchFm(type) {
+  return function(dispatch) {
+    fetch(`//localhost:3000/personal_fm?timestamp${Date.now()}`, fetch_config)
+      .then(res => res.json())
+      .then(data => {
+        if (data.code && data.code === 301) {
+          throw new Error("请先登录");
+          console.log(data);
+        } else if (data.code && data.code === 405) {
+          throw new Error("获取失败");
+          console.log(data);
+        } else {
+          data = data.data.map(song => {
+            let { id, name, mvid, duration, artists, album } = song;
+            return { id, name, mvid, duration, artists, album };
+          });
+          dispatch({ type: "RECEIVE_FM_SONG", songs: data });
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+}
 export function toggleList(showlist) {
   return function(dispatch) {
     dispatch({ type: "TOGGLE_LIST", showlist: !showlist });

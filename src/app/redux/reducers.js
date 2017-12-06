@@ -81,6 +81,7 @@ export function PlayboxReducer(state = initialState, action) {
     }
 
     case "SWITCH_MODE": {
+      console.log(state.isPlaying);
       state = { ...state, isFm: action.isFm };
       break;
     }
@@ -90,11 +91,17 @@ export function PlayboxReducer(state = initialState, action) {
     }
     case "COPY_SONG_INFO_UNSHIFT": {
       state.curList.unshift(action.song);
-      state = { ...state, curIndex: 0, isPlaying: true };
+      state = { ...state, curIndex: 0, isPlaying: true, isFm: false };
       break;
     }
     case "COPY_ALL_SONGS": {
-      state = { ...state, curList: action.songs, curIndex: 0, isPlaying: true };
+      state = {
+        ...state,
+        curList: action.songs,
+        curIndex: 0,
+        isPlaying: true,
+        isFm: false
+      };
       break;
     }
     case "EMPTY_LIST": {
@@ -102,8 +109,27 @@ export function PlayboxReducer(state = initialState, action) {
       break;
     }
     case "CHANGE_INDEX": {
-      state = { ...state, curIndex: action.index };
-      break;
+      if (state.isFm && action.index > state.fmList.length - 1) {
+        state = { ...state, curIndex: 0 };
+        console.log("FM OVERID");
+        break;
+      } else if (!state.isFm && action.index > state.curList.length - 1) {
+        console.log("MUSIC OVERID");
+        state = { ...state, curIndex: 0 };
+        break;
+      } else {
+        state = { ...state, curIndex: action.index };
+        console.log(
+          "NORMAL",
+          action.index,
+          state.curList.length,
+          state.fmList.length
+        );
+        break;
+      }
+    }
+    case "RECEIVE_FM_SONG": {
+      state = { ...state, fmList: action.songs, curIndex: 0, isPlaying: true };
     }
   }
   return state;

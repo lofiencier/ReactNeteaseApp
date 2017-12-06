@@ -9,7 +9,7 @@ import {
   emptyList,
   changeIndex
 } from "../redux/actions";
-import { Changer, PlayboxList } from "../components/common";
+import { Changer, PlayboxList, InfoBox } from "../components/common";
 import AudioThunk from "../components/AudioThunk";
 
 @connect(store => {
@@ -84,28 +84,14 @@ export default class Playbox extends React.Component {
             value={this.props.Playbox.isFm}
             clickHandler={this.switchModeHandler}
           />
-          <div className="song_info">
-            <div className="song_cover">
-              <img
-                src={
-                  curList[curIndex]
-                    ? curList[curIndex].album.picUrl + "?param=45y45"
-                    : "../static/images/bg.jpg"
-                }
-                alt=""
-              />
-            </div>
-            <div className="song_text">
-              <p className="song_name">
-                {curList[curIndex] ? curList[curIndex].name : "Random Song"}
-              </p>
-              <small className="song_artist">
-                {curList[curIndex]
-                  ? curList[curIndex].artists[0].name
-                  : "Random Artist"}
-              </small>
-            </div>
-          </div>
+          <InfoBox
+            list={
+              this.props.Playbox.isFm
+                ? this.props.Playbox.fmList
+                : this.props.Playbox.curList
+            }
+            index={this.props.Playbox.curIndex}
+          />
           <div className="control_center">
             <div className="btns like">LIKE</div>
             <div className="btns prev">

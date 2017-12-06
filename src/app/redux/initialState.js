@@ -23,7 +23,8 @@ function initialState() {
       curMusicUrl: "",
       curIndex: NaN,
       volume: 1,
-      curList: []
+      curList: [],
+      fmList: []
     },
     user: {
       isLoged: false,

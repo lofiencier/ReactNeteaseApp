@@ -1,6 +1,37 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+export class InfoBox extends React.Component {
+  render() {
+    return (
+      <div className="song_info">
+        <div className="song_cover">
+          <img
+            src={
+              this.props.list[this.props.index]
+                ? this.props.list[this.props.index].album.picUrl +
+                  "?param=45y45"
+                : "../static/images/bg.jpg"
+            }
+            alt=""
+          />
+        </div>
+        <div className="song_text">
+          <p className="song_name">
+            {this.props.list[this.props.index]
+              ? this.props.list[this.props.index].name
+              : "Random Song"}
+          </p>
+          <small className="song_artist">
+            {this.props.list[this.props.index]
+              ? this.props.list[this.props.index].artists[0].name
+              : "Random Artist"}
+          </small>
+        </div>
+      </div>
+    );
+  }
+}
 export class Album extends React.Component {
   render() {
     return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchSingleSong, changeIndex } from "../redux/actions";
+import { fetchSingleSong, changeIndex, fetchFm } from "../redux/actions";
 import logger from "redux-logger";
 
 @connect(store => {
@@ -13,6 +13,7 @@ export default class AudioThunk extends React.Component {
     super();
     this.endedHandler = this.endedHandler.bind(this);
   }
+  indexWatcher(nextProps) {}
   componentDidMount() {
     this.props.Playbox.AudioDom.addEventListener(
       "canplay",
@@ -40,20 +41,31 @@ export default class AudioThunk extends React.Component {
   }
   componentDidUpdate() {}
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.Playbox.isPlaying &&
-      nextProps.Playbox.curIndex != this.props.Playbox.curIndex
-    ) {
-      let id = "";
-      try {
-        id = nextProps.Playbox.curList[nextProps.Playbox.curIndex].id;
-      } catch (e) {
-        console.log(nextProps.Playbox.curIndex);
+    let playbox = nextProps.Playbox;
+    let id = "";
+    this.indexWatcher(nextProps);
+    if (playbox.isPlaying && playbox.curIndex != this.props.Playbox.curIndex) {
+      //切歌时的dispatch，此时index改变
+      if (playbox.isFm) {
+        id = playbox.fmList[playbox.curIndex].id;
+      } else {
+        id = playbox.curList[playbox.curIndex].id;
       }
       //这里去dispatch获取此index对应的id，fetch对应的url
-      console.log("why do you run twice?");
+      console.log("Thunk gets id:", id);
+      nextProps.dispatch(fetchSingleSong(id));
+    } else if (playbox.isPlaying && playbox.isFm != this.props.Playbox.isFm) {
+      //切换fm和music模式的dispatch，
+      if (playbox.isFm && playbox.fmList.length) {
+        id = playbox.fmList[playbox.curIndex].id;
+      } else if (playbox.curList.length) {
+        id = playbox.curList[playbox.curIndex].id;
+      }
+      console.log("Thunk2 gets id:", id);
       nextProps.dispatch(fetchSingleSong(id));
     }
+
+    //fm 音乐列表过界
   }
 
   componentWillUnmount() {
