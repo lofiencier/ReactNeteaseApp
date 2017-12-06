@@ -109,27 +109,22 @@ export function PlayboxReducer(state = initialState, action) {
       break;
     }
     case "CHANGE_INDEX": {
-      if (state.isFm && action.index > state.fmList.length - 1) {
-        state = { ...state, curIndex: 0 };
-        console.log("FM OVERID");
-        break;
-      } else if (!state.isFm && action.index > state.curList.length - 1) {
-        console.log("MUSIC OVERID");
-        state = { ...state, curIndex: 0 };
-        break;
-      } else {
-        state = { ...state, curIndex: action.index };
-        console.log(
-          "NORMAL",
-          action.index,
-          state.curList.length,
-          state.fmList.length
-        );
-        break;
-      }
+      // if (state.isFm && action.index > state.fmList.length - 1) {
+      //   state = { ...state, curIndex: 0 };
+      //   console.log("FM OVERID");
+      //   break;
+      // } else if (!state.isFm && action.index > state.curList.length - 1) {
+      //   console.log("MUSIC OVERID");
+      //   state = { ...state, curIndex: 0 };
+      //   break;
+      // } else {
+      state = { ...state, curIndex: action.index };
+      break;
+      // }
     }
     case "RECEIVE_FM_SONG": {
       state = { ...state, fmList: action.songs, curIndex: 0, isPlaying: true };
+      break;
     }
   }
   return state;
