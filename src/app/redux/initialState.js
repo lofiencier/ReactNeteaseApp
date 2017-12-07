@@ -19,12 +19,11 @@ function initialState() {
       showlist: false,
       isFm: false,
       isPlaying: false,
-      curIndex: 0,
-      curMusicUrl: "",
       curIndex: NaN,
       volume: 1,
       curList: [],
-      fmList: []
+      fmList: [],
+      fm_preload: []
     },
     user: {
       isLoged: false,

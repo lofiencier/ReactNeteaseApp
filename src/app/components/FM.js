@@ -16,7 +16,6 @@ export default class FM extends React.Component {
       nextProps.Playbox.isFm &&
       this.props.Playbox.isFm != nextProps.Playbox.isFm
     ) {
-      console.log("this is where your fm start dispatch");
       this.props.dispatch(fetchFm());
     }
   }

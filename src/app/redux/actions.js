@@ -26,8 +26,13 @@ export function unshift_song_list(song_id) {
       });
   };
 }
-
-export function fetchFm(type) {
+export function import_buffer() {
+  return function(dispatch) {
+    dispatch({ type: "IMPORT_FM_BUFFER" });
+  };
+}
+export function fetchFm(preload) {
+  //带参数Boolean：true为preload
   return function(dispatch) {
     fetch(`//localhost:3000/personal_fm?timestamp=${Date.now()}`, fetch_config)
       .then(res => res.json())
@@ -43,7 +48,11 @@ export function fetchFm(type) {
             let { id, name, mvid, duration, artists, album } = song;
             return { id, name, mvid, duration, artists, album };
           });
-          dispatch({ type: "RECEIVE_FM_SONG", songs: data });
+          if (!preload) {
+            dispatch({ type: "RECEIVE_FM_SONG", songs: data });
+          } else {
+            dispatch({ type: "PRELOAD_FM_SONG", songs: data });
+          }
         }
       })
       .catch(e => {
@@ -51,6 +60,7 @@ export function fetchFm(type) {
       });
   };
 }
+
 export function toggleList(showlist) {
   return function(dispatch) {
     dispatch({ type: "TOGGLE_LIST", showlist: !showlist });

@@ -81,7 +81,6 @@ export function PlayboxReducer(state = initialState, action) {
     }
 
     case "SWITCH_MODE": {
-      console.log(state.isPlaying);
       state = { ...state, isFm: action.isFm };
       break;
     }
@@ -118,12 +117,21 @@ export function PlayboxReducer(state = initialState, action) {
       //   state = { ...state, curIndex: 0 };
       //   break;
       // } else {
-      state = { ...state, curIndex: action.index };
+      state = { ...state, curIndex: action.index, isPlaying: true };
       break;
       // }
     }
     case "RECEIVE_FM_SONG": {
       state = { ...state, fmList: action.songs, curIndex: 0, isPlaying: true };
+      break;
+    }
+    case "PRELOAD_FM_SONG": {
+      state = { ...state, fm_preload: action.songs };
+      break;
+    }
+    case "IMPORT_FM_BUFFER": {
+      state.fmList = state.fm_preload;
+      state = { ...state };
       break;
     }
   }

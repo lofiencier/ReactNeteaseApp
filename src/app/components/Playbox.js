@@ -95,7 +95,14 @@ export default class Playbox extends React.Component {
           />
           <div className="control_center">
             <div className="btns like">LIKE</div>
-            <div className="btns prev">
+            <div
+              className="btns prev"
+              style={
+                this.props.Playbox.isFm
+                  ? { display: "none" }
+                  : { display: "block" }
+              }
+            >
               <a href="javascript:void(0)" onClick={this.prevSong.bind(this)}>
                 PREV
               </a>
