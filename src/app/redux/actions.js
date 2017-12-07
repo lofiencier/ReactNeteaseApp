@@ -29,7 +29,7 @@ export function unshift_song_list(song_id) {
 
 export function fetchFm(type) {
   return function(dispatch) {
-    fetch(`//localhost:3000/personal_fm`, fetch_config)
+    fetch(`//localhost:3000/personal_fm?timestamp=${Date.now()}`, fetch_config)
       .then(res => res.json())
       .then(data => {
         if (data.code && data.code === 301) {

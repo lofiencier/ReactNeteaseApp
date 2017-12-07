@@ -7,8 +7,7 @@ import {
   toggleList,
   changeCurIndex,
   emptyList,
-  changeIndex,
-  fetchFm
+  changeIndex
 } from "../redux/actions";
 import { Changer, PlayboxList, InfoBox } from "../components/common";
 import AudioThunk from "../components/AudioThunk";
@@ -63,19 +62,7 @@ export default class Playbox extends React.Component {
     this.props.dispatch(changeIndex(parseInt(this.props.Playbox.curIndex) - 1));
   }
   nextSong() {
-    let { fmList, isFm, curIndex, curList } = this.props.Playbox;
-    if (isFm && fmList.length && curIndex + 1 > fmList.length - 1) {
-      //FM列表过界，把index退回0，并重新获取新的list
-      this.props.dispatch(fetchFm());
-      this.props.dispatch(changeIndex(0));
-    } else if (!isFm && curList.length && curIndex + 1 > curList.length - 1) {
-      //Music列表过界，把index退回0
-      this.props.dispatch(changeIndex(0));
-    } else {
-      this.props.dispatch(
-        changeIndex(parseInt(this.props.Playbox.curIndex) + 1)
-      );
-    }
+    this.props.dispatch(changeIndex(parseInt(this.props.Playbox.curIndex) + 1));
   }
   emptyListHandler() {
     this.props.dispatch(emptyList());
@@ -104,6 +91,7 @@ export default class Playbox extends React.Component {
                 : this.props.Playbox.curList
             }
             index={this.props.Playbox.curIndex}
+            transformer={this.transformer}
           />
           <div className="control_center">
             <div className="btns like">LIKE</div>

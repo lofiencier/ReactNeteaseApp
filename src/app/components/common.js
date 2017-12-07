@@ -6,15 +6,17 @@ export class InfoBox extends React.Component {
     return (
       <div className="song_info">
         <div className="song_cover">
-          <img
-            src={
-              this.props.list[this.props.index]
-                ? this.props.list[this.props.index].album.picUrl +
-                  "?param=45y45"
-                : "../static/images/bg.jpg"
-            }
-            alt=""
-          />
+          <a href="javascript:void:(0)" onClick={this.props.transformer}>
+            <img
+              src={
+                this.props.list[this.props.index]
+                  ? this.props.list[this.props.index].album.picUrl +
+                    "?param=45y45"
+                  : "../static/images/bg.jpg"
+              }
+              alt=""
+            />
+          </a>
         </div>
         <div className="song_text">
           <p className="song_name">

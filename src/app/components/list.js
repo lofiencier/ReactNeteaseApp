@@ -20,7 +20,11 @@ export default class List extends React.Component {
             <a href={"/#/album?id=" + song.album.id}>{song.album.name}</a>
           </div>
           <div className="list_col_body col-xs-2 row">
-            <a href={"/#/mv?id=" + song.mvid} className="col-xs-3">
+            <a
+              href={"/#/mv?mvid=" + song.mvid}
+              className="col-xs-3"
+              style={song.mvid ? { display: "block" } : { display: "none" }}
+            >
               M{" "}
             </a>
             <a
