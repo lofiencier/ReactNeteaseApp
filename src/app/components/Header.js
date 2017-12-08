@@ -1,11 +1,44 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
-export default class Header extends React.Component {
+@connect(store => {
+  return {
+    user: store.user
+  };
+})
+export class Header extends React.Component {
   constructor() {
     super();
   }
 
+  submitHandler(e) {
+    e = e || window.event;
+    e.preventDefault();
+    let target = e.currentTarget;
+    let keywords = target.keywords.value;
+    // console.log(keywords)
+    let limit = target.limit.value;
+    let type = target.type.value;
+    // this.props.dispatch()
+    console.log(location, history);
+    location.assign(`#/search?keywords=${keywords}&limit=${limit}`);
+  }
   render() {
+    var isLogin;
+    if (this.props.user.isLoged) {
+      isLogin = (
+        <a href="#/user?id=0">
+          <img src={this.props.user.avatarImgURL + "?param=28y28"} alt="" />
+        </a>
+      );
+    } else {
+      isLogin = (
+        <a href="javascript:void(0)">
+          <span>Login</span>
+        </a>
+      );
+    }
     return (
       <header>
         <div className="header_fixed">
@@ -14,22 +47,37 @@ export default class Header extends React.Component {
               <h1>NETEASE</h1>
             </div>
             <div className="header_nav_search">
-              <a href="javascript:void(0)">
-                <span>se</span>
-              </a>
+              <span>
+                <form method="GET" onSubmit={this.submitHandler.bind(this)}>
+                  <input type="text" name="keywords" />
+                  <input type="hidden" name="limit" value="20" />
+                  <input type="hidden" name="type" value="" />
+                  <input type="hidden" name="offset" value="" />
+                </form>
+              </span>
+            </div>
+            <div className="header_nav active">
+              <a href="javascript:void(0)">DISCOVER</a>
+            </div>
+            <div className="header_nav">
+              <a href="javascript:void(0)">MINE</a>
             </div>
             <div className="header_nav">
               <a href="javascript:void(0)">FM</a>
             </div>
             <div className="header_nav">
-              <a href="javascript:void(0)">MINE</a>
+              <a href="javascript:void(0)">MV</a>
             </div>
-            <div className="header_nav active">
-              <a href="javascript:void(0)">DISCOVER</a>
-            </div>
+            <div className="header_nav_login">{isLogin}</div>
           </div>
         </div>
       </header>
     );
   }
 }
+
+const HeaderWithRouter = withRouter((history, location, match) => {
+  return <Header />;
+});
+
+export default HeaderWithRouter;

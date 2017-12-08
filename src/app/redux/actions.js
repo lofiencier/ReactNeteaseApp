@@ -185,10 +185,10 @@ export function fetchPlaylist(listId) {
   };
 }
 
-export function fetchSearchList(keywords) {
+export function fetchSearchList(params) {
   return function(dispatch) {
     dispatch({ type: "FETCHING_SEARCHLIST" });
-    fetch(`http://localhost:3000/api/search?keywords=${keywords}&limit=100`, {
+    fetch(`http://localhost:3000/api/search${params}`, {
       method: "GET",
       mode: "cors"
     })
@@ -241,10 +241,7 @@ export function login(phone, password) {
     dispatch({ type: "LOGGING" });
     fetch(
       `http://localhost:3000/login/cellphone?phone=${phone}&password=${password}`,
-      {
-        method: "GET",
-        mode: "cors"
-      }
+      fetch_config
     )
       .then(function(res) {
         return res.json();

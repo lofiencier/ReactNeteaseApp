@@ -15,12 +15,20 @@ export default class Search extends React.Component {
     this.playHandler = this.playHandler.bind(this);
   }
 
-  submitHandler(e) {
-    e.preventDefault();
-    let keywords = document.getElementById("song_name").value;
-    this.props.dispatch(fetchSearchList(keywords));
+  // componentWil
+  // submitHandler(e) {
+  //   e.preventDefault();
+  //   let keywords = document.getElementById("song_name").value;
+  //   this.props.dispatch(fetchSearchList(keywords));
+  // }
+  componentDidMount() {
+    // this.props.dispatch(fetchSearchList(this.props.location.search));
   }
-
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.search != this.props.location.search) {
+      nextProps.dispatch(fetchSearchList(nextProps.location.search));
+    }
+  }
   playHandler(e) {
     let song_id = e.currentTarget.getAttribute("data-id");
     this.props.dispatch(fetchSingleSong(song_id));
@@ -29,11 +37,6 @@ export default class Search extends React.Component {
   render() {
     return (
       <div className="root_content search">
-        <form onSubmit={this.submitHandler.bind(this)}>
-          <label htmlFor="song_name" />
-          <input type="text" id="song_name" />
-          <input type="submit" />
-        </form>
         <List
           songs={this.props.searchlist.songs}
           playHandler={this.playHandler}

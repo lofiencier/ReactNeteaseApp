@@ -37,23 +37,23 @@ body{
 	width: 100%;
 	height: 60px;
 	top:0;
-	background:rgba(0,0,0,.4);
+	background:rgba(0,0,0,.65);
 	.header_content{
 		margin:0 auto;
 		width: 1200px;
 		height: 100%;
+		font-size:12px;
 		.logo{
-			text-align: center;
 			/*background:@main;*/
 			display:block;
-			width: 220px;
+			width: 100px;
 			height: inherit;
 			float: left;
 			font-size:20px;
 		}
 
 		.header_nav{
-			float: right;
+			float: left;
 			height: inherit;
 			a{
 				color:#c3c3c3;
@@ -67,12 +67,10 @@ body{
 		.header_nav.active{
 			
 			a{
-				height:57px;
-				border-bottom: 4px solid @main;
 				color:#fff;
 			}
 		}
-		.header_nav_search{
+		.header_nav_login{
 			float: right;
 			height: inherit;
 			a{
@@ -82,7 +80,39 @@ body{
 				width: 60px;
 				height: inherit;
 				overflow: hidden;
+				img{
+					display: block;
+					margin:16px auto;
+					border-radius: 4px;
+					overflow: hidden;
+				}
 			}
+		}
+		.header_nav_search{
+			.header_nav;
+			width:200px;
+			margin:0 20px;
+			span{
+				position: relative;
+				margin:12px 0;
+				display: block;
+				border-radius: 4px;
+				background:rgba(0,0,0,.3);
+				width:100%;
+				height:36px;
+				input{
+					color:#fff;
+					position: absolute;
+					border:none;
+					outline:medium;
+					background: none;
+					width: 96%;
+					height: 100%;
+					margin-left: 4%;
+					padding: 0;
+				}
+			}
+
 		}
 	}
 }
