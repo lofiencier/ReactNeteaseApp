@@ -15,10 +15,15 @@ export default class AlbumPage extends React.Component {
     super();
     // this.playHandler = this.playHandler.bind(this);
   }
+
   componentWillMount() {
     // console.log();
     let uid = JSON.parse(localStorage.profile).userId;
     this.props.dispatch(getCollect(uid));
+    console.log(this.props.location.search);
+    this.props.dispatch(
+      fetchPlaylist("?id=" + this.props.location.search.split("=")[1], true)
+    );
     // console.log("WILL MOUNT")
   }
   componentWillReceiveProps(nextProps) {
@@ -48,14 +53,46 @@ export default class AlbumPage extends React.Component {
     let collections = this.props.user.collections;
     return (
       <div className="root_content">
-        <div className="mine_content_wrap">
+        <div className="playlist_content_wrap">
           <UserInfo
             cols={collections}
             profile={JSON.parse(localStorage.profile)}
           />
-        </div>
-        <div className="playlist_content_wrap">
-          <div className="album_list_bg" />
+          <div className="playlist_content_wrap">
+            <div className="album_list_bg">
+              <div className="album_list_wrap">
+                <span className="album_h1">
+                  DESCRIPTION<a
+                    href="javascript:void(0)"
+                    className="description_more"
+                  >
+                    MORE
+                  </a>
+                </span>
+                <div className="album_description">
+                  <p>
+                    <small>
+                      {this.props.user.curPlaylist.description
+                        ? this.props.curPlaylist.description
+                            .split("")
+                            .splice(0, 300)
+                            .join("")
+                        : "无简介"}
+                    </small>
+                  </p>
+                </div>
+
+                <List
+                  songs={
+                    this.props.user.curPlaylist
+                      ? this.props.user.curPlaylist
+                      : []
+                  }
+                  playHandler={this.playHandler}
+                />
+              </div>
+            </div>
+          </div>
         </div>
         <Blur_bg />
       </div>

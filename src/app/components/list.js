@@ -19,13 +19,13 @@ export default class List extends React.Component {
           <div className="list_col_body col-xs-4 album_user_actions">
             <a href={"/#/album?id=" + song.album.id}>{song.album.name}</a>
           </div>
-          <div className="list_col_body col-xs-2 row">
-            <a
-              href={"/#/mv?mvid=" + song.mvid}
-              className="col-xs-3"
-              style={song.mvid ? { display: "block" } : { display: "none" }}
-            >
-              M{" "}
+          <div className="list_col_body actions col-xs-2 row">
+            <a href="#" className="col-xs-3">
+              +
+            </a>
+
+            <a href="#" className="col-xs-3">
+              D&nbsp;
             </a>
             <a
               href="javascript:void(0)"
@@ -36,11 +36,12 @@ export default class List extends React.Component {
             >
               &nbsp;P
             </a>
-            <a href="#" className="col-xs-3">
-              D&nbsp;
-            </a>
-            <a href="#" className="col-xs-3">
-              +
+            <a
+              href={"/#/mv?mvid=" + song.mvid}
+              className="col-xs-3"
+              style={song.mvid ? { display: "block" } : { display: "none" }}
+            >
+              M{" "}
             </a>
           </div>
         </div>
