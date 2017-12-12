@@ -9,6 +9,7 @@ import IndexPage from "../pages/index";
 import Header from "../components/Header";
 import Playbox from "../components/Playbox";
 import FM from "../components/FM";
+import Mine from "../pages/mine";
 // import MV from "../pages"
 export class Routers extends React.Component {
   render() {
@@ -25,6 +26,7 @@ export class Routers extends React.Component {
             <Route path="/login" component={Login} />
             <Route path="/playlist" component={Playlist} />
             <Route path="/album" component={Album} />
+            <Route path="/mine" component={Mine} />
           </Switch>
         </main>
       </HashRouter>

@@ -4,6 +4,11 @@ const fetch_config = {
   credentials: "include"
 };
 
+export function cookie_alive() {
+  return function(dispatch) {
+    dispatch({ type: "COOKIE_ALIVE" });
+  };
+}
 export function unshift_song_list(song_id) {
   return function(dispatch) {
     fetch(`http://localhost:3000/song/detail?ids=${song_id}`, fetch_config)
@@ -123,9 +128,8 @@ export function unShiftSongId(song_id) {
 }
 
 //歌单route
-export function fetchPlaylist(listId) {
+export function fetchPlaylist(listId, notRoute) {
   return function(dispatch) {
-    dispatch({ type: "FETCHING_PLAYLIST" });
     fetch(`http://localhost:3000/playlist/detail${listId}`, {
       method: "GET",
       mode: "cors"
@@ -168,19 +172,22 @@ export function fetchPlaylist(listId) {
             album: al
           };
         });
-
-        dispatch({
-          type: "RECIEVE_PLAYLIST",
-          name: name,
-          playCount: playCount,
-          coverImgUrl: coverImgUrl,
-          creator: creator,
-          songs: tracks,
-          songCount: trackCount
-        });
-      })
-      .catch(function(err) {
-        dispatch({ type: "FETCH_PLAYLIST_FAILED", err: err });
+        if (notRoute) {
+          dispatch({
+            type: "RECIEVE_PLAYLIST_NOT_ROUTE",
+            songs: tracks
+          });
+        } else {
+          dispatch({
+            type: "RECIEVE_PLAYLIST",
+            name: name,
+            playCount: playCount,
+            coverImgUrl: coverImgUrl,
+            creator: creator,
+            songs: tracks,
+            songCount: trackCount
+          });
+        }
       });
   };
 }
@@ -258,10 +265,7 @@ export function login(phone, password) {
 export function getCollect(uid) {
   return function(dispatch) {
     dispatch({ type: "FETCHING_USER_COLLECTION" });
-    fetch(`http://localhost:3000/user/playlist?uid=${uid}`, {
-      method: "GET",
-      mode: "cors"
-    })
+    fetch(`http://localhost:3000/user/playlist?uid=${uid}`, fetch_config)
       .then(function(res) {
         return res.json();
       })

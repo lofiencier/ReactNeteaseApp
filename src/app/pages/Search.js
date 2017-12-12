@@ -22,7 +22,7 @@ export default class Search extends React.Component {
   //   this.props.dispatch(fetchSearchList(keywords));
   // }
   componentDidMount() {
-    // this.props.dispatch(fetchSearchList(this.props.location.search));
+    this.props.dispatch(fetchSearchList(this.props.location.search));
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.search != this.props.location.search) {

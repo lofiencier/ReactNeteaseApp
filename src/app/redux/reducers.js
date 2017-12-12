@@ -4,12 +4,28 @@ import initialState from "./initialState";
 export default combineReducers({
   searchlist: searchlistReducer,
   Playbox: PlayboxReducer,
-  user: userReducer,
   playlist: playlistReducer,
   album: albumReducer,
-  artist: artistReducer
+  artist: artistReducer,
+  user: userReducer
 });
 
+export function userReducer(state = initialState, action) {
+  switch (action.type) {
+    case "COOKIE_ALIVE": {
+      state = { ...state, loged: true };
+      break;
+    }
+    case "RECIVED_USER_COLLECTION": {
+      state = { ...state, collections: action.playlist };
+      break;
+    }
+    case "RECIEVE_PLAYLIST_NOT_ROUTE": {
+      state = { ...state, curPlaylist: action.songs };
+    }
+  }
+  return state;
+}
 export function albumReducer(state = initialState, action) {
   switch (action.type) {
     case "FETCHING_ALBUMLIST": {
@@ -156,44 +172,6 @@ export function searchlistReducer(state = initialState, action) {
     }
     case "FETCH_SEARCHLIST_FAILED": {
       state = { ...state, fetching: false, fetched: false, err: action.err };
-      break;
-    }
-  }
-  return state;
-}
-
-export function userReducer(state = initialState, action) {
-  switch (action.type) {
-    case "LOGGING": {
-      state = { ...state };
-      break;
-    }
-    case "LOGED": {
-      state = {
-        ...state,
-        isLoged: true,
-        userId: action.data.profile.userId,
-        avatarImgURL: action.data.profile.avatarUrl,
-        nickname: action.data.profile.nickname,
-        signature: action.data.profile.signature,
-        info: action.data
-      };
-      break;
-    }
-    case "LOG_REJECTED": {
-      state = { ...state, isLoged: false, loginErr: action.err };
-      break;
-    }
-    case "FETCHING_USER_COLLECTION": {
-      state = { ...state };
-      break;
-    }
-    case "RECIVED_USER_COLLECTION": {
-      state = { ...state, collection: action.playlist };
-      break;
-    }
-    case "FETCH_USER_COLLECTION_REJECTED": {
-      state = { ...state, collection_err: action.err };
       break;
     }
   }

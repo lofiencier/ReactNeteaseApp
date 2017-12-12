@@ -1,6 +1,8 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import LoginBox from "./loginbox";
 
 @connect(store => {
   return {
@@ -10,8 +12,14 @@ import { connect } from "react-redux";
 export class Header extends React.Component {
   constructor() {
     super();
+    // this.state={
+    //   location:location
+    // }
   }
-
+  popUpLogin() {
+    document.querySelectorAll(".loginbox_root_content")[0].style.display =
+      "block";
+  }
   submitHandler(e) {
     e = e || window.event;
     e.preventDefault();
@@ -24,17 +32,22 @@ export class Header extends React.Component {
     console.log(location, history);
     location.assign(`#/search?keywords=${keywords}&limit=${limit}`);
   }
+  componentWillReceiveProps(nextProps) {
+    // console.log(location);
+  }
   render() {
     var isLogin;
-    if (this.props.user.isLoged) {
+    if (localStorage.loged) {
+      let avatarUrl = JSON.parse(localStorage.profile).avatarUrl;
+      let uid = JSON.parse(localStorage.profile).userId;
       isLogin = (
-        <a href="#/user?id=0">
-          <img src={this.props.user.avatarImgURL + "?param=28y28"} alt="" />
+        <a href={"#/mine"}>
+          <img src={avatarUrl + "?param=28y28"} alt="" />
         </a>
       );
     } else {
       isLogin = (
-        <a href="javascript:void(0)">
+        <a href="javascript:void(0)" onClick={this.popUpLogin}>
           <span>Login</span>
         </a>
       );
@@ -44,12 +57,14 @@ export class Header extends React.Component {
         <div className="header_fixed">
           <div className="header_content">
             <div className="logo">
-              <h1>NETEASE</h1>
+              <h1>
+                <Link to="/">NETEASE</Link>
+              </h1>
             </div>
             <div className="header_nav_search">
               <span>
                 <form method="GET" onSubmit={this.submitHandler.bind(this)}>
-                  <input type="text" name="keywords" />
+                  <input type="text" name="keywords" autoComplete="off" />
                   <input type="hidden" name="limit" value="20" />
                   <input type="hidden" name="type" value="" />
                   <input type="hidden" name="offset" value="" />
@@ -71,6 +86,7 @@ export class Header extends React.Component {
             <div className="header_nav_login">{isLogin}</div>
           </div>
         </div>
+        <LoginBox />
       </header>
     );
   }

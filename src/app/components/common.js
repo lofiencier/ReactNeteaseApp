@@ -1,6 +1,69 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+export class Album_hoz extends React.Component {
+  render() {
+    return (
+      <div className="user_collections_item">
+        <Link to={"/mine?playlist=" + this.props.id}>
+          <div className="item_cover">
+            <img src={this.props.url + "?param=38y38"} alt="" />
+          </div>
+          <div className="item_info">
+            <p>{this.props.name}</p>
+            <small>{this.props.count}</small>
+          </div>
+        </Link>
+      </div>
+    );
+  }
+}
+
+export class UserInfo extends React.Component {
+  render() {
+    let i = this.props.cols;
+    let lis = <span>LOADING...</span>;
+    if (i) {
+      lis = i.map((playlist, index) => {
+        return (
+          <Album_hoz
+            key={index}
+            id={playlist.playlistId}
+            name={playlist.playlistName}
+            count={playlist.trackCount}
+            url={playlist.coverImgUrl}
+          />
+        );
+      });
+    }
+    return (
+      <div className="user_root_content">
+        <div className="userinfo_wrap">
+          <div className="avatar">
+            <img src={this.props.profile.avatarUrl + "?param=80y80"} alt="" />
+          </div>
+          <div className="user_info">
+            <p>Name</p>
+            <div className="social_info row">
+              <span className="social_info_deltail col-xs-4">
+                NES<br />1
+              </span>
+              <span className="social_info_deltail col-xs-4">
+                FOLLOW<br />3
+              </span>
+              <span className="social_info_deltail col-xs-4">
+                FANS<br />2
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="user_collections_wrap">
+          <div className="user_collections">{lis}</div>
+        </div>
+      </div>
+    );
+  }
+}
 export class InfoBox extends React.Component {
   render() {
     return (
@@ -104,7 +167,7 @@ export class Recommand extends React.Component {
           <Album
             key={song.id}
             playlistId={song.id}
-            coverUrl={song.picUrl}
+            coverUrl={song.picUrl + "?param=170y170"}
             albumName={song.name}
             albumPlayCount={playCount}
           />
@@ -308,6 +371,32 @@ export class PlayboxList extends React.Component {
         }}
       >
         <div className="playbox_lit_wrap">{els}</div>
+      </div>
+    );
+  }
+}
+
+export class LoginBox extends React.Component {
+  render() {
+    return (
+      <div className="loginbox_root_content">
+        <form method="GET" onSubmit={this.props.submitHandler}>
+          <input
+            type="text"
+            placeholder="enter your cellphone"
+            name="cellphone"
+          />
+          <label htmlFor="cellphone">PHONE:</label>
+          <input
+            type="text"
+            placeholder="enter your password"
+            name="password"
+          />
+          <label htmlFor="password">PASSWORD:</label>
+          <input type="radio" value="false" name="remember" />
+          <label htmlFor="remenber" />
+          <input type="submit" value="SUBMIT" />
+        </form>
       </div>
     );
   }

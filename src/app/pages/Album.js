@@ -8,7 +8,6 @@ import {
 } from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
-import Header from "../components/Header";
 import { Album, Album_info, Blur_bg, HotAlbums } from "../components/common";
 
 @connect(store => {

@@ -25,18 +25,6 @@ function initialState() {
       fmList: [],
       fm_preload: []
     },
-    user: {
-      isLoged: false,
-      userId: NaN,
-      userCookie: null,
-      avatarImgURL: "",
-      nickname: "",
-      signature: "",
-      info: [],
-      loginErr: null,
-      collection: [],
-      collection_err: null
-    },
     playlist: {
       fetching: false,
       fetched: false,
@@ -63,6 +51,11 @@ function initialState() {
       fetched: false,
       err: null,
       data: []
+    },
+    user: {
+      loged: false,
+      collections: [],
+      curPlaylist: []
     }
   };
 }
