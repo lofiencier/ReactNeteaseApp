@@ -67,7 +67,8 @@ export function playlistReducer(state = initialState, action) {
         coverImgUrl: action.coverImgUrl,
         creator: action.creator,
         songCount: action.songCount,
-        songs: action.songs
+        songs: action.songs,
+        description: action.description
       };
       break;
     }

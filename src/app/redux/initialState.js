@@ -32,6 +32,7 @@ function initialState() {
       name: "",
       playCount: NaN,
       coverImgUrl: "",
+      description: "",
       creator: {},
       songs: [],
       songCount: NaN,

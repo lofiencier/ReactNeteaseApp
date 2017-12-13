@@ -2,7 +2,8 @@ import React from "react";
 import List from "../components/list";
 import { connect } from "react-redux";
 import { fetchSearchList, fetchSingleSong } from "../redux/actions";
-
+import StackBlur from "stackblur-canvas";
+import { Blur_bg, Pagination } from "../components/common";
 @connect(store => {
   return {
     searchlist: store.searchlist,
@@ -37,10 +38,16 @@ export default class Search extends React.Component {
   render() {
     return (
       <div className="root_content search">
-        <List
-          songs={this.props.searchlist.songs}
-          playHandler={this.playHandler}
-        />
+        <div className="search_content_wrap">
+          <div className="content_wrap">
+            <List
+              songs={this.props.searchlist.songs}
+              playHandler={this.playHandler}
+            />
+            <Pagination total={200} offset={2} limit={20} />
+          </div>
+        </div>
+        <Blur_bg />
       </div>
     );
   }

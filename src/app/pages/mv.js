@@ -20,14 +20,18 @@ export default class MV extends React.Component {
   }
   mvplay() {
     let that = this;
-    fetch(this.state.urls[1], { method: "GET", mode: "cros" })
+    fetch(this.state.urls["480"], {
+      method: "GET",
+      mode: "cros",
+      headers: { "Content-type": "video/mp4" }
+    })
       .then(res => res.blob())
       .then(blobData => {
         console.log(URL.createObjectURL(blobData));
         document.querySelector("#mv_video").src = URL.createObjectURL(blobData);
         this.setState({ isPlaying: true });
         // this.play();
-        // document.querySelector("#mv_video").play();
+        document.querySelector("#mv_video").play();
       });
   }
   componentDidMount() {

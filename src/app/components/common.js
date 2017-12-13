@@ -288,7 +288,11 @@ export class HotAlbums extends React.Component {
         subType={album.subType}
       />
     ));
-    return <div className="artist_hot_albums">{ele}</div>;
+    return (
+      <div className="artist_hot_albums">
+        <div className="hot_album_wrap">{ele}</div>
+      </div>
+    );
   }
 }
 
@@ -397,6 +401,34 @@ export class LoginBox extends React.Component {
           <label htmlFor="remenber" />
           <input type="submit" value="SUBMIT" />
         </form>
+      </div>
+    );
+  }
+}
+
+export class Pagination extends React.Component {
+  render() {
+    let total = this.props.total;
+    let limit = this.props.limit;
+    let offset = this.props.offset;
+    let pagesum = parseInt(total / limit) + 1;
+    let lis = [];
+    for (let i = 0; i < pagesum - 1; i++) {
+      lis.push(
+        <div className="pagination_child" key={i}>
+          <a href="javascript:void(0)">{i + 1}</a>
+        </div>
+      );
+    }
+    return (
+      <div className="pagination_content">
+        <div className="pagination_child_action">
+          <a href="javascript:void(0)">PREV</a>
+        </div>
+        {lis}
+        <div className="pagination_child_action">
+          <a href="javascript:void(0)">NEXT</a>
+        </div>
       </div>
     );
   }

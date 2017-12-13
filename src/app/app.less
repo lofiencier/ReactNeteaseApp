@@ -410,45 +410,50 @@ body{
 			.artist_hot_albums{
 				width:100%;
 				height: auto;
-				.album_cover_bg{
-					margin-right: 10px;
-					float:left;
-					.album_cover_bg_href{
-						display: block;
-						width:140px;
-						height: 180px;
-						.album_cover{
-							width: 100%;
-							height: 140px;
-							border-radius: 4px;
-							background: @border;
-							border:1px solid @border;
-							position: relative;
-							img{
-								display:block;
-								width:100%;
-								height: auto;
-							}
-							.album_info_subType{
-								position:absolute;
+				overflow: hidden;
+				.hot_album_wrap{
+					width: 110%;
+					height: auto;
+					.album_cover_bg{
+						margin-right: 25px;
+						float:left;
+						.album_cover_bg_href{
+							display: block;
+							width:140px;
+							height: 180px;
+							.album_cover{
 								width: 100%;
-								height: 20px;
-								background:rgba(0,0,0,.4);
-								bottom:0;
-								color:#fff;
-								span{
-									margin:0 8px;
-									font-size:12px;
-									line-height: 100%;
+								height: 140px;
+								border-radius: 4px;
+								background: @border;
+								border:1px solid @border;
+								position: relative;
+								img{
+									display:block;
+									width:100%;
+									height: auto;
+								}
+								.album_info_subType{
+									position:absolute;
+									width: 100%;
+									height: 20px;
+									background:rgba(0,0,0,.4);
+									bottom:0;
+									color:#fff;
+									span{
+										margin:0 8px;
+										font-size:12px;
+										line-height: 100%;
+									}
 								}
 							}
-						}
-						.album_info{
-							position:relative;
-							margin:10px 0;
-							width: 100%;
-							height: auto;
-							font-size:12px;
+							.album_info{
+								position:relative;
+								margin:10px 0;
+								width: 100%;
+								height: auto;
+								font-size:12px;
+							}
 						}
 					}
 				}
@@ -794,10 +799,47 @@ body{
 	}
 }
 
-#mv_video{
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	z-index: 98;
+.search_content_wrap{
+	width: 1200px;
+	height: auto;
+	margin:0 auto;
+	background: #fff;
+	.content_wrap{
+		overflow: hidden;
+		width: 1120px;
+		height: auto;
+		margin:40px auto;
+	}
+
+}
+
+.pagination_content{
+	width: 480px;
+	height: 32px;
+	margin: 80px auto;
+	background: #f3f3f3;
+	.pagination_child{
+		width: 32px;
+		height: 32px;
+		float: left;
+		a{
+			width: 100%;
+			height: 100%;
+			display: block;
+			text-align: center;
+			line-height: 32px;
+		}
+	}
+	.pagination_child_action{
+		width: 64px;
+		height: 32px;
+		float: left;
+		a{
+			display: block;
+			width: 100%;
+			height: 100%;
+			text-align: center;
+			line-height: 32px;
+		}
+	}
 }

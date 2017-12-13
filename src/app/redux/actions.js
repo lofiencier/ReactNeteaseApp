@@ -144,7 +144,8 @@ export function fetchPlaylist(listId, notRoute) {
           coverImgUrl,
           creator,
           trackCount,
-          tracks
+          tracks,
+          description
         } = data.playlist;
         tracks = tracks.map(song => {
           let { id, name, mv, dt, al, ar } = song;
@@ -185,7 +186,8 @@ export function fetchPlaylist(listId, notRoute) {
             coverImgUrl: coverImgUrl,
             creator: creator,
             songs: tracks,
-            songCount: trackCount
+            songCount: trackCount,
+            description: description
           });
         }
       });
