@@ -3,7 +3,8 @@ import List from "../components/list";
 import { connect } from "react-redux";
 import { fetchSearchList, fetchSingleSong } from "../redux/actions";
 import StackBlur from "stackblur-canvas";
-import { Blur_bg, Pagination } from "../components/common";
+import { Blur_bg } from "../components/common";
+// import { Pagination } from 'antd';
 @connect(store => {
   return {
     searchlist: store.searchlist,
@@ -22,6 +23,7 @@ export default class Search extends React.Component {
   //   let keywords = document.getElementById("song_name").value;
   //   this.props.dispatch(fetchSearchList(keywords));
   // }
+  onChange() {}
   componentDidMount() {
     this.props.dispatch(fetchSearchList(this.props.location.search));
   }
@@ -44,7 +46,7 @@ export default class Search extends React.Component {
               songs={this.props.searchlist.songs}
               playHandler={this.playHandler}
             />
-            <Pagination total={200} offset={2} limit={20} />
+            {/*<Pagination showQuickJumper defaultCurrent={2} total={500} onChange={this.onChange} />*/}
           </div>
         </div>
         <Blur_bg />

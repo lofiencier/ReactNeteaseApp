@@ -407,28 +407,58 @@ export class LoginBox extends React.Component {
 }
 
 export class Pagination extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      index: 0
+    };
+  }
+  changeIndex(e) {
+    e = e || window.event();
+    // console.log();
+    this.setState({ index: parseInt(e.target.getAttribute("data-i")) });
+  }
+
   render() {
     let total = this.props.total;
     let limit = this.props.limit;
     let offset = this.props.offset;
-    let pagesum = parseInt(total / limit) + 1;
+    let pagesum = Math.ceil(total / limit);
     let lis = [];
-    for (let i = 0; i < pagesum - 1; i++) {
+    let zdots = <span className="zdots">...</span>;
+    for (let i = 0; i < 9; i++) {
       lis.push(
-        <div className="pagination_child" key={i}>
-          <a href="javascript:void(0)">{i + 1}</a>
-        </div>
+        <a
+          href="javascript:void(0)"
+          className={
+            this.state.index == i
+              ? "pagination_index active"
+              : "pagination_index"
+          }
+          data-i={i}
+          key={i}
+        >
+          {this.state.index + 1}
+        </a>
       );
     }
     return (
-      <div className="pagination_content">
-        <div className="pagination_child_action">
-          <a href="javascript:void(0)">PREV</a>
-        </div>
+      <div className="pagination_content" onClick={this.changeIndex.bind(this)}>
+        <a
+          href="javascript:void(0)"
+          className="pagination_action"
+          data-i={this.state.index - 1}
+        >
+          上一页
+        </a>
         {lis}
-        <div className="pagination_child_action">
-          <a href="javascript:void(0)">NEXT</a>
-        </div>
+        <a
+          href="javascript:void(0)"
+          className="pagination_action"
+          data-i={this.state.index + 1}
+        >
+          下一页
+        </a>
       </div>
     );
   }

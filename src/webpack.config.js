@@ -28,7 +28,7 @@ module.exports = {
       {
         test: /(\.css|\.less)$/,
         use: ["style-loader", "css-loader", "less-loader"],
-        exclude: /node_modules/
+        include: "/node_modules/antd/dist/"
       },
       {
         test: /.(png|svg|jpg|gif)$/,

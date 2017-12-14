@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { setCookie, getCookie, delCookie } from "../utils/cookies";
+import { setCookie, getCookie, delCookie } from "../utils/common";
 import { cookie_alive } from "../redux/actions";
 
 @connect(store => {
