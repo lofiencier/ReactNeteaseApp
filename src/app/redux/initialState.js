@@ -9,7 +9,8 @@ function initialState() {
       fetched: false,
       err: null,
       songs: [],
-      songCount: NaN
+      songCount: 0,
+      offset: 1
     },
     Playbox: {
       AudioDom: AudioDom,

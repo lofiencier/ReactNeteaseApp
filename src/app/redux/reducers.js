@@ -167,7 +167,8 @@ export function searchlistReducer(state = initialState, action) {
         fetching: false,
         fetched: true,
         songs: action.songs,
-        songCount: action.songCount
+        songCount: action.songCount,
+        offset: action.offset
       };
       break;
     }

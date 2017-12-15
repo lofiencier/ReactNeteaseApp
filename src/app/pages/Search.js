@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { fetchSearchList, fetchSingleSong } from "../redux/actions";
 import StackBlur from "stackblur-canvas";
 import { Blur_bg } from "../components/common";
-// import { Pagination } from 'antd';
+import { Pagination } from "antd";
 @connect(store => {
   return {
     searchlist: store.searchlist,
@@ -23,13 +23,16 @@ export default class Search extends React.Component {
   //   let keywords = document.getElementById("song_name").value;
   //   this.props.dispatch(fetchSearchList(keywords));
   // }
-  onChange() {}
+  onChange(page, pageSize) {
+    // console.log(page);
+    this.props.dispatch(fetchSearchList(this.props.location.search, page));
+  }
   componentDidMount() {
-    this.props.dispatch(fetchSearchList(this.props.location.search));
+    this.props.dispatch(fetchSearchList(this.props.location.search, 1));
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.search != this.props.location.search) {
-      nextProps.dispatch(fetchSearchList(nextProps.location.search));
+      nextProps.dispatch(fetchSearchList(nextProps.location.search, 1));
     }
   }
   playHandler(e) {
@@ -46,7 +49,15 @@ export default class Search extends React.Component {
               songs={this.props.searchlist.songs}
               playHandler={this.playHandler}
             />
-            {/*<Pagination showQuickJumper defaultCurrent={2} total={500} onChange={this.onChange} />*/}
+            <div className="pagination_wrap">
+              <Pagination
+                showQuickJumper
+                current={this.props.searchlist.offset}
+                total={this.props.searchlist.songCount}
+                defaultPageSize={30}
+                onChange={this.onChange.bind(this)}
+              />
+            </div>
           </div>
         </div>
         <Blur_bg />

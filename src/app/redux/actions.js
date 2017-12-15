@@ -194,10 +194,11 @@ export function fetchPlaylist(listId, notRoute) {
   };
 }
 
-export function fetchSearchList(params) {
+export function fetchSearchList(keywords, page) {
+  page = page || 1;
   return function(dispatch) {
     dispatch({ type: "FETCHING_SEARCHLIST" });
-    fetch(`http://localhost:3000/api/search${params}`, {
+    fetch(`http://localhost:3000/api/search${keywords}&&offset=${page}`, {
       method: "GET",
       mode: "cors"
     })
@@ -205,6 +206,7 @@ export function fetchSearchList(params) {
         return res.json();
       })
       .then(function(data) {
+        console.log("songcount:", data.result.songCount);
         let songCount = data.result.songCount;
         let songs = data.result.songs;
         songs = songs.map(song => {
@@ -236,7 +238,8 @@ export function fetchSearchList(params) {
         dispatch({
           type: "RECIEVE_SEARCHLIST",
           songs: songs,
-          songCount: songCount
+          songCount: songCount,
+          offset: page
         });
       })
       .catch(function(err) {

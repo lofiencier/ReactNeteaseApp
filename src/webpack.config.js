@@ -21,14 +21,18 @@ module.exports = {
         use: {
           loader: "babel-loader"
         },
-        exclude: /node_modules/ //include/exclude:手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）；
+        exclude: /node_modules/
+        //include/exclude:手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）；
+        // include:[
+        //   path.resolve(__dirname,"app"),
+        //   path.resolve(__dirname,"../public/node_modules/antd/dist/")
+        // ]
         //这里还有一个可选参数，query:xxx?
         //例如option:{xxx}??
       },
       {
         test: /(\.css|\.less)$/,
-        use: ["style-loader", "css-loader", "less-loader"],
-        include: "/node_modules/antd/dist/"
+        use: ["style-loader", "css-loader", "less-loader"]
       },
       {
         test: /.(png|svg|jpg|gif)$/,

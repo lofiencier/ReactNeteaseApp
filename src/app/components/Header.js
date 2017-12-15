@@ -29,8 +29,7 @@ export class Header extends React.Component {
     let limit = target.limit.value;
     let type = target.type.value;
     // this.props.dispatch()
-    console.log(location, history);
-    location.assign(`#/search?keywords=${keywords}&limit=${limit}`);
+    location.assign(`#/search?keywords=${keywords}`);
   }
   componentWillReceiveProps(nextProps) {
     // console.log(location);
