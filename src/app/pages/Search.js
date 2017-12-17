@@ -1,9 +1,8 @@
 import React from "react";
-import List from "../components/list";
 import { connect } from "react-redux";
 import { fetchSearchList, fetchSingleSong } from "../redux/actions";
 import StackBlur from "stackblur-canvas";
-import { Blur_bg } from "../components/common";
+import { Blur_bg, List } from "../components/common";
 import { Pagination } from "antd";
 @connect(store => {
   return {

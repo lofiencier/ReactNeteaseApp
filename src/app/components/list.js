@@ -50,7 +50,10 @@ export default class List extends React.Component {
     return (
       <div className="list_table">
         <div className="list_body">
-          <div className="list_row_head row">
+          <div
+            className="list_row_head row"
+            style={this.props.show ? { display: "none" } : { display: "block" }}
+          >
             <div className="list_col_head col-xs-3 col-xs-offset-1">NAME</div>
             <div className="list_col_head col-xs-1">ARITIST</div>
             <div className="list_col_head col-xs-1">DUR</div>

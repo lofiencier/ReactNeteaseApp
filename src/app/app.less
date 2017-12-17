@@ -137,8 +137,11 @@ body{
 		width: 1300px;
 		margin-bottom: 100px;
 		.feather_title{
-			font-size:28px;
-			margin:40px 0;
+			color:#333;
+			font-weight: bold;
+			font-size:20px;
+			line-height: 60px;
+			margin:10px 0;
 		}
 		height: 220px;
 		
@@ -817,4 +820,111 @@ body{
 	/*width: */
 	text-align: center;
 	margin:40px 0;
+}
+
+.day_recommand{
+	width:100%;
+	height: 420px;
+	background:#101010;
+	color:#9a9a9a;
+	a{
+		color: #9a9a9a;
+	}
+	
+	.day_recommand_wrap{
+		width: 1200px;
+		height: 100%;
+		margin:0 auto;
+		background:url("/static/images/dayly.jpg");
+		overflow:hidden;
+
+		.list_table{
+			width: 1310px;
+			margin:20px 0;
+			border:none;
+			border-radius: none;
+			.list_row{
+				background: rgba(0,0,0,.3);
+				&:hover{
+					background:rgba(0,0,0,.8);
+					color: #fff;
+					a{
+						color: #fff;
+					}
+				};
+			}
+		}
+	}
+	.index_title{
+	h1{
+		font-size:20px;
+		font-weight: bold;
+		line-height: 60px;
+		color:#fff;
+		display: inline-block;
+		margin: 10px 0;
+		a{
+			color:#fff;
+		}
+		&:hover::after{
+			content: "";
+			padding: 0 13px;
+			background:#fff;
+			cursor: pointer;
+		};
+	}
+	p{
+		font-size:14px;
+		color:#555;
+	}
+}
+}
+
+.index_hot_albums{
+	.album_info_subType{
+				display:block;
+				width: 100%;
+				height: 20px;
+				background:rgba(0,0,0,.4);
+				position:absolute;
+				bottom:0;
+				z-index: 10;
+				span{
+					padding:0 8px;
+					font-size:12px;
+					color:#fff;
+				}
+			}
+
+	.index_title{
+		a{
+			color:@font1;
+			&:hover::after{
+				content: "";
+				padding: 0 13px;
+				background:@main;
+				cursor: pointer;
+			};
+		}
+	}
+}
+
+
+.index_boutique{
+	.index_title{
+		.feather_title{
+			/*display: inline-block;*/
+			float: left;
+
+		}
+		.boutique_radio_group{
+			float: left;
+			line-height: 60px;
+			margin:10px 20px;
+			
+		}
+	}
+	.clear_both{
+		clear:both;
+	}
 }

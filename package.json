@@ -19,22 +19,22 @@
   "author": "",
   "license": "MIT",
   "babel": {
-      "presets": [
-        "react",
-        "es2015",
-        "stage-0"
-      ],
-      "plugins": [
-        "babel-plugin-transform-decorators-legacy",
-        [
-          "import",
-          {
-            "libraryName": "antd",
-            "style": "true"
-          }
-        ]
+    "presets": [
+      "react",
+      "es2015",
+      "stage-0"
+    ],
+    "plugins": [
+      "babel-plugin-transform-decorators-legacy",
+      [
+        "import",
+        {
+          "libraryName": "antd",
+          "style": true
+        }
       ]
-    },
+    ]
+  },
   "dependencies": {
     "apicache": "^0.9.0",
     "big-integer": "^1.6.17",

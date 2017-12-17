@@ -1,5 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Radio } from "antd";
+
+const fetch_config = {
+  method: "GET",
+  mode: "cors",
+  credentials: "include"
+};
 
 export class Album_hoz extends React.Component {
   render() {
@@ -176,7 +183,9 @@ export class Recommand extends React.Component {
       return (
         <div className="recommand_playlist">
           <div className="recommand_wrap">
-            <p className="feather_title">New Releast For You</p>
+            <div className="index_title">
+              <p className="feather_title">NEW RELEAST FOR YOU</p>
+            </div>
             {lis}
           </div>
         </div>
@@ -461,5 +470,380 @@ export class Pagination extends React.Component {
         </a>
       </div>
     );
+  }
+}
+
+export class Day extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      view: [],
+      list: []
+    };
+  }
+  componentWillMount() {
+    fetch(`//localhost:3000/recommend/songs`, fetch_config)
+      .then(res => res.json())
+      .then(data => {
+        data = data.recommend;
+        data = data.map(i => {
+          let { duration } = i;
+          duration =
+            parseInt(duration / 1000 / 60).toString() +
+            ":" +
+            (((duration / 1000) % 60) / 100)
+              .toString()
+              .split("")
+              .slice(2, 4)
+              .join("");
+          return { ...i, duration };
+        });
+        this.setState({ list: data });
+        // let {name,id,duration,artist,album}
+      });
+  }
+  componentWillReceiveProps(nextState) {
+    if (this.state.list != nextState.list) {
+    }
+  }
+  render() {
+    var lis = [];
+    if (this.props.loged) {
+      if (this.state.list.length != 0) {
+        // this.setState();
+        lis = (
+          <ListFloat
+            noHead={true}
+            songs={this.state.list}
+            playHandler={this.playHandler}
+          />
+        );
+      } else {
+        lis = <h1>Loading...</h1>;
+      }
+      return (
+        <div className="day_recommand">
+          <div className="day_recommand_wrap">
+            <div className="index_title">
+              <h1>
+                <a href="javascript:void(0)">DAILY</a>
+              </h1>
+            </div>
+            {lis}
+          </div>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+}
+
+export class ListFloat extends React.Component {
+  constructor() {
+    super();
+  }
+  componendidUpdate() {}
+
+  render() {
+    let lists = this.props.songs.map((song, index) => {
+      return (
+        <div
+          className="list_row row col-xs-5 col-xs-offset-1-right"
+          key={index}
+        >
+          <div className="list_col_body col-xs-4 list_col_name">
+            <span>{index + 1}</span>
+            {song.name}
+          </div>
+          <div className="list_col_body col-xs-1">{song.artists[0].name}</div>
+          <div className="list_col_body col-xs-1">{song.duration}</div>
+          <div className="list_col_body col-xs-4 album_user_actions">
+            <a href={"/#/album?id=" + song.album.id}>{song.album.name}</a>
+          </div>
+          <div className="list_col_body actions col-xs-2 row">
+            <a href="#" className="col-xs-3">
+              +
+            </a>
+
+            <a href="#" className="col-xs-3">
+              D&nbsp;
+            </a>
+            <a
+              href="javascript:void(0)"
+              onClick={this.props.playHandler}
+              data-id={song.id}
+              data-i={index}
+              className="col-xs-3"
+            >
+              &nbsp;P
+            </a>
+            <a
+              href={"/#/mv?mvid=" + song.mvid}
+              className="col-xs-3"
+              style={song.mvid ? { display: "block" } : { display: "none" }}
+            >
+              M{" "}
+            </a>
+          </div>
+        </div>
+      );
+    });
+    return (
+      <div className="list_table">
+        <div className="list_body">
+          <div
+            className="list_row_head row"
+            style={
+              this.props.noHead ? { display: "none" } : { display: "block" }
+            }
+          >
+            <div className="list_col_head col-xs-3 col-xs-offset-1">NAME</div>
+            <div className="list_col_head col-xs-1">ARITIST</div>
+            <div className="list_col_head col-xs-1">DUR</div>
+            <div className="list_col_head col-xs-4">AL</div>
+            <div className="list_col_head col-xs-2">ACTIONS</div>
+          </div>
+          {lists}
+        </div>
+      </div>
+    );
+  }
+}
+
+export class List extends React.Component {
+  constructor() {
+    super();
+  }
+  componendidUpdate() {}
+
+  render() {
+    let lists = this.props.songs.map((song, index) => {
+      return (
+        <div className="list_row row" key={index}>
+          <div className="list_col_body col-xs-4 list_col_name">
+            <span>{index + 1}</span>
+            {song.name}
+          </div>
+          <div className="list_col_body col-xs-1">{song.artists[0].name}</div>
+          <div className="list_col_body col-xs-1">{song.duration}</div>
+          <div className="list_col_body col-xs-4 album_user_actions">
+            <a href={"/#/album?id=" + song.album.id}>{song.album.name}</a>
+          </div>
+          <div className="list_col_body actions col-xs-2 row">
+            <a href="#" className="col-xs-3">
+              +
+            </a>
+
+            <a href="#" className="col-xs-3">
+              D&nbsp;
+            </a>
+            <a
+              href="javascript:void(0)"
+              onClick={this.props.playHandler}
+              data-id={song.id}
+              data-i={index}
+              className="col-xs-3"
+            >
+              &nbsp;P
+            </a>
+            <a
+              href={"/#/mv?mvid=" + song.mvid}
+              className="col-xs-3"
+              style={song.mvid ? { display: "block" } : { display: "none" }}
+            >
+              M{" "}
+            </a>
+          </div>
+        </div>
+      );
+    });
+    return (
+      <div className="list_table">
+        <div className="list_body row">
+          <div
+            className="list_row_head row"
+            style={
+              this.props.noHead ? { display: "none" } : { display: "block" }
+            }
+          >
+            <div className="list_col_head col-xs-3 col-xs-offset-1">NAME</div>
+            <div className="list_col_head col-xs-1">ARITIST</div>
+            <div className="list_col_head col-xs-1">DUR</div>
+            <div className="list_col_head col-xs-4">AL</div>
+            <div className="list_col_head col-xs-2">ACTIONS</div>
+          </div>
+          {lists}
+        </div>
+      </div>
+    );
+  }
+}
+
+export class TopAlbum extends React.Component {
+  constructor() {
+    super();
+    this.fetchHandler = this.fetchHandler.bind(this);
+    this.state = {
+      result: []
+    };
+  }
+  componentWillMount() {
+    this.fetchHandler(0);
+  }
+  fetchHandler(offset) {
+    fetch(`//localhost:3000/top/album?limit=6&offset=${offset}`, fetch_config)
+      .then(res => res.json())
+      .then(data => {
+        let albums = data.albums;
+        this.setState({ result: albums });
+      });
+  }
+  shuffle() {
+    let offset = parseInt(Math.random() * 80);
+    console.log(offset);
+    this.fetchHandler(offset);
+  }
+  render() {
+    var lis = [];
+    if (this.state.result.length) {
+      this.state.result.map(song => {
+        lis.push(
+          <Album
+            key={song.id}
+            albumId={song.id}
+            coverUrl={song.picUrl + "?param=170y170"}
+            albumName={song.name}
+            subType={song.subType}
+          />
+        );
+      });
+      return (
+        <div className="index_hot_albums">
+          <div className="recommand_playlist">
+            <div className="recommand_wrap">
+              <div className="index_title">
+                <h1 className="feather_title">
+                  <a
+                    href="javascript:void(0)"
+                    onClick={this.shuffle.bind(this)}
+                  >
+                    HOT ALBUMS
+                  </a>
+                </h1>
+              </div>
+              {lis}
+            </div>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
+}
+
+export class Billboard extends React.Component {
+  constructor() {
+    super();
+    this.fetchHandler = this.fetchHandler.bind(this);
+    this.state = {
+      // result:[]
+      brandNew: [],
+      hotSong: [],
+      raise: []
+    };
+  }
+  componentWillMount() {
+    this.fetchHandler(1, "");
+  }
+  fetchHandler(idx, type) {
+    fetch(`//localhost:3000/top/list?idx=${idx}`, fetch_config)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      });
+  }
+  render() {
+    return null;
+  }
+}
+
+export class Boutique extends React.Component {
+  constructor() {
+    super();
+    this.fetchHandler = this.fetchHandler.bind(this);
+    this.state = {
+      list: []
+    };
+    this.static = {
+      lang: ["华语", "欧美", "日语", "韩语", "粤语", "小语种"]
+    };
+  }
+  componentWillMount() {
+    this.fetchHandler("华语");
+  }
+  fetchHandler(type) {
+    fetch(
+      `//localhost:3000/top/playlist/highquality?limit=6&cat=${type}`,
+      fetch_config
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        this.setState({ list: data.playlists });
+      });
+  }
+
+  changeCat(e) {
+    this.fetchHandler(this.static.lang[e.target.value]);
+  }
+  render() {
+    const RadioButton = Radio.Button;
+    const RadioGroup = Radio.Group;
+    var lis = [];
+    if (this.state.list.length) {
+      lis = this.state.list.map(song => {
+        let { playCount } = song;
+        if (playCount > 10000) {
+          playCount = parseInt(playCount / 10000) + "W";
+        }
+        return (
+          <Album
+            key={song.id}
+            playlistId={song.id}
+            coverUrl={song.coverImgUrl + "?param=170y170"}
+            albumName={song.name}
+            albumPlayCount={playCount}
+          />
+        );
+      });
+      return (
+        <div className="index_boutique">
+          <div className="recommand_playlist">
+            <div className="recommand_wrap">
+              <div className="index_title">
+                <h1 className="feather_title">BOUTIQUE</h1>
+                <RadioGroup
+                  defaultValue="0"
+                  size="small"
+                  className="boutique_radio_group"
+                  onChange={this.changeCat.bind(this)}
+                >
+                  <RadioButton value="0">{this.static.lang[0]}</RadioButton>
+                  <RadioButton value="1">{this.static.lang[1]}</RadioButton>
+                  <RadioButton value="2">{this.static.lang[2]}</RadioButton>
+                  <RadioButton value="3">{this.static.lang[3]}</RadioButton>
+                  <RadioButton value="4">{this.static.lang[4]}</RadioButton>
+                  <RadioButton value="5">{this.static.lang[5]}</RadioButton>
+                </RadioGroup>
+              </div>
+              <div className="clear_both">{lis}</div>
+            </div>
+          </div>
+        </div>
+      );
+    } else {
+      return null;
+    }
   }
 }

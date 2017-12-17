@@ -31,8 +31,8 @@ export default class loginbox extends React.Component {
   }
   componentWillMount() {
     let MUSIC_U = getCookie("MUSIC_U");
-    console.log(MUSIC_U);
-    if (localStorage.loged === "true" && MUSIC_U) {
+    let __csrf = getCookie("__csrf");
+    if ((localStorage.loged === "true" && MUSIC_U) || __csrf) {
       this.props.dispatch(cookie_alive());
     }
   }
