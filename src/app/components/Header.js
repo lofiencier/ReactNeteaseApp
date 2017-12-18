@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import LoginBox from "./loginbox";
+import { Icon } from "antd";
 
 @connect(store => {
   return {

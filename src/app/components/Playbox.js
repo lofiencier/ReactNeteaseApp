@@ -11,6 +11,7 @@ import {
 } from "../redux/actions";
 import { Changer, PlayboxList, InfoBox } from "../components/common";
 import AudioThunk from "../components/AudioThunk";
+import { Icon } from "antd";
 
 @connect(store => {
   return {
@@ -94,7 +95,11 @@ export default class Playbox extends React.Component {
             transformer={this.transformer}
           />
           <div className="control_center">
-            <div className="btns like">LIKE</div>
+            <div className="btns like">
+              <a href="javascript:void(0)">
+                <Icon type="heart" />
+              </a>
+            </div>
             <div
               className="btns prev"
               style={
@@ -104,31 +109,44 @@ export default class Playbox extends React.Component {
               }
             >
               <a href="javascript:void(0)" onClick={this.prevSong.bind(this)}>
-                PREV
+                <Icon type="left" />
               </a>
             </div>
-            <div className="btns play">PLAY</div>
+            <div className="btns play">
+              <a href="javascript:void(0)">
+                <Icon type="play-circle" />
+              </a>
+            </div>
             <div className="btns next">
               <a href="javascript:void(0)" onClick={this.nextSong.bind(this)}>
-                NEXT
+                <Icon type="right" />
               </a>
             </div>
-            <div className="btns vol">VOLUME</div>
-            <div
-              className="btns cur_list"
-              style={
-                this.props.Playbox.isFm
-                  ? { display: "none" }
-                  : { display: "block" }
-              }
+            <div className="btns delete">
+              <a href="javascript:void(0)">
+                <Icon type="delete" />
+              </a>
+            </div>
+          </div>
+          <div className="btns vol">
+            <a href="javascript:void(0)">
+              <Icon type="sound" />
+            </a>
+          </div>
+          <div
+            className="btns cur_list"
+            style={
+              this.props.Playbox.isFm
+                ? { display: "none" }
+                : { display: "block" }
+            }
+          >
+            <a
+              href="javascript:void(0)"
+              onClick={this.toggleListHandler.bind(this)}
             >
-              <a
-                href="javascript:void(0)"
-                onClick={this.toggleListHandler.bind(this)}
-              >
-                LIST
-              </a>
-            </div>
+              <Icon type="menu-unfold" />
+            </a>
           </div>
         </div>
         <PlayboxList

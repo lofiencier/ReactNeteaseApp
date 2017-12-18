@@ -255,11 +255,34 @@ body{
 			}
 		}
 		.control_center{
-			float: right;
+			float: left;
+			width: 360px;
+			margin:0 200px;
 			height: 100%;
 			.btns{
 				float:left;
 				margin:10px 20px;
+				a{
+					color:@font1;
+					width: 52px;
+					height: 59px;
+					text-align: center;
+					font-size: 24px;
+					line-height: 40px;
+
+				}
+				&.play{
+					a{
+						font-size: 28px;
+						color:@main;
+					}
+				}
+				&.like{
+					a{
+						font-size:22px;
+						color:@main;
+					}
+				}
 			}
 		}
 	}
@@ -824,7 +847,7 @@ body{
 
 .day_recommand{
 	width:100%;
-	height: 420px;
+	height: 480px;
 	background:#101010;
 	color:#9a9a9a;
 	a{
@@ -840,7 +863,6 @@ body{
 
 		.list_table{
 			width: 1310px;
-			margin:20px 0;
 			border:none;
 			border-radius: none;
 			.list_row{
@@ -926,5 +948,118 @@ body{
 	}
 	.clear_both{
 		clear:both;
+	}
+}
+
+.billboard_content{
+	width: 100%;
+	height: 600px;
+	background: #333;
+	background-image: url("/static/images/billboard_bg.jpg");
+	.billboard_wrap{
+		width: 1200px;
+		height: 100%;
+		margin:0 auto;
+		overflow: hidden;
+		.billboard_list_wrap{
+			width: 1300px;
+			height: auto;
+			margin-top: 40px;
+		}
+	}
+	.billboard_list{
+		width: 360px;
+		height:auto;
+		margin-right: 60px;
+		float: left;
+		&.red{
+			a:hover{
+				background:#fe0905;
+				color:#fff;
+			};
+		}
+		&.yellow{
+			a:hover{
+				background:#febb00;
+				color:#fff;
+			};
+		}
+		&.green{
+			a:hover{
+				background:#039a79;
+				color:#fff;
+			};
+		}
+	}
+	.billboard_head{
+		width: 100%;
+		height: 140px;
+		position: relative;
+			box-shadow: rgba(0,0,0,.4) 2px 0 4px;
+		.title{
+			position: absolute;
+			top: 20px;
+			right: 10px;
+			font-size: 24px;
+			color: #fff;
+		}
+		.title_icon{
+			position: absolute;
+			right: 10px;
+			bottom: 20px;
+			color:#fff;
+			font-size: 50px;
+			font-weight: normal;	
+		}
+		&.red{
+			background: #fe0905;
+			background-image: url("/static/images/1.png");
+		}
+		&.yellow{
+			background: #febb00;
+			background-image: url("/static/images/2.png");
+		}
+		&.green{
+			background: #039a79;
+			background-image: url("/static/images/3.png");
+		}
+	}
+	.billboard_list_child{
+		display: block;
+		color:#333;
+		width: 100%;
+		height: 40px;
+		margin:7px 0;
+		background: rgba(0,0,0,.45);
+		line-height: 40px;
+		.index{
+			text-align: center;
+		}
+		&.first{
+			.index{
+				font-size: 32px;
+			}
+			line-height: 75px;
+			height: 75px;
+			color:#fff;
+			.info{
+				padding-top:18px;
+				line-height: 20px;
+				small{
+					font-size: 12px;
+				}
+			}
+			.pic{
+				width: 40px;
+				height: 40px;
+				margin:20px;
+				img{
+				display: block;
+				width: 100%;
+				height: auto;
+				}
+			} 
+		}
+		
 	}
 }

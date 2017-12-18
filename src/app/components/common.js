@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Radio } from "antd";
+import { Radio, Icon } from "antd";
 
 const fetch_config = {
   method: "GET",
@@ -747,24 +747,109 @@ export class Billboard extends React.Component {
     super();
     this.fetchHandler = this.fetchHandler.bind(this);
     this.state = {
-      // result:[]
       brandNew: [],
       hotSong: [],
       raise: []
     };
   }
+  renderList(arr) {
+    let result = [];
+    result = arr.map((item, index) => {
+      if (index == 0) {
+        return (
+          <a className="billboard_list_child first row" key={index}>
+            <span className="index col-xs-1">{"0" + (index + 1 - "")}</span>
+            <span className="pic col-xs-3">
+              <img src={item.album.picUrl + "?param=40y40"} alt="" />
+            </span>
+            <span className="info col-xs-7">
+              <p>{item.name}</p>
+              <small>{item.artists[0].name}</small>
+            </span>
+            <Icon type="caret-right" />
+          </a>
+        );
+      } else {
+        return (
+          <a className="billboard_list_child row" key={index}>
+            <span className="index col-xs-1">{"0" + (index + 1 - "")}</span>
+
+            <span className="col-xs-10">{item.name}</span>
+            <span className="col-xs-1">
+              <Icon type="caret-right" />
+            </span>
+          </a>
+        );
+      }
+    });
+    return result;
+  }
   componentWillMount() {
-    this.fetchHandler(1, "");
+    let p1 = this.fetchHandler(3, "brandNew");
+    let p2 = this.fetchHandler(5, "hotSong");
+    let p3 = this.fetchHandler(2, "raise");
+    Promise.all([p1, p2, p3]).then(data => {
+      this.setState({
+        brandNew: data[0].result.tracks,
+        hotSong: data[1].result.tracks,
+        raise: data[2].result.tracks
+      });
+    });
   }
   fetchHandler(idx, type) {
-    fetch(`//localhost:3000/top/list?idx=${idx}`, fetch_config)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-      });
+    return fetch(
+      `//localhost:3000/top/list?idx=${idx}`,
+      fetch_config
+    ).then(res => res.json());
   }
   render() {
-    return null;
+    var list1 = [],
+      list2 = [],
+      list3 = [];
+    if (
+      this.state.brandNew.length &&
+      this.state.hotSong.length &&
+      this.state.raise.length
+    ) {
+      let brandNew = this.state.brandNew;
+      let hotSong = this.state.hotSong;
+      let raise = this.state.raise;
+      brandNew.length = 7;
+      hotSong.length = 7;
+      raise.length = 7;
+      list1 = this.renderList(brandNew);
+      list2 = this.renderList(hotSong);
+      list3 = this.renderList(raise);
+    }
+    return (
+      <div className="billboard_content">
+        <div className="billboard_wrap">
+          <div className="billboard_list_wrap">
+            <div className="billboard_list red">
+              <div className="billboard_head red">
+                <h1 className="title">云音乐飙升榜</h1>
+                <Icon type="play-circle-o" className="title_icon" />
+              </div>
+              {list1}
+            </div>
+            <div className="billboard_list yellow">
+              <div className="billboard_head yellow">
+                <h1 className="title">UK排行榜周榜</h1>
+                <Icon type="play-circle-o" className="title_icon" />
+              </div>
+              {list2}
+            </div>
+            <div className="billboard_list green">
+              <div className="billboard_head green">
+                <h1 className="title">原创歌曲榜</h1>
+                <Icon type="play-circle-o" className="title_icon" />
+              </div>
+              {list3}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
@@ -789,7 +874,6 @@ export class Boutique extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         this.setState({ list: data.playlists });
       });
   }

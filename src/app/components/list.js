@@ -1,4 +1,5 @@
 import React from "react";
+import { Icon } from "antd";
 
 export default class List extends React.Component {
   constructor() {
@@ -21,11 +22,11 @@ export default class List extends React.Component {
           </div>
           <div className="list_col_body actions col-xs-2 row">
             <a href="#" className="col-xs-3">
-              +
+              <Icon type="plus-square" style={{ color: "#666" }} />
             </a>
 
             <a href="#" className="col-xs-3">
-              D&nbsp;
+              <Icon type="down-circle" style={{ color: "#666" }} />
             </a>
             <a
               href="javascript:void(0)"
@@ -34,14 +35,7 @@ export default class List extends React.Component {
               data-i={index}
               className="col-xs-3"
             >
-              &nbsp;P
-            </a>
-            <a
-              href={"/#/mv?mvid=" + song.mvid}
-              className="col-xs-3"
-              style={song.mvid ? { display: "block" } : { display: "none" }}
-            >
-              M{" "}
+              <Icon type="caret-right" style={{ color: "#666" }} />
             </a>
           </div>
         </div>
