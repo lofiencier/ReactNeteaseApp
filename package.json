@@ -25,6 +25,7 @@
       "stage-0"
     ],
     "plugins": [
+      "babel-plugin-transform-runtime",
       "babel-plugin-transform-decorators-legacy",
       [
         "import",
@@ -49,11 +50,13 @@
     "babel-loader": "^7.1.2",
     "babel-plugin-import": "^1.6.3",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.28.7",
     "es6-promise": "^4.1.1",
+    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.5",
     "husky": "^0.14.3",
     "intelli-espower-loader": "^1.0.1",

@@ -20,15 +20,11 @@ export default class MV extends React.Component {
   }
   mvplay() {
     let that = this;
-    fetch(this.state.urls["480"], {
-      method: "GET",
-      mode: "cros",
-      headers: { "Content-type": "video/mp4" }
-    })
-      .then(res => res.blob())
-      .then(blobData => {
-        console.log(URL.createObjectURL(blobData));
-        document.querySelector("#mv_video").src = URL.createObjectURL(blobData);
+    axios
+      .get("/mv/url?url=" + this.state.urls["480"], { responseType: "blob" })
+      .then(({ data }) => {
+        // console.log(URL.createObjectURL(data));
+        document.querySelector("#mv_video").src = URL.createObjectURL(data);
         this.setState({ isPlaying: true });
         // this.play();
         document.querySelector("#mv_video").play();
@@ -38,12 +34,9 @@ export default class MV extends React.Component {
     this.blurHandler();
     console.log(this.props.location.search);
     let that = this;
-    fetch(`//localhost:3000/mv${this.props.location.search}`, {
-      method: "GET",
-      mode: "cros"
-    })
-      .then(res => res.json())
-      .then(data => {
+    axios
+      .get(`//localhost:3000/mv${this.props.location.search}`)
+      .then(({ data }) => {
         that.setState({
           name: data.data.name,
           playCount: data.data.playCount,

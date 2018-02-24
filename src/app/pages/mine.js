@@ -1,6 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getCollect, fetchPlaylist } from "../redux/actions";
+import {
+  getCollect,
+  fetchPlaylist,
+  unshift_song_list,
+  push_song_list
+} from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
 import { Blur_bg, UserInfo } from "../components/common";
@@ -20,7 +25,6 @@ export default class AlbumPage extends React.Component {
     // console.log();
     let uid = JSON.parse(localStorage.profile).userId;
     this.props.dispatch(getCollect(uid));
-    console.log(this.props.location.search);
     this.props.dispatch(
       fetchPlaylist("?id=" + this.props.location.search.split("=")[1], true)
     );
@@ -48,7 +52,12 @@ export default class AlbumPage extends React.Component {
       StackBlur.image("blurImg", "album_blur_canvas", 10, false);
     };
   }
-
+  playHandler(id) {
+    this.props.dispatch(unshift_song_list(id));
+  }
+  addHandler(id) {
+    this.props.dispatch(push_song_list(id));
+  }
   render() {
     let collections = this.props.user.collections;
     return (
@@ -88,7 +97,8 @@ export default class AlbumPage extends React.Component {
                       ? this.props.user.curPlaylist
                       : []
                   }
-                  playHandler={this.playHandler}
+                  playHandler={this.playHandler.bind(this)}
+                  addSong={this.addHandler.bind(this)}
                 />
               </div>
             </div>

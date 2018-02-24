@@ -12,12 +12,12 @@ export default class FM extends React.Component {
     console.log("FM MODULE MOUNT");
   }
   componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.Playbox.isFm &&
-      this.props.Playbox.isFm != nextProps.Playbox.isFm
-    ) {
-      this.props.dispatch(fetchFm());
-    }
+    // if (
+    //   nextProps.Playbox.isFm &&
+    //   this.props.Playbox.isFm != nextProps.Playbox.isFm
+    // ) {
+    //   this.props.dispatch(fetchFm());
+    // }
   }
   render() {
     return <div className="fm_root_content" />;

@@ -3,7 +3,9 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import LoginBox from "./loginbox";
-import { Icon } from "antd";
+import { Icon, Dropdown, Menu } from "antd";
+import { getCookie, delCookie, setCookie } from "../utils/common";
+import { cookie_alive, toggleLoginBox, logout } from "../redux/actions";
 
 @connect(store => {
   return {
@@ -13,13 +15,22 @@ import { Icon } from "antd";
 export class Header extends React.Component {
   constructor() {
     super();
-    // this.state={
-    //   location:location
-    // }
+  }
+  componentWillMount() {
+    var _csrf = getCookie("__csrf");
+    var profile = localStorage.getItem("profile");
+    if (_csrf && profile) {
+      this.props.dispatch(
+        cookie_alive({
+          loged: true,
+          profile: JSON.parse(profile)
+        })
+      );
+    }
   }
   popUpLogin() {
-    document.querySelectorAll(".loginbox_root_content")[0].style.display =
-      "block";
+    console.log(">>>");
+    this.props.dispatch(toggleLoginBox());
   }
   submitHandler(e) {
     e = e || window.event;
@@ -29,32 +40,40 @@ export class Header extends React.Component {
     // console.log(keywords)
     let limit = target.limit.value;
     let type = target.type.value;
-    // this.props.dispatch()
     location.assign(`#/search?keywords=${keywords}`);
   }
   componentWillReceiveProps(nextProps) {
-    // console.log(location);
+    console.log(this.props.history);
+  }
+  popProfile({ key }) {
+    switch (key) {
+      case "logout": {
+        localStorage.setItem("loged", false);
+        localStorage.removeItem("profile");
+        delCookie("MUSIC_U");
+        delCookie("__csrf");
+        this.props.dispatch(logout());
+        break;
+      }
+      case "collection": {
+        location.assign(`#/mine`);
+      }
+    }
   }
   render() {
-    var isLogin;
-    if (localStorage.loged) {
-      let avatarUrl = JSON.parse(localStorage.profile).avatarUrl;
-      let uid = JSON.parse(localStorage.profile).userId;
-      isLogin = (
-        <a href={"#/mine"}>
-          <img src={avatarUrl + "?param=28y28"} alt="" />
-        </a>
-      );
-    } else {
-      isLogin = (
-        <a href="javascript:void(0)" onClick={this.popUpLogin}>
-          <span>Login</span>
-        </a>
-      );
-    }
+    const menu = (
+      <Menu onClick={this.popProfile.bind(this)}>
+        <Menu.Item key="collection">我的收藏</Menu.Item>
+        <Menu.Item key="logout">注销</Menu.Item>
+      </Menu>
+    );
+    const { pathname } = this.props.history.location;
     return (
       <header>
-        <div className="header_fixed">
+        <div
+          className="header_fixed"
+          style={this.props.user.showLogin ? { paddingRight: "17px" } : {}}
+        >
           <div className="header_content">
             <div className="logo">
               <h1>
@@ -71,19 +90,52 @@ export class Header extends React.Component {
                 </form>
               </span>
             </div>
-            <div className="header_nav active">
-              <a href="javascript:void(0)">DISCOVER</a>
+            <div
+              className={pathname === "/" ? "header_nav active" : "header_nav"}
+            >
+              <a href="#/">DISCOVER </a>
             </div>
-            <div className="header_nav">
-              <a href="javascript:void(0)">MINE</a>
+            <div
+              className={
+                pathname === "/mine" ? "header_nav active" : "header_nav"
+              }
+            >
+              <a href="#/mine">MINE</a>
             </div>
-            <div className="header_nav">
+            <div
+              className={
+                pathname === "/fm" ? "header_nav active" : "header_nav"
+              }
+            >
               <a href="javascript:void(0)">FM</a>
             </div>
-            <div className="header_nav">
+            <div
+              className={
+                pathname === "/mv" ? "header_nav active" : "header_nav"
+              }
+            >
               <a href="javascript:void(0)">MV</a>
             </div>
-            <div className="header_nav_login">{isLogin}</div>
+            <div className="header_nav_login">
+              {this.props.user.loged ? (
+                <Dropdown overlay={menu}>
+                  <a href={"#/mine"} className="nav_drop_menu">
+                    <img
+                      src={this.props.user.profile.avatarUrl + "?param=28y28"}
+                      alt=""
+                    />
+                    <Icon type="down" />
+                  </a>
+                </Dropdown>
+              ) : (
+                <a
+                  href="javascript:void(0)"
+                  onClick={this.popUpLogin.bind(this)}
+                >
+                  <span>Login</span>
+                </a>
+              )}
+            </div>
           </div>
         </div>
         <LoginBox />
@@ -92,8 +144,8 @@ export class Header extends React.Component {
   }
 }
 
-const HeaderWithRouter = withRouter((history, location, match) => {
-  return <Header />;
+const HeaderWithRouter = withRouter(({ history, location, match }) => {
+  return <Header history={history} location={location} match={match} />;
 });
 
 export default HeaderWithRouter;

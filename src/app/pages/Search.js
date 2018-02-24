@@ -1,13 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchSearchList, fetchSingleSong } from "../redux/actions";
+import {
+  fetchSearchList,
+  fetchSingleSong,
+  unshift_song_list,
+  push_song_list
+} from "../redux/actions";
 import StackBlur from "stackblur-canvas";
 import { Blur_bg, List } from "../components/common";
 import { Pagination } from "antd";
 @connect(store => {
   return {
     searchlist: store.searchlist,
-    Audio: store.Audio
+    Audio: store.Audio,
+    Playbox: store.Playbox
   };
 })
 export default class Search extends React.Component {
@@ -36,7 +42,11 @@ export default class Search extends React.Component {
   }
   playHandler(e) {
     let song_id = e.currentTarget.getAttribute("data-id");
-    this.props.dispatch(fetchSingleSong(song_id));
+    this.props.dispatch(unshift_song_list(song_id));
+  }
+  addHandler(e) {
+    var id = e.currentTarget.getAttribute("data-id");
+    this.props.dispatch(push_song_list(id));
   }
 
   render() {
@@ -47,6 +57,7 @@ export default class Search extends React.Component {
             <List
               songs={this.props.searchlist.songs}
               playHandler={this.playHandler}
+              addHandler={this.addHandler.bind(this)}
             />
             <div className="pagination_wrap">
               <Pagination

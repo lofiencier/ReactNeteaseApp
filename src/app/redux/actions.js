@@ -1,34 +1,101 @@
-const fetch_config = {
-  method: "GET",
-  mode: "cors",
-  credentials: "include"
+const fetchConfig = {
+  withCredentials: true
 };
 
-export function cookie_alive() {
+export function changePlayPosition(position) {
   return function(dispatch) {
-    dispatch({ type: "COOKIE_ALIVE" });
+    dispatch({ type: "CHANGE_PLAY_POSITION", position: position });
+  };
+}
+export function toggleLoginBox() {
+  return function(dispatch) {
+    dispatch({ type: "TOGGLE_LOGIN_BOX" });
+  };
+}
+export function changeVolume(vol) {
+  return function(dispatch) {
+    dispatch({ type: "CHANGE_VOL", vol: vol });
+  };
+}
+export function togglePlayState() {
+  return function(dispatch) {
+    dispatch({ type: "TOGGLE_PLAY_STATE" });
+  };
+}
+export function logout() {
+  return function(dispatch) {
+    dispatch({ type: "LOG_OUT" });
+  };
+}
+export function login(phone, password) {
+  return function(dispatch) {
+    // dispatch({type})
+    dispatch({ type: "TRY_LOGIN" });
+    axios
+      .get(`/login/cellphone?phone=${phone}&password=${password}`)
+      .then(function({ data }) {
+        if (data.code === 200) {
+          localStorage.setItem("loged", true);
+          localStorage.setItem("profile", JSON.stringify(data.profile));
+          dispatch({ type: "LOGIN_SUCCESS", profile: data.profile });
+        } else {
+          dispatch({ type: "LOGIN_REJECT", err: data.msg });
+        }
+      })
+      .catch(function(err) {
+        dispatch({ type: "LOGIN_REJECT", err: err });
+      });
+  };
+}
+export function cookie_alive({ loged, profile }) {
+  return function(dispatch) {
+    dispatch({ type: "COOKIE_ALIVE", loged: loged, profile: profile });
   };
 }
 export function unshift_song_list(song_id) {
   return function(dispatch) {
-    fetch(`http://localhost:3000/song/detail?ids=${song_id}`, fetch_config)
-      .then(res => res.json())
-      .then(data => {
-        console.log("song detail:", data);
-        let song = data.songs[0];
-        let { name, al, ar, id } = song;
-        ar = ar.map(artist => {
-          let { id, name } = artist;
-          return { id: id, name: name };
-        });
-        song = {
-          name: name,
-          al: al,
-          ar: ar,
-          id: id
-        };
-        dispatch({ type: "UNSHIFT_LIST", single: song });
+    axios.get(`/song/detail?ids=${song_id}`, fetchConfig).then(({ data }) => {
+      console.log("song detail:", data);
+      let song = data.songs[0];
+      let { name, al, ar, id } = song;
+      ar = ar.map(artist => {
+        let { id, name } = artist;
+        return { id: id, name: name };
       });
+      song = {
+        name: name,
+        album: al,
+        artists: ar,
+        id: id
+      };
+      dispatch({ type: "UNSHIFT_LIST", single: song });
+    });
+  };
+}
+export function push_song_list(song_id) {
+  return function(dispatch) {
+    axios.get(`/song/detail?ids=${song_id}`, fetchConfig).then(({ data }) => {
+      console.log(data);
+      let song = data.songs[0];
+      let { name, al, ar, id } = song;
+      ar = ar.map(artist => {
+        let { id, name } = artist;
+        return { id: id, name: name };
+      });
+      song = {
+        name: name,
+        album: al,
+        artists: ar,
+        id: id
+      };
+      dispatch({ type: "PUSH_LIST", single: song });
+    });
+  };
+}
+
+export function delSong(index) {
+  return function(dispatch) {
+    dispatch({ type: "DEL_SONG", index: index });
   };
 }
 export function import_buffer() {
@@ -39,9 +106,9 @@ export function import_buffer() {
 export function fetchFm(preload) {
   //带参数Boolean：true为preload
   return function(dispatch) {
-    fetch(`//localhost:3000/personal_fm?timestamp=${Date.now()}`, fetch_config)
-      .then(res => res.json())
-      .then(data => {
+    axios
+      .get(`/personal_fm?timestamp=${Date.now()}`, fetchConfig)
+      .then(({ data }) => {
         if (data.code && data.code === 301) {
           throw new Error("请先登录");
           console.log(data);
@@ -73,16 +140,14 @@ export function toggleList(showlist) {
 }
 export function switchMode(isFm) {
   return function(dispatch) {
-    dispatch({ type: "SWITCH_MODE", isFm: !isFm });
+    dispatch({ type: "SWITCH_MODE", isFm: !isFm, curIndex: 0 });
   };
 }
 export function fetchSingleSong(song_id) {
   return function(dispatch) {
-    fetch(`http://localhost:3000/music/url?id=${song_id}`, fetch_config)
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(data) {
+    axios
+      .get(`/music/url?id=${song_id}`, fetchConfig)
+      .then(function({ data }) {
         let url = data.data[0].url;
         let id = data.data[0].id;
         dispatch({ type: "PLAY_SINGLE_SONG", url: url, id: id });
@@ -114,12 +179,6 @@ export function copyAllSongs(songs) {
   };
 }
 
-//添加到列表 按钮 || 歌单，专辑.map之后的ids?
-export function shiftSongId(song_id) {
-  return function(dispatch) {
-    dispatch({ type: "SHIFT_SONG_ID", id: song_id });
-  };
-}
 //专辑、歌单中的播放按钮
 export function unShiftSongId(song_id) {
   return function(dispatch) {
@@ -130,14 +189,10 @@ export function unShiftSongId(song_id) {
 //歌单route
 export function fetchPlaylist(listId, notRoute) {
   return function(dispatch) {
-    fetch(`http://localhost:3000/playlist/detail${listId}`, {
-      method: "GET",
-      mode: "cors"
-    })
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(data) {
+    axios
+      .get(`/playlist/detail${listId}`, fetchConfig)
+      .then(function({ data }) {
+        console.log(data);
         let {
           name,
           playCount,
@@ -198,14 +253,9 @@ export function fetchSearchList(keywords, page) {
   page = page || 1;
   return function(dispatch) {
     dispatch({ type: "FETCHING_SEARCHLIST" });
-    fetch(`http://localhost:3000/api/search${keywords}&&offset=${page}`, {
-      method: "GET",
-      mode: "cors"
-    })
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(data) {
+    axios
+      .get(`/api/search${keywords}&&offset=${page}`, fetchConfig)
+      .then(function({ data }) {
         console.log("songcount:", data.result.songCount);
         let songCount = data.result.songCount;
         let songs = data.result.songs;
@@ -248,33 +298,12 @@ export function fetchSearchList(keywords, page) {
   };
 }
 
-export function login(phone, password) {
-  return function(dispatch) {
-    dispatch({ type: "LOGGING" });
-    fetch(
-      `http://localhost:3000/login/cellphone?phone=${phone}&password=${password}`,
-      fetch_config
-    )
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(data) {
-        dispatch({ type: "LOGED", data: data });
-      })
-      .catch(function(err) {
-        dispatch({ type: "LOG_REJECTED", err: err });
-      });
-  };
-}
-
 export function getCollect(uid) {
   return function(dispatch) {
     dispatch({ type: "FETCHING_USER_COLLECTION" });
-    fetch(`http://localhost:3000/user/playlist?uid=${uid}`, fetch_config)
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(data) {
+    axios
+      .get(`/user/playlist?uid=${uid}`, fetchConfig)
+      .then(function({ data }) {
         let result = data.playlist.map(item => {
           let { id, name, coverImgUrl, trackCount } = item;
 
@@ -296,14 +325,9 @@ export function getCollect(uid) {
 export function fetchAlbum(al_id) {
   return function(dispatch) {
     dispatch({ type: "FETCHING_ALBUMLIST" });
-    fetch(`http://localhost:3000/album${al_id}`, {
-      method: "GET",
-      mode: "cors"
-    })
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(data) {
+    axios
+      .get(`/album${al_id}`, fetchConfig)
+      .then(function({ data }) {
         let { album, songs } = data;
         songs = songs.map(song => {
           let { id, name, mv, dt, ar, al } = song;
@@ -345,13 +369,8 @@ export function fetchAlbum(al_id) {
 export function fetchArtistAlbum(ar_id) {
   return function(dispatch) {
     dispatch({ type: "FETCHING_ARTIST_ALBUMS", fetching: true });
-    fetch(
-      `http://localhost:3000/artist/album?id=${ar_id}&limit=6`,
-      fetch_config
-    )
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(data) {});
+    axios
+      .get(`/artist/album?id=${ar_id}&limit=6`, fetchConfig)
+      .then(function({ data }) {});
   };
 }

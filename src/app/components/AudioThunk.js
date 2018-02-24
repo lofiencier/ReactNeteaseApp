@@ -4,7 +4,8 @@ import {
   fetchSingleSong,
   changeIndex,
   fetchFm,
-  import_buffer
+  import_buffer,
+  togglePlayState
 } from "../redux/actions";
 import logger from "redux-logger";
 
@@ -35,30 +36,35 @@ export default class AudioThunk extends React.Component {
     }
   }
   MusicIndexWatcher(index, list) {
+    console.warn("无论如何你都进这里？？");
     if (index < 0) {
       this.props.dispatch(changeIndex(list.length - 1));
+    } else if (!list.length) {
+      this.props.dispatch(togglePlayState());
     } else if (index > list.length - 1) {
       this.props.dispatch(changeIndex(0));
     } else {
       this.props.dispatch(fetchSingleSong(list[index].id));
     }
   }
-  FMSwitchWatcher(fmList) {
+  FMSwitchWatcher(index, fmList) {
     console.warn("FM SWITCH WATCHER");
     if (!fmList.length) {
-      // this.props.dispatch(fetchFm());
+      this.props.dispatch(fetchFm());
       this.props.dispatch(changeIndex(0));
-      console.warn("FM LIST EMPTY");
+      console.warn("FM LIST EMPTY?", fmList.length);
     } else {
+      this.props.dispatch(changeIndex(0));
       this.props.dispatch(fetchSingleSong(fmList[0].id));
     }
   }
   componentDidMount() {
+    var _this = this;
     this.props.Playbox.AudioDom.addEventListener(
       "canplay",
       function() {
         console.log("canplay");
-        this.volume = 0.2;
+        this.volume = _this.props.Playbox.volume;
         this.play();
       },
       false
@@ -101,7 +107,17 @@ export default class AudioThunk extends React.Component {
       this.props.dispatch(fetchSingleSong(fmList[0].id));
     }
 
-    if (curIndex != this.props.Playbox.curIndex && !isFm && isPlaying) {
+    if (curList.length != this.props.Playbox.curList.length) {
+      if (curList.length < this.props.Playbox.curList.length) {
+        if (curList.length) {
+          nextProps.dispatch(
+            fetchSingleSong(nextProps.Playbox.curList[curIndex].id)
+          );
+        }
+      } else {
+        nextProps.dispatch(fetchSingleSong(nextProps.Playbox.curList[0].id));
+      }
+    } else if (curIndex != this.props.Playbox.curIndex && !isFm && isPlaying) {
       this.MusicIndexWatcher(curIndex, curList);
     } else if (!isFm && isFm != this.props.Playbox.isFm) {
       this.MusicIndexWatcher(curIndex, curList);

@@ -1,3 +1,13 @@
+@font-face {
+	font-family: 'iconfont';  /* project id 571206 */
+	src: url('//at.alicdn.com/t/font_571206_wd14wnyhj4dq85mi.eot');
+	src: url('//at.alicdn.com/t/font_571206_wd14wnyhj4dq85mi.eot?#iefix') format('embedded-opentype'),
+	url('//at.alicdn.com/t/font_571206_wd14wnyhj4dq85mi.woff') format('woff'),
+	url('//at.alicdn.com/t/font_571206_wd14wnyhj4dq85mi.ttf') format('truetype'),
+	url('//at.alicdn.com/t/font_571206_wd14wnyhj4dq85mi.svg#iconfont') format('svg');
+  }
+
+
 .root_content{
 	margin-bottom:60px;
 	height:auto;
@@ -25,9 +35,11 @@ body{
 @font2:#666;
 @border:#ddd;
 @border_red:#d64141;
+@icon:#999999;
 
 body{
 	background:@bg_black;
+	// font-family:"iconfont";
 }
 .header_fixed{
 	position:fixed;
@@ -72,19 +84,26 @@ body{
 		}
 		.header_nav_login{
 			float: right;
-			height: inherit;
-			a{
+			// height: inherit;
+			width: auto;
+			.nav_drop_menu{
 				color:#fff;
 				text-align: center;
 				display: block;
 				width: 60px;
 				height: inherit;
 				overflow: hidden;
+				display: flex;
+				align-items: center;
 				img{
 					display: block;
 					margin:16px auto;
 					border-radius: 4px;
 					overflow: hidden;
+				}
+				i{
+					font-size:12px;
+					color:@font2;
 				}
 			}
 		}
@@ -119,6 +138,7 @@ body{
 #index_banner{
 	width:100%;
 	height: auto;
+	min-height: 600px;
 	background:#222;
 	img{
 		display: block;
@@ -200,12 +220,38 @@ body{
 #playbox{
 	border-top: 1px solid #e8e8e8;
 	width:100%;
-	height: 60px;
 	background:rgba(255,255,255,1);
 	position:fixed;
 	bottom:0;
 	z-index: 999;
 
+	.process_bar{
+		&.ant-slider{
+			// height:auto;
+			margin:0 4px;
+			.ant-slider-handle{
+				display: none;
+			}
+			.ant-slider-step{
+				width: 0;
+				z-index:0;
+				background:#e3e3e3;
+			}
+			.ant-slider-track{
+				min-width: 2px;
+				z-index:1;
+				background:@main;
+			}
+			.ant-slider-handle{
+				z-index: 2;
+			}
+		}
+		&:hover{
+			.ant-slider-handle{
+				display: block;
+			}
+		}
+	}
 	.song_total_process{
 		width: 100%;
 		height: 4px;
@@ -227,10 +273,29 @@ body{
 		width:100%;
 		height: 100%;
 		margin:0 auto;
+		display: flex;
+		position: relative;
+		justify-content: space-between;
+		.left_side{
+			display: flex;
+			z-index:2;
+		}
+		.right_side{
+			display: flex;
+			align-items: center;
+			padding:0 10px;
+			z-index:1;
+			.btns{
+				margin:10px 20px;
+				border-color:transparent;
+				i{
+					font-size:20px;
+				}
+			}
+		}
 		.song_info{
 			float: left;
 			.song_cover{
-				background: @border;
 				float:left;
 				width: 45px;
 				height: 45px;
@@ -255,33 +320,31 @@ body{
 			}
 		}
 		.control_center{
-			float: left;
-			width: 360px;
-			margin:0 200px;
+			position: absolute;
+			width: 100%;
 			height: 100%;
-			.btns{
-				float:left;
-				margin:10px 20px;
-				a{
-					color:@font1;
-					width: 52px;
-					height: 59px;
-					text-align: center;
-					font-size: 24px;
-					line-height: 40px;
-
-				}
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index:0;
+			.ant-btn{
+				border-color:transparent;
+				width:auto;
+				height:auto;
+				margin:4px 28px;	
+				font-size:20px;
 				&.play{
-					a{
-						font-size: 28px;
-						color:@main;
-					}
+					font-size:32px;
 				}
-				&.like{
-					a{
-						font-size:22px;
-						color:@main;
-					}
+				&.playing{
+					color:@main;
+					font-size:28px;
+				}
+				&.disabled{
+					color:@font2;
+				}
+				i{
+					display: block;
 				}
 			}
 		}
@@ -356,11 +419,11 @@ body{
 			margin:10px auto;
 			.album_info_name{
 				color:#000;
-				font-size:18px;
-				line-height: 32px;
+				font-size:14px;
+				line-height: 24px;
 				i{
 					font-size:12px;
-					padding:4px 10px;
+					padding:2px 10px;
 					line-height: inherit;
 					background:#333;
 					border-radius: 14px;
@@ -376,7 +439,7 @@ body{
 				padding:0 8px 0 0;
 			}
 			.album_action_playall{
-				margin:20px 0;
+				margin:8px 0;
 				width: 100%;
 				height: auto;
 				a{
@@ -524,6 +587,9 @@ body{
 		&.actions{
 			a{
 				float: right;
+				font-family: "iconfont";
+				font-size:14px;
+				color:@icon;
 			}
 		}
 
@@ -538,6 +604,9 @@ body{
 
 .playlist_content_wrap{
 	.album_content_wrap;
+	.album_info{
+		max-height: 480px;
+	}
 	.album_info_name{
 		font-size:12px;
 	}
@@ -614,6 +683,9 @@ body{
 				height:60px;
 				margin-bottom: 6px;
 				background:#0e0e10;
+				display: flex;
+				align-items: center;
+
 				.col-xs-6{
 					float:left;
 					display:block;
@@ -624,6 +696,10 @@ body{
 				&.active{
 					width: 254px;
 					border-left: 4px solid #ff0d19 inset;
+				}
+				.item_delete{
+					// height: 100%;
+					padding:8px;
 				}
 				.item_href{
 					color:#fff;
@@ -652,6 +728,10 @@ body{
 						}
 						.song_name{
 							font-size:12px;
+							max-width: 120px;
+							overflow: hidden;
+							text-overflow: ellipsis;
+							white-space:nowrap;
 						}
 						.song_ar{
 							font-size:10px;
@@ -726,7 +806,8 @@ body{
 }
 .user_collections_wrap{
 	width: 100%;
-	height:500px;
+	// height:500px;
+	max-height:320px;
 	overflow-y:scroll;
 	.user_collections{
 		height: auto;
@@ -992,6 +1073,7 @@ body{
 		}
 	}
 	.billboard_head{
+		cursor: pointer;
 		width: 100%;
 		height: 140px;
 		position: relative;
@@ -1063,3 +1145,4 @@ body{
 		
 	}
 }
+

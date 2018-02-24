@@ -4,12 +4,17 @@ import {
   fetchPlaylist,
   copySongInfo,
   copyAllSongs,
-  fetchSingleSong
+  fetchSingleSong,
+  changeIndex,
+  unshift_song_list,
+  push_song_list
 } from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
 import Header from "../components/Header";
 import { Album, Album_info, Blur_bg, HotAlbums } from "../components/common";
+
+var fetchConfig = { withCredentials: true };
 
 @connect(store => {
   return {
@@ -31,25 +36,22 @@ export default class Playlist extends React.Component {
     this.props.dispatch(copyAllSongs(this.props.playlist.songs));
   }
   componentDidMount() {
+    // console.log("axios:",axios);
+    axios
+      .get("/personal_fm", { withCredentials: true })
+      .then(({ data }) => console.log(data));
     this.blurHandler();
     let listId = this.props.location.search;
     if (listId !== "") {
       this.props.dispatch(fetchPlaylist(listId));
     }
-    fetch(`http://localhost:3000/simi/playlist${listId}`, {
-      method: "GET",
-      mode: "cors"
-    })
-      .then(res => res.json())
-      .then(data => {});
+    axios.get(`/simi/playlist${listId}`, fetchConfig).then(({ data }) => {});
   }
-  playHandler(e) {
-    let song_id = e.currentTarget.getAttribute("data-id");
-    let song_i = e.currentTarget.getAttribute("data-i");
-    this.props.dispatch(
-      copySongInfo(this.props.playlist.songs[song_i], song_i)
-    );
-    this.props.dispatch(fetchSingleSong(song_id));
+  playHandler(id) {
+    this.props.dispatch(unshift_song_list(id));
+  }
+  addHandler(id) {
+    this.props.dispatch(push_song_list(id));
   }
   render() {
     return (
@@ -91,7 +93,8 @@ export default class Playlist extends React.Component {
               </div>
               <List
                 songs={this.props.playlist.songs}
-                playHandler={this.playHandler}
+                playHandler={this.playHandler.bind(this)}
+                addSong={this.addHandler.bind(this)}
               />
               <span className="album_h1">
                 SIMILAR COLLECTIONS<a

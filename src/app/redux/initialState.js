@@ -21,7 +21,7 @@ function initialState() {
       isFm: false,
       isPlaying: false,
       curIndex: NaN,
-      volume: 1,
+      volume: 0.1,
       curList: [],
       fmList: [],
       fm_preload: []
@@ -56,8 +56,11 @@ function initialState() {
     },
     user: {
       loged: false,
+      loging: false,
+      showLogin: false,
       collections: [],
-      curPlaylist: []
+      curPlaylist: [],
+      profile: {}
     }
   };
 }

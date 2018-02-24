@@ -21,21 +21,27 @@ export default class List extends React.Component {
             <a href={"/#/album?id=" + song.album.id}>{song.album.name}</a>
           </div>
           <div className="list_col_body actions col-xs-2 row">
-            <a href="#" className="col-xs-3">
-              <Icon type="plus-square" style={{ color: "#666" }} />
+            <a
+              href="javascript:void(0)"
+              className="col-xs-3"
+              onClick={this.props.addSong.bind(this, song.id)}
+            >
+              &#xe6fa;
             </a>
 
-            <a href="#" className="col-xs-3">
-              <Icon type="down-circle" style={{ color: "#666" }} />
+            <a href="javascript:void(0)" className="col-xs-3">
+              &#xe600;
             </a>
             <a
               href="javascript:void(0)"
-              onClick={this.props.playHandler}
-              data-id={song.id}
-              data-i={index}
+              onClick={this.props.playHandler.bind(this, song.id)}
               className="col-xs-3"
             >
-              <Icon type="caret-right" style={{ color: "#666" }} />
+              <Icon
+                type="caret-right"
+                style={{ color: "#999" }}
+                onClick={this.props.playHandler.bind(this, song.id)}
+              />
             </a>
           </div>
         </div>

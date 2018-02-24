@@ -12,8 +12,29 @@ export default combineReducers({
 
 export function userReducer(state = initialState, action) {
   switch (action.type) {
+    case "TOGGLE_LOGIN_BOX": {
+      state.showLogin = !state.showLogin;
+      state = { ...state };
+      break;
+    }
     case "COOKIE_ALIVE": {
-      state = { ...state, loged: true };
+      state = { ...state, loged: action.loged, profile: action.profile };
+      break;
+    }
+    case "TRY_LOGIN": {
+      state = { ...state, loging: true, loged: false };
+      break;
+    }
+    case "LOG_OUT": {
+      state = { ...state, loged: false };
+      break;
+    }
+    case "LOGIN_SUCCESS": {
+      state = { ...state, loging: false, loged: true, profile: action.profile };
+      break;
+    }
+    case "LOGIN_REJECT": {
+      state = { ...state, loging: false, loged: false, profile: null };
       break;
     }
     case "RECIVED_USER_COLLECTION": {
@@ -82,6 +103,36 @@ export function playlistReducer(state = initialState, action) {
 
 export function PlayboxReducer(state = initialState, action) {
   switch (action.type) {
+    case "DEL_SONG": {
+      let { curList } = state;
+      const arr = curList.filter((item, index) => index !== action.index);
+      if (arr.length === 0) {
+        state.AudioDom.src = "";
+        state.AudioDom.currentTime = 0;
+        state.AudioDom.pause();
+      }
+      state = { ...state, curList: arr, isFm: false };
+      break;
+    }
+    case "CHANGE_PLAY_POSITION": {
+      // state.AudioDom.currentTime=action.position/100*state.AudioDom.
+      state = { ...state, isPlaying: true };
+      console.log(state.AudioDom.volume);
+      state.AudioDom.currentTime = action.position;
+      break;
+    }
+    case "CHANGE_VOL": {
+      state = { ...state, volume: action.vol };
+      state.AudioDom.volume = state.volume;
+      break;
+    }
+    case "TOGGLE_PLAY_STATE": {
+      state.isPlaying = !state.isPlaying;
+      // state={...state,isPlaying:!s};
+      state.isPlaying ? state.AudioDom.play() : state.AudioDom.pause();
+      state = { ...state };
+      break;
+    }
     case "PLAY_SINGLE_SONG": {
       state = {
         ...state,
@@ -93,12 +144,32 @@ export function PlayboxReducer(state = initialState, action) {
       break;
     }
     case "UNSHIFT_LIST": {
-      state.curList.unshift(action.single);
+      // state.curList.unshift(action.single);
+      let { curList } = state;
+      // curList.unshift(action.single);
+      curList = [action.single, ...curList];
+      state = {
+        ...state,
+        curIndex: 0,
+        isPlaying: true,
+        curList: curList,
+        isFm: false
+      };
+      break;
+    }
+    case "PUSH_LIST": {
+      state.curList.push(action.single);
+      if (state.curList.length > 0 && state.curList.length < 2) {
+        state = { ...state, curIndex: 0, isPlaying: true };
+      } else {
+        state = { ...state };
+      }
       break;
     }
 
     case "SWITCH_MODE": {
       state = { ...state, isFm: action.isFm };
+      console.warn("ISFM:", state.isFm);
       break;
     }
     case "TOGGLE_LIST": {

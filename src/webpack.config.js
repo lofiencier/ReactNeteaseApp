@@ -1,5 +1,7 @@
 var webpack = require("webpack");
 var path = require("path");
+var axios = require("axios");
+// var ExtractTextPlugin =require ('extract-text-webpack-plugin');
 
 module.exports = {
   entry: path.join(__dirname, "app/index.jsx"), //很直白，渲染层的唯一入口,无需require 'path'即可使用__dirname?存疑
@@ -9,10 +11,15 @@ module.exports = {
   },
   devtool: "eval-source-map", //生成source-map，方便调试，具体有什么用？
   devServer: {
-    //可能是webpack-dev-server那个的？当你没有使用react/nodejs/等时开的服务器？
     contentBase: "./public", //本地服务器所加载的页面所在的目录
     historyApiFallback: true, //不跳转
-    inline: true //实时刷新
+    inline: true,
+    proxy: {
+      "*": {
+        target: "http://localhost:3000",
+        changeOrigin: true
+      }
+    }
   },
   module: {
     rules: [
@@ -22,22 +29,40 @@ module.exports = {
           loader: "babel-loader"
         },
         exclude: /node_modules/
-        //include/exclude:手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）；
-        // include:[
-        //   path.resolve(__dirname,"app"),
-        //   path.resolve(__dirname,"../public/node_modules/antd/dist/")
-        // ]
-        //这里还有一个可选参数，query:xxx?
-        //例如option:{xxx}??
       },
       {
         test: /(\.css|\.less)$/,
         use: ["style-loader", "css-loader", "less-loader"]
+        // loader: ExtractTextPlugin.extract({
+        //   // fallback: "style-loader",
+        //   use: ["style-loader", "css-loader", "less-loader"]
+        // })
       },
+      // {
+      //   test: /\.module\.css$/,
+      //   loader: ExtractTextPlugin.extract(
+      //     'css?sourceMap&-restructuring&modules&localIdentName=[local]___[hash:base64:5]!' +
+      //     'postcss'
+      //   ),
+      // },
+      // {
+      //   test: /\.module\.less$/,
+      //   loader: ExtractTextPlugin.extract(
+      //     'css?sourceMap&modules&localIdentName=[local]___[hash:base64:5]!!' +
+      //     'postcss!' +
+      //     `less-loader?{"sourceMap":true,"modifyVars":${JSON.stringify(theme)}}`
+      //   ),
+      // },
       {
         test: /.(png|svg|jpg|gif)$/,
         use: ["url-loader?limit=2048&name=./static/images/[name].[ext]?[hash]"]
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      axios: "axios",
+      "window.axios": "axios"
+    })
+  ]
 };

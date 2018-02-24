@@ -4,7 +4,9 @@ import {
   fetchArtistAlbum,
   fetchAlbum,
   fetchSingleSong,
-  changeCurId
+  changeCurId,
+  push_song_list,
+  unshift_song_list
 } from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
@@ -42,9 +44,11 @@ export default class AlbumPage extends React.Component {
     }
   }
 
-  playHandler(e) {
-    let song_id = e.currentTarget.getAttribute("data-id");
-    this.props.dispatch(fetchSingleSong(song_id));
+  playHandler(id) {
+    this.props.dispatch(push_song_list(id));
+  }
+  addHandler(id) {
+    this.props.dispatch(push_song_list(id));
   }
   render() {
     let hotAlbumsView = <h1>Loading...</h1>;
@@ -85,7 +89,8 @@ export default class AlbumPage extends React.Component {
               </div>
               <List
                 songs={this.props.album.songs}
-                playHandler={this.playHandler}
+                playHandler={this.playHandler.bind(this)}
+                addSong={this.addHandler.bind(this)}
               />
               <span className="album_h1">
                 ANY OTHER ALBUMS<a

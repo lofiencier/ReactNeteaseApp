@@ -2,10 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Radio, Icon } from "antd";
 
-const fetch_config = {
-  method: "GET",
-  mode: "cors",
-  credentials: "include"
+const fetchConfig = {
+  withCredentials: true
 };
 
 export class Album_hoz extends React.Component {
@@ -82,7 +80,7 @@ export class InfoBox extends React.Component {
                 this.props.list[this.props.index]
                   ? this.props.list[this.props.index].album.picUrl +
                     "?param=45y45"
-                  : "../static/images/bg.jpg"
+                  : "../static/images/mixtape_rebound.png"
               }
               alt=""
             />
@@ -92,12 +90,12 @@ export class InfoBox extends React.Component {
           <p className="song_name">
             {this.props.list[this.props.index]
               ? this.props.list[this.props.index].name
-              : "Random Song"}
+              : ""}
           </p>
           <small className="song_artist">
             {this.props.list[this.props.index]
               ? this.props.list[this.props.index].artists[0].name
-              : "Random Artist"}
+              : ""}
           </small>
         </div>
       </div>
@@ -154,14 +152,10 @@ export class Recommand extends React.Component {
   }
   fetchAlbums() {
     var that = this;
-    fetch("http://localhost:3000/personalized")
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(data) {
-        // return data
-        that.setState({ songs: data.result });
-      });
+    axios.get("/personalized", fetchConfig).then(function({ data }) {
+      // return data
+      that.setState({ songs: data.result });
+    });
   }
   render() {
     if (this.state.songs.length != 0) {
@@ -265,13 +259,9 @@ export class HotAlbums extends React.Component {
   }
   componentDidMount() {
     let that = this;
-    fetch(
-      `http://localhost:3000/artist/album?id=${this.props.artist_id}&limit=5`
-    )
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(data) {
+    axios
+      .get(`/artist/album?id=${this.props.artist_id}&limit=5`, fetchConfig)
+      .then(function({ data }) {
         data = data.hotAlbums.map(album => {
           let { id, name, picUrl, subType } = album;
           return {
@@ -366,7 +356,12 @@ export class PlayboxList extends React.Component {
                 <p className="song_name">{song.name}</p>
                 <p className="song_ar">{song.artists[0].name}</p>
               </div>
-              <p className="col-xs-1">DEL</p>
+            </a>
+            <a
+              className="item_delete"
+              onClick={this.props.delHandler.bind(this, index)}
+            >
+              <Icon type="delete" />
             </a>
           </div>
         );
@@ -473,72 +468,6 @@ export class Pagination extends React.Component {
   }
 }
 
-export class Day extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      view: [],
-      list: []
-    };
-  }
-  componentWillMount() {
-    fetch(`//localhost:3000/recommend/songs`, fetch_config)
-      .then(res => res.json())
-      .then(data => {
-        data = data.recommend;
-        data = data.map(i => {
-          let { duration } = i;
-          duration =
-            parseInt(duration / 1000 / 60).toString() +
-            ":" +
-            (((duration / 1000) % 60) / 100)
-              .toString()
-              .split("")
-              .slice(2, 4)
-              .join("");
-          return { ...i, duration };
-        });
-        this.setState({ list: data });
-        // let {name,id,duration,artist,album}
-      });
-  }
-  componentWillReceiveProps(nextState) {
-    if (this.state.list != nextState.list) {
-    }
-  }
-  render() {
-    var lis = [];
-    if (this.props.loged) {
-      if (this.state.list.length != 0) {
-        // this.setState();
-        lis = (
-          <ListFloat
-            noHead={true}
-            songs={this.state.list}
-            playHandler={this.playHandler}
-          />
-        );
-      } else {
-        lis = <h1>Loading...</h1>;
-      }
-      return (
-        <div className="day_recommand">
-          <div className="day_recommand_wrap">
-            <div className="index_title">
-              <h1>
-                <a href="javascript:void(0)">DAILY</a>
-              </h1>
-            </div>
-            {lis}
-          </div>
-        </div>
-      );
-    } else {
-      return null;
-    }
-  }
-}
-
 export class ListFloat extends React.Component {
   constructor() {
     super();
@@ -562,12 +491,22 @@ export class ListFloat extends React.Component {
             <a href={"/#/album?id=" + song.album.id}>{song.album.name}</a>
           </div>
           <div className="list_col_body actions col-xs-2 row">
-            <a href="#" className="col-xs-3">
-              +
+            <a
+              href="javascript:void(0)"
+              className="col-xs-3"
+              data-id={song.id}
+              onClick={this.props.addSong}
+            >
+              &#xe6fa;
             </a>
 
-            <a href="#" className="col-xs-3">
-              D&nbsp;
+            <a
+              href="#"
+              className="col-xs-3"
+              data-id={song.id}
+              onClick={this.props.downSong}
+            >
+              &#xe600;
             </a>
             <a
               href="javascript:void(0)"
@@ -575,15 +514,16 @@ export class ListFloat extends React.Component {
               data-id={song.id}
               data-i={index}
               className="col-xs-3"
+              onClick={this.props.playSong}
             >
-              &nbsp;P
+              <Icon type="caret-right" />
             </a>
             <a
               href={"/#/mv?mvid=" + song.mvid}
               className="col-xs-3"
               style={song.mvid ? { display: "block" } : { display: "none" }}
             >
-              M{" "}
+              &#xe948;
             </a>
           </div>
         </div>
@@ -631,12 +571,17 @@ export class List extends React.Component {
             <a href={"/#/album?id=" + song.album.id}>{song.album.name}</a>
           </div>
           <div className="list_col_body actions col-xs-2 row">
-            <a href="#" className="col-xs-3">
-              +
+            <a
+              href="javascript:void(0)"
+              className="col-xs-3"
+              data-id={song.id}
+              onClick={this.props.addHandler}
+            >
+              &#xe6fa;
             </a>
 
             <a href="#" className="col-xs-3">
-              D&nbsp;
+              &#xe600;
             </a>
             <a
               href="javascript:void(0)"
@@ -644,15 +589,16 @@ export class List extends React.Component {
               data-id={song.id}
               data-i={index}
               className="col-xs-3"
+              alt="播放"
             >
-              &nbsp;P
+              <Icon type="caret-right" style={{ fontSize: "12px" }} />
             </a>
             <a
               href={"/#/mv?mvid=" + song.mvid}
               className="col-xs-3"
               style={song.mvid ? { display: "block" } : { display: "none" }}
             >
-              M{" "}
+              &#xe948;
             </a>
           </div>
         </div>
@@ -692,9 +638,9 @@ export class TopAlbum extends React.Component {
     this.fetchHandler(0);
   }
   fetchHandler(offset) {
-    fetch(`//localhost:3000/top/album?limit=6&offset=${offset}`, fetch_config)
-      .then(res => res.json())
-      .then(data => {
+    axios
+      .get(`/top/album?limit=6&offset=${offset}`, fetchConfig)
+      .then(({ data }) => {
         let albums = data.albums;
         this.setState({ result: albums });
       });
@@ -757,7 +703,11 @@ export class Billboard extends React.Component {
     result = arr.map((item, index) => {
       if (index == 0) {
         return (
-          <a className="billboard_list_child first row" key={index}>
+          <a
+            className="billboard_list_child first row"
+            key={index}
+            onClick={this.props.playSong.bind(this, item.id)}
+          >
             <span className="index col-xs-1">{"0" + (index + 1 - "")}</span>
             <span className="pic col-xs-3">
               <img src={item.album.picUrl + "?param=40y40"} alt="" />
@@ -771,7 +721,11 @@ export class Billboard extends React.Component {
         );
       } else {
         return (
-          <a className="billboard_list_child row" key={index}>
+          <a
+            className="billboard_list_child row"
+            key={index}
+            onClick={this.props.playSong.bind(this, item.id)}
+          >
             <span className="index col-xs-1">{"0" + (index + 1 - "")}</span>
 
             <span className="col-xs-10">{item.name}</span>
@@ -790,17 +744,14 @@ export class Billboard extends React.Component {
     let p3 = this.fetchHandler(2, "raise");
     Promise.all([p1, p2, p3]).then(data => {
       this.setState({
-        brandNew: data[0].result.tracks,
-        hotSong: data[1].result.tracks,
-        raise: data[2].result.tracks
+        brandNew: data[0].data.result.tracks,
+        hotSong: data[1].data.result.tracks,
+        raise: data[2].data.result.tracks
       });
     });
   }
   fetchHandler(idx, type) {
-    return fetch(
-      `//localhost:3000/top/list?idx=${idx}`,
-      fetch_config
-    ).then(res => res.json());
+    return axios.get(`/top/list?idx=${idx}`, fetchConfig);
   }
   render() {
     var list1 = [],
@@ -826,21 +777,30 @@ export class Billboard extends React.Component {
         <div className="billboard_wrap">
           <div className="billboard_list_wrap">
             <div className="billboard_list red">
-              <div className="billboard_head red">
+              <div
+                className="billboard_head red"
+                onClick={this.props.playAll.bind(this, this.state.brandNew)}
+              >
                 <h1 className="title">云音乐飙升榜</h1>
                 <Icon type="play-circle-o" className="title_icon" />
               </div>
               {list1}
             </div>
             <div className="billboard_list yellow">
-              <div className="billboard_head yellow">
+              <div
+                className="billboard_head yellow"
+                onClick={this.props.playAll.bind(this, this.state.hotSong)}
+              >
                 <h1 className="title">UK排行榜周榜</h1>
                 <Icon type="play-circle-o" className="title_icon" />
               </div>
               {list2}
             </div>
             <div className="billboard_list green">
-              <div className="billboard_head green">
+              <div
+                className="billboard_head green"
+                onClick={this.props.playAll.bind(this, this.state.raise)}
+              >
                 <h1 className="title">原创歌曲榜</h1>
                 <Icon type="play-circle-o" className="title_icon" />
               </div>
@@ -868,12 +828,9 @@ export class Boutique extends React.Component {
     this.fetchHandler("华语");
   }
   fetchHandler(type) {
-    fetch(
-      `//localhost:3000/top/playlist/highquality?limit=6&cat=${type}`,
-      fetch_config
-    )
-      .then(res => res.json())
-      .then(data => {
+    axios
+      .get(`/top/playlist/highquality?limit=6&cat=${type}`, fetchConfig)
+      .then(({ data }) => {
         this.setState({ list: data.playlists });
       });
   }

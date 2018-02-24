@@ -1,7 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { setCookie, getCookie, delCookie } from "../utils/common";
-import { cookie_alive } from "../redux/actions";
+import { cookie_alive, login, toggleLoginBox } from "../redux/actions";
+import { Modal, Form, Button, Input, Icon, Checkbox } from "antd";
+const FormItem = Form.Item;
 
 @connect(store => {
   return {
@@ -12,52 +14,109 @@ export default class loginbox extends React.Component {
   constructor() {
     super();
   }
-
-  loginHandler(e) {
-    e = e || window.event;
-    e.preventDefault();
-    let cellphone = e.currentTarget.cellphone.value;
-    let password = e.currentTarget.password.value;
-    fetch(
-      `//localhost:3000/login/cellphone?phone=${cellphone}&password=${password}`,
-      { method: "GET", mode: "cros", credentials: "true" }
-    )
-      .then(res => res.json())
-      .then(data => {
-        let { profile } = data;
-        localStorage.setItem("profile", JSON.stringify(profile));
-        localStorage.setItem("loged", true);
-      });
+  componentDidMount() {
+    console.log(this.props.user.showLogin);
   }
-  componentWillMount() {
-    let MUSIC_U = getCookie("MUSIC_U");
-    let __csrf = getCookie("__csrf");
-    if ((localStorage.loged === "true" && MUSIC_U) || __csrf) {
-      this.props.dispatch(cookie_alive());
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user.loged != this.props.user.loged) {
+      this.close(nextProps.user.loged);
     }
   }
+  close(bl) {
+    if (bl) {
+      this.props.dispatch(toggleLoginBox());
+    } else {
+    }
+  }
+  afterClose() {
+    console.log(document.body.style.paddingRight);
+    const header = document.querySelector(".header_fixed");
+    // header.style.paddingRight="17px";
+  }
+
   render() {
     return (
-      <div
-        className="loginbox_root_content"
-        style={
-          this.props.user.showBox ? { display: "block" } : { display: "none" }
-        }
+      <Modal
+        visible={this.props.user.showLogin}
+        width={400}
+        maskClosable={true}
+        footer={null}
+        title="Login"
+        zIndex="10000"
+        maskStyle={{ backgroundColor: "rgba(0,0,0,.95)" }}
+        afterClose={this.afterClose.bind(this)}
+        onCancel={this.close.bind(this)}
       >
-        <div className="loginbox_wrap">
-          <form onSubmit={this.loginHandler}>
-            <label htmlFor="cellphone">PHONE</label>
-            <input type="text" autoComplete="off" name="cellphone" />
-            <br />
-            <label htmlFor="password">PASSWORD</label>
-            <input type="password" name="password" />
-            <br />
-            <input type="radio" name="remember" />
-            <label htmlFor="remember">Remember</label>
-            <input type="submit" value="SUBMIT" />
-          </form>
-        </div>
-      </div>
+        <WrappedNormalLoginForm />
+      </Modal>
     );
   }
 }
+
+@connect(store => {
+  return {
+    user: store.user
+  };
+})
+class NormalLoginForm extends React.Component {
+  handleSubmit = e => {
+    var _this = this;
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.dispatch(login(values.phone, values.password));
+      }
+    });
+  };
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    return (
+      <Form onSubmit={this.handleSubmit} className="login-form">
+        <FormItem>
+          {getFieldDecorator("phone", {
+            rules: [
+              {
+                required: true,
+                pattern: /^[1][3,4,5,7,8][0-9]{9}$/,
+                message: "请输入有效的手机号"
+              }
+            ]
+          })(
+            <Input
+              prefix={
+                <Icon type="shake" style={{ color: "rgba(0,0,0,.25)" }} />
+              }
+              placeholder="Cellphoe"
+              size="large"
+            />
+          )}
+        </FormItem>
+        <FormItem>
+          {getFieldDecorator("password", {
+            rules: [{ required: true, message: "请输入密码" }]
+          })(
+            <Input
+              prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+              type="password"
+              placeholder="Password"
+              size="large"
+            />
+          )}
+        </FormItem>
+        <FormItem style={{ marginBottom: "0" }}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+            size="large"
+            style={{ width: "100%" }}
+            loading={this.props.user.loging}
+          >
+            Log in
+          </Button>
+        </FormItem>
+      </Form>
+    );
+  }
+}
+const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
