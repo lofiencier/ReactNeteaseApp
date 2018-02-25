@@ -7,7 +7,7 @@
     "build": "webpack --config=src/webpack.config.js",
     "test": "mocha -r intelli-espower-loader -t 20000 test",
     "precommit": "lint-staged",
-    "server": "webpack-dev-server --config=src/webpack.config.js --open",
+    "server": "webpack-dev-server --env dev --hot --config=src/webpack.config.js",
     "watch": "onchange \"./src/**/*.js\"  \"./src/**/*.jsx\"  \"./src/**/*.css\" -- npm run build"
   },
   "lint-staged": {
@@ -18,30 +18,20 @@
   },
   "author": "",
   "license": "MIT",
-  "babel": {
-    "presets": [
-      "react",
-      "es2015",
-      "stage-0"
-    ],
-    "plugins": [
-      "babel-plugin-transform-runtime",
-      "babel-plugin-transform-decorators-legacy",
-      [
-        "import",
-        {
-          "libraryName": "antd",
-          "style": true
-        }
-      ]
-    ]
-  },
   "dependencies": {
     "apicache": "^0.9.0",
+    "autoprefixer": "^8.0.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-runtime": "^6.26.0",
     "big-integer": "^1.6.17",
+    "clean-webpack-plugin": "^0.1.18",
     "express": "^4.15.2",
+    "html-webpack-plugin": "^2.30.1",
     "nodemon": "^1.12.1",
-    "request": "^2.81.0"
+    "postcss-loader": "^2.1.0",
+    "react-hot-loader": "^3.1.3",
+    "request": "^2.81.0",
+    "webpack-bundle-analyzer": "^2.10.1"
   },
   "devDependencies": {
     "antd": "^3.0.1",
@@ -81,5 +71,6 @@
     "style-loader": "^0.19.0",
     "url-loader": "^0.6.2",
     "webpack": "^3.8.1"
-  }
+  },
+  "theme": "./theme.js"
 }
