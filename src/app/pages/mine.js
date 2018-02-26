@@ -9,6 +9,7 @@ import {
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
 import { Blur_bg, UserInfo } from "../components/common";
+import { Card } from "antd";
 
 @connect(store => {
   return {

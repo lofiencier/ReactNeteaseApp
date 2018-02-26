@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Radio, Icon } from "antd";
+import { Radio, Icon, Spin, Button, Card } from "antd";
+import LazyLoad from "react-lazy-load";
+import loadingSvg from "../assets/images/loading-bars.svg";
 
 const fetchConfig = {
   withCredentials: true
@@ -102,7 +104,29 @@ export class InfoBox extends React.Component {
     );
   }
 }
+
+export class Loading extends React.Component {
+  render() {
+    return (
+      <div className="loading" style={this.props.style}>
+        <img src={loadingSvg} alt="" />
+      </div>
+    );
+  }
+}
+
 export class Album extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      loaded: false
+    };
+  }
+  imgLoaded() {
+    this.setState({
+      loaded: true
+    });
+  }
   render() {
     return (
       <div className="album_cover_bg">
@@ -115,7 +139,25 @@ export class Album extends React.Component {
           }
         >
           <div className="album_cover">
-            <img src={this.props.coverUrl} alt="" />
+            <Loading
+              width={32}
+              height={32}
+              fill="white"
+              style={this.state.loaded ? { display: "none" } : {}}
+            />
+            <LazyLoad offset={0}>
+              <img
+                src={this.props.coverUrl}
+                alt=""
+                onLoad={this.imgLoaded.bind(this)}
+                style={{
+                  display:
+                    !this.props.coverUrl && !this.state.loaded
+                      ? "none"
+                      : "block"
+                }}
+              />
+            </LazyLoad>
             <div
               className={
                 this.props.albumPlayCount
@@ -143,7 +185,7 @@ export class Recommand extends React.Component {
   constructor() {
     super();
     this.state = {
-      songs: []
+      songs: [{}, {}, {}, {}, {}, {}]
     };
     this.fetchAlbums = this.fetchAlbums.bind(this);
   }
@@ -158,35 +200,31 @@ export class Recommand extends React.Component {
     });
   }
   render() {
-    if (this.state.songs.length != 0) {
-      let lis = this.state.songs.map(song => {
-        let { playCount } = song;
-        if (playCount > 10000) {
-          playCount = parseInt(playCount / 10000) + "W";
-        }
-        return (
-          <Album
-            key={song.id}
-            playlistId={song.id}
-            coverUrl={song.picUrl + "?param=170y170"}
-            albumName={song.name}
-            albumPlayCount={playCount}
-          />
-        );
-      });
+    let lis = this.state.songs.map((song, index) => {
+      let { playCount } = song;
+      if (playCount > 10000) {
+        playCount = parseInt(playCount / 10000) + "W";
+      }
       return (
-        <div className="recommand_playlist">
-          <div className="recommand_wrap">
-            <div className="index_title">
-              <p className="feather_title">NEW RELEAST FOR YOU</p>
-            </div>
-            {lis}
-          </div>
-        </div>
+        <Album
+          key={index}
+          playlistId={song.id}
+          coverUrl={song.picUrl + "?param=170y170"}
+          albumName={song.name}
+          albumPlayCount={playCount}
+        />
       );
-    } else {
-      return <h1>loading...</h1>;
-    }
+    });
+    return (
+      <div className="recommand_playlist">
+        <div className="recommand_wrap">
+          <div className="index_title">
+            <p className="feather_title">NEW RELEAST FOR YOU</p>
+          </div>
+          {lis}
+        </div>
+      </div>
+    );
   }
 }
 
@@ -225,9 +263,14 @@ export class Album_info extends React.Component {
               : "播放量：" + this.props.playCount}
           </span>
           <div className="album_action_playall">
-            <a href="javascript:void(0)" onClick={this.props.playAllHandler}>
-              <p>PLAY ALL</p>
-            </a>
+            <Button
+              type="primary"
+              onClick={this.props.playAllHandler}
+              size="large"
+              style={{ width: "100%" }}
+            >
+              PLAY ALL
+            </Button>
           </div>
         </div>
       </div>
@@ -647,7 +690,6 @@ export class TopAlbum extends React.Component {
   }
   shuffle() {
     let offset = parseInt(Math.random() * 80);
-    console.log(offset);
     this.fetchHandler(offset);
   }
   render() {

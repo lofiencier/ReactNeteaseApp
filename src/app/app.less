@@ -1,12 +1,11 @@
 @font-face {
 	font-family: 'iconfont';  /* project id 571206 */
-	src: url('//at.alicdn.com/t/font_571206_wd14wnyhj4dq85mi.eot');
-	src: url('//at.alicdn.com/t/font_571206_wd14wnyhj4dq85mi.eot?#iefix') format('embedded-opentype'),
-	url('//at.alicdn.com/t/font_571206_wd14wnyhj4dq85mi.woff') format('woff'),
-	url('//at.alicdn.com/t/font_571206_wd14wnyhj4dq85mi.ttf') format('truetype'),
-	url('//at.alicdn.com/t/font_571206_wd14wnyhj4dq85mi.svg#iconfont') format('svg');
+	src: url('//at.alicdn.com/t/font_571206_lij9n5qz7qup7gb9.eot');
+	src: url('//at.alicdn.com/t/font_571206_lij9n5qz7qup7gb9.eot?#iefix') format('embedded-opentype'),
+	url('//at.alicdn.com/t/font_571206_lij9n5qz7qup7gb9.woff') format('woff'),
+	url('//at.alicdn.com/t/font_571206_lij9n5qz7qup7gb9.ttf') format('truetype'),
+	url('//at.alicdn.com/t/font_571206_lij9n5qz7qup7gb9.svg#iconfont') format('svg');
   }
-
 
 .root_content{
 	margin-bottom:60px;
@@ -190,12 +189,27 @@ body{
 			width: 100%;
 			height: 170px;
 			background: #f3f3f3;
-
 			img{
 				display: block;
 				width: 100%;;
 				height: auto;
 				border-radius:4px;
+			}
+			.loading{
+				position: absolute;
+				top:0;
+				left: 0;
+				z-index: 2;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background:rgba(0,0,0,.7);
+				img{
+					width:32%;
+					height:32%;
+				}
 			}
 			.album_info_playCount{
 				display:block;
@@ -434,7 +448,7 @@ body{
 
 				}
 			}
-			span{
+			.album_company,.album_public_time,.playlist_play_count,.playlist_creator{
 				color:@font2;
 				font-size:12px;
 				line-height: 28px;
@@ -513,6 +527,22 @@ body{
 							width:140px;
 							height: 180px;
 							.album_cover{
+								.loading{
+									position: absolute;
+									top:0;
+									left: 0;
+									z-index: 2;
+									width: 100%;
+									height: 100%;
+									display: flex;
+									align-items: center;
+									justify-content: center;
+									background:rgba(0,0,0,.7);
+									img{
+										width:32%;
+										height:32%;
+									}
+								}
 								width: 100%;
 								height: 140px;
 								border-radius: 4px;
@@ -780,7 +810,7 @@ body{
 	position: fixed;
 	width: 300px;
 	background:#fff;
-	height: auto;
+	// height: auto;
 	top:100px;
 	.userinfo_wrap{
 		width: 100%;

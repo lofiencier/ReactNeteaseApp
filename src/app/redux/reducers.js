@@ -140,7 +140,9 @@ export function PlayboxReducer(state = initialState, action) {
         fetched: true,
         curMusicUrl: action.url
       };
-      state.AudioDom.src = action.url;
+      if (state.AudioDom.src !== action.url) {
+        state.AudioDom.src = action.url;
+      }
       break;
     }
     case "UNSHIFT_LIST": {
