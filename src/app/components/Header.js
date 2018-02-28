@@ -29,7 +29,6 @@ export class Header extends React.Component {
     }
   }
   popUpLogin() {
-    console.log(">>>");
     this.props.dispatch(toggleLoginBox());
   }
   submitHandler(e) {
@@ -37,14 +36,11 @@ export class Header extends React.Component {
     e.preventDefault();
     let target = e.currentTarget;
     let keywords = target.keywords.value;
-    // console.log(keywords)
     let limit = target.limit.value;
     let type = target.type.value;
     location.assign(`#/search?keywords=${keywords}`);
   }
-  componentWillReceiveProps(nextProps) {
-    console.log(this.props.history);
-  }
+
   popProfile({ key }) {
     switch (key) {
       case "logout": {

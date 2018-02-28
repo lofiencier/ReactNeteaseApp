@@ -94,6 +94,7 @@ export class InfoBox extends React.Component {
               ? this.props.list[this.props.index].name
               : ""}
           </p>
+          <br />
           <small className="song_artist">
             {this.props.list[this.props.index]
               ? this.props.list[this.props.index].artists[0].name
@@ -376,8 +377,9 @@ export class PlayboxList extends React.Component {
   componentWillReceiveProps(nextProps) {}
   render() {
     let els = (
-      <div className="playbox_list_item">
-        <span>Empty...</span>
+      <div className="playbox_empty">
+        <img src="static/images/empty-dark.png" alt="" />
+        <p>里面什么都没有...</p>
       </div>
     );
     if (this.props.curList.length) {
@@ -386,16 +388,21 @@ export class PlayboxList extends React.Component {
           <div key={index} className="playbox_list_item">
             <a
               href="javascript:void(0)"
-              className="item_href row"
+              className="item_href"
               onClick={this.props.changeIndexHandler}
               data-id={song.id}
               data-index={index}
             >
-              <span className="item_index col-xs-1">{index + 1}</span>
-              <div className="list_item_cover col-xs-2">
+              {this.props.curIndex == index && (
+                <Icon
+                  type="caret-right"
+                  style={{ color: "red", paddingRight: "8px" }}
+                />
+              )}
+              <div className="list_item_cover">
                 <img src={song.album.picUrl + "?param=45y45"} alt="" />
               </div>
-              <div className="list_item_info col-xs-6">
+              <div className="list_item_info">
                 <p className="song_name">{song.name}</p>
                 <p className="song_ar">{song.artists[0].name}</p>
               </div>
@@ -415,10 +422,10 @@ export class PlayboxList extends React.Component {
         className={
           this.props.show && !this.props.isFm
             ? "playbox_list_content"
-            : "playbox_list_content hidden"
+            : "playbox_list_content animate"
         }
         style={{
-          height: document.documentElement.clientHeight - 61 + "px"
+          height: document.documentElement.clientHeight - 66 + "px"
         }}
       >
         <div className="playbox_lit_wrap">{els}</div>
@@ -538,18 +545,9 @@ export class ListFloat extends React.Component {
               href="javascript:void(0)"
               className="col-xs-3"
               data-id={song.id}
-              onClick={this.props.addSong}
+              onClick={this.props.addSong.bind(this, song.id)}
             >
               &#xe6fa;
-            </a>
-
-            <a
-              href="#"
-              className="col-xs-3"
-              data-id={song.id}
-              onClick={this.props.downSong}
-            >
-              &#xe600;
             </a>
             <a
               href="javascript:void(0)"
@@ -623,9 +621,6 @@ export class List extends React.Component {
               &#xe6fa;
             </a>
 
-            <a href="#" className="col-xs-3">
-              &#xe600;
-            </a>
             <a
               href="javascript:void(0)"
               onClick={this.props.playHandler}
@@ -674,7 +669,8 @@ export class TopAlbum extends React.Component {
     super();
     this.fetchHandler = this.fetchHandler.bind(this);
     this.state = {
-      result: []
+      result: [],
+      loading: false
     };
   }
   componentWillMount() {
@@ -685,11 +681,14 @@ export class TopAlbum extends React.Component {
       .get(`/top/album?limit=6&offset=${offset}`, fetchConfig)
       .then(({ data }) => {
         let albums = data.albums;
-        this.setState({ result: albums });
+        this.setState({ result: albums, loading: false });
       });
   }
   shuffle() {
     let offset = parseInt(Math.random() * 80);
+    this.setState({
+      loading: true
+    });
     this.fetchHandler(offset);
   }
   render() {
@@ -712,12 +711,20 @@ export class TopAlbum extends React.Component {
             <div className="recommand_wrap">
               <div className="index_title">
                 <h1 className="feather_title">
-                  <a
-                    href="javascript:void(0)"
+                  HOT ALBUMS
+                  <Button
                     onClick={this.shuffle.bind(this)}
+                    size="small"
+                    className="shuffle"
                   >
-                    HOT ALBUMS
-                  </a>
+                    <Icon
+                      type="sync"
+                      spin={this.state.loading}
+                      style={{ fontSize: "12px" }}
+                      className="shuffle_icon"
+                    />
+                    SHUFFLE
+                  </Button>
                 </h1>
               </div>
               {lis}

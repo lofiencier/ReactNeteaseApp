@@ -1,12 +1,11 @@
 @font-face {
 	font-family: 'iconfont';  /* project id 571206 */
-	src: url('//at.alicdn.com/t/font_571206_lij9n5qz7qup7gb9.eot');
-	src: url('//at.alicdn.com/t/font_571206_lij9n5qz7qup7gb9.eot?#iefix') format('embedded-opentype'),
-	url('//at.alicdn.com/t/font_571206_lij9n5qz7qup7gb9.woff') format('woff'),
-	url('//at.alicdn.com/t/font_571206_lij9n5qz7qup7gb9.ttf') format('truetype'),
-	url('//at.alicdn.com/t/font_571206_lij9n5qz7qup7gb9.svg#iconfont') format('svg');
+	src: url('//at.alicdn.com/t/font_571206_kar9bkviyj02j4i.eot');
+	src: url('//at.alicdn.com/t/font_571206_kar9bkviyj02j4i.eot?#iefix') format('embedded-opentype'),
+	url('//at.alicdn.com/t/font_571206_kar9bkviyj02j4i.woff') format('woff'),
+	url('//at.alicdn.com/t/font_571206_kar9bkviyj02j4i.ttf') format('truetype'),
+	url('//at.alicdn.com/t/font_571206_kar9bkviyj02j4i.svg#iconfont') format('svg');
   }
-
 .root_content{
 	margin-bottom:60px;
 	height:auto;
@@ -16,7 +15,8 @@
 	}
 }
 a{
-	text-decoration: none;
+	text-decoration: none !important;
+	text-decoration-line:none !important;
 	color:#000;
 }
 a:active{
@@ -35,16 +35,16 @@ body{
 @border:#ddd;
 @border_red:#d64141;
 @icon:#999999;
+@font-dark:#80808c;
+@font-dark-hover:#f28480;
+@font-dark-active:#e76767;
 
-body{
-	background:@bg_black;
-	// font-family:"iconfont";
-}
+
 .header_fixed{
 	position:fixed;
 	z-index: 999;
 	color:#fff;
-	line-height: 60px;
+	line-height: 60px; 
 	width: 100%;
 	height: 60px;
 	top:0;
@@ -61,6 +61,9 @@ body{
 			height: inherit;
 			float: left;
 			font-size:20px;
+			a{
+				color:#fff;
+			}
 		}
 
 		.header_nav{
@@ -161,6 +164,9 @@ body{
 			font-size:20px;
 			line-height: 60px;
 			margin:10px 0;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
 		}
 		height: 220px;
 		
@@ -287,11 +293,14 @@ body{
 		width:100%;
 		height: 100%;
 		margin:0 auto;
+		min-width:1200px;
 		display: flex;
+		align-items: center;
 		position: relative;
 		justify-content: space-between;
 		.left_side{
 			display: flex;
+			flex:0 0 auto;
 			z-index:2;
 		}
 		.right_side{
@@ -308,9 +317,9 @@ body{
 			}
 		}
 		.song_info{
-			float: left;
+			display: flex;
 			.song_cover{
-				float:left;
+				flex:0 0 auto;
 				width: 45px;
 				height: 45px;
 				margin:4px;
@@ -322,11 +331,16 @@ body{
 				}
 			}
 			.song_text{
-				float:left;
-				height: 45px;
-				width: auto;
-				padding:8px;
+				max-width:360px;
+				padding:4px;
 				line-height: 20px;
+				font-size:14px;
+				overflow: hidden;
+    			white-space: nowrap;
+				text-overflow: ellipsis;
+				.song_name{
+					display: inline;
+				}
 				small{
 					font-size:12px;
 					color:#585858;
@@ -334,7 +348,9 @@ body{
 			}
 		}
 		.control_center{
-			position: absolute;
+			// position: absolute;
+			display: inline-block;
+			text-align: center;
 			width: 100%;
 			height: 100%;
 			display: flex;
@@ -347,6 +363,15 @@ body{
 				height:auto;
 				margin:4px 28px;	
 				font-size:20px;
+				&#download-custom{
+					.anticon-download-custom{
+					&::before{
+						content:"\E616";
+						font-family: "iconfont" !important;
+						font-size:22px;
+					}
+				}
+				}
 				&.play{
 					font-size:32px;
 					i{
@@ -653,8 +678,8 @@ body{
 
 .changer_content{
 	margin:4px;
-	float: left;
 	width: 22.5px;
+	flex:0 0 auto;
 	height: 45px;
 	display: block;
 	border-radius: 12px;
@@ -703,21 +728,41 @@ body{
 		color:#fff;
 		overflow-x: hidden;
 		overflow-y:scroll;
-		&.hidden{
-			display:none;
+		transform: translate3d(0px,0px,0px);
+		transition: all .36s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+		&.animate{
+			transform: translate3d(260px,0px,0px);
 		}
 		.playbox_lit_wrap{
 			height: auto;
 			position: relative;
+			.playbox_empty{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				color:@font-dark;
+				font-size:14px;
+				img{
+					width:200px;
+					height:auto;
+				}
 
+			}
 			.playbox_list_item{
 				width:100%;
 				height:60px;
 				margin-bottom: 6px;
-				background:#0e0e10;
 				display: flex;
 				align-items: center;
-
+				.item_delete{
+					color:@font-dark;
+					&:hover{
+						color:@font-dark-hover;
+					}
+					&:active{
+						color:@font-dark-active;
+					}
+				}
 				.col-xs-6{
 					float:left;
 					display:block;
@@ -725,26 +770,30 @@ body{
 					color:#fff;
 					text-align:center;
 				}
-				&.active{
-					width: 254px;
-					border-left: 4px solid #ff0d19 inset;
-				}
+				
 				.item_delete{
 					// height: 100%;
 					padding:8px;
 				}
 				.item_href{
-					color:#fff;
-					display: block;
+					color:@font-dark;
 					width: 100%;
 					height:auto;
-					padding: 10px 0px;
+					padding: 10px 10px;
 					overflow: hidden;
 					line-height: 40px;
-					.item_index{
-						font-size:10px;
-						text-align: center;
+					display: flex;
+					align-items: center;
+					&.playing{
+						border-left:4px solid red;
 					}
+					&:hover{
+						color:@font-dark-hover;
+					}
+					&:active{
+						color:@font-dark-active;
+					}
+					
 					.list_item_cover{
 						img{
 							display:block;
@@ -767,7 +816,6 @@ body{
 						}
 						.song_ar{
 							font-size:10px;
-							color:#fcfcfc;
 						}
 					}
 				}
@@ -960,9 +1008,13 @@ body{
 
 .day_recommand{
 	width:100%;
-	height: 480px;
+	max-height:480px;
+	min-height:136px;
 	background:#101010;
 	color:#9a9a9a;
+	&.animate{
+		min-height:480px;
+	}
 	a{
 		color: #9a9a9a;
 	}
@@ -973,7 +1025,7 @@ body{
 		margin:0 auto;
 		background:url("/static/images/dayly.jpg");
 		overflow:hidden;
-
+		padding-bottom:40px;
 		.list_table{
 			width: 1310px;
 			border:none;
@@ -991,22 +1043,22 @@ body{
 		}
 	}
 	.index_title{
-	h1{
+		.daily_info{
+			font-size:12px;
+		}
+		.daily_tile{
 		font-size:20px;
 		font-weight: bold;
 		line-height: 60px;
 		color:#fff;
-		display: inline-block;
 		margin: 10px 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 		a{
 			color:#fff;
 		}
-		&:hover::after{
-			content: "";
-			padding: 0 13px;
-			background:#fff;
-			cursor: pointer;
-		};
+		
 	}
 	p{
 		font-size:14px;
@@ -1034,34 +1086,31 @@ body{
 	.index_title{
 		a{
 			color:@font1;
-			&:hover::after{
-				content: "";
-				padding: 0 13px;
-				background:@main;
-				cursor: pointer;
-			};
 		}
+	}
+	.shuffle{
+		margin-right:100px;
+		font-size:12px;
 	}
 }
 
 
 .index_boutique{
 	.index_title{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		.feather_title{
 			/*display: inline-block;*/
-			float: left;
+			display: flex;
+			align-items: center;
 
 		}
 		.boutique_radio_group{
-			float: left;
-			line-height: 60px;
-			margin:10px 20px;
-			
+			padding-right:100px;
 		}
 	}
-	.clear_both{
-		clear:both;
-	}
+
 }
 
 .billboard_content{

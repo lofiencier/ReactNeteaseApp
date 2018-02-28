@@ -14,9 +14,7 @@ export default class loginbox extends React.Component {
   constructor() {
     super();
   }
-  componentDidMount() {
-    console.log(this.props.user.showLogin);
-  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.user.loged != this.props.user.loged) {
       this.close(nextProps.user.loged);
@@ -27,11 +25,6 @@ export default class loginbox extends React.Component {
       this.props.dispatch(toggleLoginBox());
     } else {
     }
-  }
-  afterClose() {
-    console.log(document.body.style.paddingRight);
-    const header = document.querySelector(".header_fixed");
-    // header.style.paddingRight="17px";
   }
 
   render() {
@@ -44,7 +37,6 @@ export default class loginbox extends React.Component {
         title="Login"
         zIndex="10000"
         maskStyle={{ backgroundColor: "rgba(0,0,0,.95)" }}
-        afterClose={this.afterClose.bind(this)}
         onCancel={this.close.bind(this)}
       >
         <WrappedNormalLoginForm />
@@ -59,20 +51,69 @@ export default class loginbox extends React.Component {
   };
 })
 class NormalLoginForm extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      logError: false,
+      msg: ""
+    };
+  }
   handleSubmit = e => {
     var _this = this;
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.dispatch(login(values.phone, values.password));
+        this.props.dispatch(
+          login(values.phone, values.password, this.fetchCallbak.bind(this))
+        );
       }
     });
   };
+  fetchCallbak(code, msg) {
+    switch (code) {
+      case 200: {
+        this.setState({
+          logError: false,
+          msg: ""
+        });
+        break;
+      }
+      case 502: {
+        this.setState({
+          logError: true,
+          msg: "账号或密码错误"
+        });
+        break;
+      }
+      case 503: {
+        this.setState({
+          logError: true,
+          msg: ""
+        });
+      }
+      case 504: {
+        this.setState({
+          logError: true,
+          msg: "网络异常"
+        });
+      }
+    }
+  }
+  changeHandler() {
+    this.setState({
+      logError: false,
+      msg: ""
+    });
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
+    const validateStatus = this.state.logError
+      ? { validateStatus: "error" }
+      : {};
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
-        <FormItem>
+        <FormItem hasFeedback {...validateStatus}>
           {getFieldDecorator("phone", {
             rules: [
               {
@@ -88,10 +129,12 @@ class NormalLoginForm extends React.Component {
               }
               placeholder="Cellphoe"
               size="large"
+              help={this.state.msg}
+              onChange={this.changeHandler.bind(this)}
             />
           )}
         </FormItem>
-        <FormItem>
+        <FormItem help={this.state.msg} {...validateStatus} hasFeedback>
           {getFieldDecorator("password", {
             rules: [{ required: true, message: "请输入密码" }]
           })(
@@ -100,6 +143,7 @@ class NormalLoginForm extends React.Component {
               type="password"
               placeholder="Password"
               size="large"
+              onChange={this.changeHandler.bind(this)}
             />
           )}
         </FormItem>

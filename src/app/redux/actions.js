@@ -27,23 +27,30 @@ export function logout() {
     dispatch({ type: "LOG_OUT" });
   };
 }
-export function login(phone, password) {
+export function login(phone, password, cb) {
   return function(dispatch) {
     // dispatch({type})
     dispatch({ type: "TRY_LOGIN" });
-    axios
+    return axios
       .get(`/login/cellphone?phone=${phone}&password=${password}`)
       .then(function({ data }) {
+        console.log(data);
         if (data.code === 200) {
           localStorage.setItem("loged", true);
           localStorage.setItem("profile", JSON.stringify(data.profile));
           dispatch({ type: "LOGIN_SUCCESS", profile: data.profile });
+          cb(200, "登陆成功");
+        } else if (data.code === 502) {
+          dispatch({ type: "LOGIN_REJECT", err: data.msg });
+          cb(502, "账号密码错误");
         } else {
           dispatch({ type: "LOGIN_REJECT", err: data.msg });
+          cb(503, "登陆频繁，请稍后再试");
         }
       })
       .catch(function(err) {
         dispatch({ type: "LOGIN_REJECT", err: err });
+        cb(504, "网络有点问题...");
       });
   };
 }

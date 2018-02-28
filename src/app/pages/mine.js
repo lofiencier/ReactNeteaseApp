@@ -29,7 +29,6 @@ export default class AlbumPage extends React.Component {
     this.props.dispatch(
       fetchPlaylist("?id=" + this.props.location.search.split("=")[1], true)
     );
-    // console.log("WILL MOUNT")
   }
   componentWillReceiveProps(nextProps) {
     if (!nextProps.location.search.length) {

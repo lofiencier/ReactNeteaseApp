@@ -5,8 +5,9 @@ import {
   fetchAlbum,
   fetchSingleSong,
   changeCurId,
-  push_song_list,
-  unshift_song_list
+  unshift_song_list,
+  copyAllSongs,
+  push_song_list
 } from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
@@ -43,9 +44,11 @@ export default class AlbumPage extends React.Component {
       this.fetchHandler(nextProps.location.search);
     }
   }
-
+  playAllHandler() {
+    this.props.dispatch(copyAllSongs(this.props.album.songs));
+  }
   playHandler(id) {
-    this.props.dispatch(push_song_list(id));
+    this.props.dispatch(unshift_song_list(id));
   }
   addHandler(id) {
     this.props.dispatch(push_song_list(id));
@@ -59,6 +62,7 @@ export default class AlbumPage extends React.Component {
       <div className="root_content">
         <div className="album_content_wrap">
           <Album_info
+            playAllHandler={this.playAllHandler.bind(this)}
             type="ALBUM"
             coverUrl={this.props.album.album.picUrl}
             name={this.props.album.album.name}

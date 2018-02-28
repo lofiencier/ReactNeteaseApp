@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import initialState from "./initialState";
+import { uniqueArray } from "../utils/common";
 
 export default combineReducers({
   searchlist: searchlistReducer,
@@ -110,8 +111,10 @@ export function PlayboxReducer(state = initialState, action) {
         state.AudioDom.src = "";
         state.AudioDom.currentTime = 0;
         state.AudioDom.pause();
+        state = { ...state, curList: arr, isFm: false, isPlaying: false };
+      } else {
+        state = { ...state, curList: arr, isFm: false, isPlaying: true };
       }
-      state = { ...state, curList: arr, isFm: false };
       break;
     }
     case "CHANGE_PLAY_POSITION": {
@@ -138,7 +141,8 @@ export function PlayboxReducer(state = initialState, action) {
         ...state,
         fetching: false,
         fetched: true,
-        curMusicUrl: action.url
+        curMusicUrl: action.url,
+        isPlaying: true
       };
       if (state.AudioDom.src !== action.url) {
         state.AudioDom.src = action.url;
@@ -150,21 +154,23 @@ export function PlayboxReducer(state = initialState, action) {
       let { curList } = state;
       // curList.unshift(action.single);
       curList = [action.single, ...curList];
+      var arr = uniqueArray(curList, "id");
       state = {
         ...state,
         curIndex: 0,
         isPlaying: true,
-        curList: curList,
+        curList: arr,
         isFm: false
       };
       break;
     }
     case "PUSH_LIST": {
       state.curList.push(action.single);
+      var arr = uniqueArray(state.curList, "id");
       if (state.curList.length > 0 && state.curList.length < 2) {
-        state = { ...state, curIndex: 0, isPlaying: true };
+        state = { ...state, curIndex: 0, isPlaying: true, curList: arr };
       } else {
-        state = { ...state };
+        state = { ...state, curList: arr };
       }
       break;
     }
@@ -180,7 +186,14 @@ export function PlayboxReducer(state = initialState, action) {
     }
     case "COPY_SONG_INFO_UNSHIFT": {
       state.curList.unshift(action.song);
-      state = { ...state, curIndex: 0, isPlaying: true, isFm: false };
+      var arr = uniqueArray(state.curList, "id");
+      state = {
+        ...state,
+        curIndex: 0,
+        isPlaying: true,
+        isFm: false,
+        curList: arr
+      };
       break;
     }
     case "COPY_ALL_SONGS": {
@@ -191,6 +204,7 @@ export function PlayboxReducer(state = initialState, action) {
         isPlaying: true,
         isFm: false
       };
+      state.curList = uniqueArray(state.curList, "id");
       break;
     }
     case "EMPTY_LIST": {

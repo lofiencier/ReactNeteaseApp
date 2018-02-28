@@ -1,6 +1,7 @@
 import React from "react";
-import { HashRouter, Route, Switch, Link } from "react-router-dom";
+import { HashRouter, Switch, Link, Route, Redirect } from "react-router-dom";
 import Test from "../pages/test";
+import { connect } from "react-redux";
 import Search from "../pages/Search";
 import Login from "../pages/login";
 import Playlist from "../pages/Playlist";
@@ -11,9 +12,27 @@ import Playbox from "../components/Playbox";
 import FM from "../components/FM";
 import MV from "../pages/mv";
 import Mine from "../pages/mine";
+import { getCookie } from "../utils/common";
 // import MV from "../pages"
+
+const isLogin = () => {
+  var cookie = getCookie("__csrf");
+  var profile = localStorage.getItem("profile");
+  if (cookie && profile) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+@connect(store => {
+  return {
+    user: store.user
+  };
+})
 export class Routers extends React.Component {
   render() {
+    let { loged } = this.props.user;
     return (
       <HashRouter>
         <main>
@@ -27,7 +46,21 @@ export class Routers extends React.Component {
             <Route path="/login" component={Login} />
             <Route path="/playlist" component={Playlist} />
             <Route path="/album" component={Album} />
-            <Route path="/mine" component={Mine} />
+            <Route
+              path="/mine"
+              render={renderProps => {
+                return isLogin() ? (
+                  <Mine {...renderProps} />
+                ) : (
+                  <Redirect
+                    to={{
+                      pathname: "/loginfirst",
+                      state: { from: renderProps.location }
+                    }}
+                  />
+                );
+              }}
+            />
             <Route path="/mv" component={MV} />
           </Switch>
         </main>

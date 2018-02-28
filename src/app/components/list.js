@@ -28,20 +28,12 @@ export default class List extends React.Component {
             >
               &#xe6fa;
             </a>
-
-            <a href="javascript:void(0)" className="col-xs-3">
-              &#xe600;
-            </a>
             <a
               href="javascript:void(0)"
               onClick={this.props.playHandler.bind(this, song.id)}
               className="col-xs-3"
             >
-              <Icon
-                type="caret-right"
-                style={{ color: "#999" }}
-                onClick={this.props.playHandler.bind(this, song.id)}
-              />
+              <Icon type="caret-right" style={{ color: "#999" }} />
             </a>
           </div>
         </div>

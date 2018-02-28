@@ -28,7 +28,8 @@ export default class Playbox extends React.Component {
     this.state = {
       time: "00:00",
       percent: 0,
-      slideMode: false
+      slideMode: false,
+      localUrl: ""
     };
     this.switchModeHandler = this.switchModeHandler.bind(this);
     this.changeIndexHandler = this.changeIndexHandler.bind(this);
@@ -158,13 +159,24 @@ export default class Playbox extends React.Component {
     });
     this.props.dispatch(changePlayPosition(curTime));
   }
+  downloadHandler() {
+    this.refs.download.click();
+  }
   render() {
-    const { curList, curIndex, isPlaying, isFm, AudioDom } = this.props.Playbox;
+    const {
+      curList,
+      curIndex,
+      isPlaying,
+      isFm,
+      AudioDom,
+      curMusicUrl
+    } = this.props.Playbox;
     const style = {
       height: "90%",
       margin: "2px 10px",
       padding: "2px 4px"
     };
+    const download = isPlaying ? { download: curList[curIndex] } : {};
     const menu = (
       <Menu>
         <Menu.Item
@@ -206,7 +218,10 @@ export default class Playbox extends React.Component {
         <AudioThunk timeUpdateHandler={this.timeUpdateHandler.bind(this)} />
         {proSlider}
         <div className="playbox_content">
-          <div className="left_side">
+          <div
+            className="left_side"
+            style={isFm ? { width: "84px" } : { width: "128px" }}
+          >
             <Changer
               text1="MU"
               text2="FM"
@@ -224,27 +239,20 @@ export default class Playbox extends React.Component {
             />
           </div>
 
-          <div className="right_side">
-            <Dropdown overlay={menu} placement="topCenter" trigger={["click"]}>
-              <Button
-                shape="circle"
-                size="small"
-                icon="sound"
-                className="btns"
-              />
-            </Dropdown>
-            {!isFm && (
-              <Switch
-                checkedChildren={curList.length}
-                unCheckedChildren={curList.length}
-                onChange={this.toggleListHandler.bind(this)}
-                checked={this.props.Playbox.showList}
-                size="large"
-              />
-            )}
-          </div>
           <div className="control_center" ref="control_center">
-            <Button shape="circle" icon="heart" size="small" />
+            <Button
+              shape="circle"
+              icon="download-custom"
+              size="small"
+              id="download-custom"
+              onClick={this.downloadHandler.bind(this)}
+            />
+            <a
+              href={curMusicUrl}
+              {...download}
+              ref="download"
+              style={{ display: "none" }}
+            />
             {!isFm && (
               <Button
                 shape="circle"
@@ -287,12 +295,33 @@ export default class Playbox extends React.Component {
               />
             )}
           </div>
+
+          <div className="right_side">
+            <Dropdown overlay={menu} placement="topCenter" trigger={["click"]}>
+              <Button
+                shape="circle"
+                size="small"
+                icon="sound"
+                className="btns"
+              />
+            </Dropdown>
+            {!isFm && (
+              <Switch
+                checkedChildren={curList.length}
+                unCheckedChildren={curList.length}
+                onChange={this.toggleListHandler.bind(this)}
+                checked={this.props.Playbox.showList}
+                size="large"
+              />
+            )}
+          </div>
         </div>
         <PlayboxList
           isFm={this.props.Playbox.isFm}
           empty={this.emptyListHandler.bind(this)}
           show={this.props.Playbox.showList}
           curList={this.props.Playbox.curList}
+          curIndex={this.props.Playbox.curIndex}
           changeIndexHandler={this.changeIndexHandler.bind(this)}
           delHandler={this.delHandler.bind(this)}
         />

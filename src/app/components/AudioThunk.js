@@ -94,22 +94,23 @@ export default class AudioThunk extends React.Component {
       fm_preload,
       isPlaying
     } = nextProps.Playbox;
-    if (curIndex != this.props.Playbox.curIndex && isFm && isPlaying) {
+    let nowPlaybox = this.props.Playbox;
+    if (curIndex != nowPlaybox.curIndex && isFm && isPlaying) {
       this.FMIndexWatcher(curIndex, fmList, fm_preload);
-    } else if (isFm && isFm != this.props.Playbox.isFm) {
+    } else if (isFm && isFm != nowPlaybox.isFm) {
       //这里fm.music切换的场景(fm和music的index一致时)
       this.FMSwitchWatcher(curIndex, fmList, fm_preload);
     } else if (
       isFm &&
-      fmList.length != this.props.Playbox.fmList.length &&
+      fmList.length != nowPlaybox.fmList.length &&
       fmList.length
     ) {
       this.props.dispatch(fetchSingleSong(fmList[0].id));
     }
 
-    if (curList.length != this.props.Playbox.curList.length) {
-      if (curList.length < this.props.Playbox.curList.length) {
-        if (curList.length) {
+    if (curList.length != nowPlaybox.curList.length) {
+      if (curList.length < nowPlaybox.curList.length) {
+        if (curList.length > 0) {
           nextProps.dispatch(
             fetchSingleSong(nextProps.Playbox.curList[curIndex].id)
           );
@@ -117,11 +118,20 @@ export default class AudioThunk extends React.Component {
       } else {
         nextProps.dispatch(fetchSingleSong(nextProps.Playbox.curList[0].id));
       }
-    } else if (curIndex != this.props.Playbox.curIndex && !isFm && isPlaying) {
+    } else if (curIndex != nowPlaybox.curIndex && !isFm && isPlaying) {
       this.MusicIndexWatcher(curIndex, curList);
-    } else if (!isFm && isFm != this.props.Playbox.isFm) {
+    } else if (!isFm && isFm != nowPlaybox.isFm) {
       this.MusicIndexWatcher(curIndex, curList);
+    } else if (
+      curList.length > 0 &&
+      curIndex == nowPlaybox.curIndex &&
+      isPlaying &&
+      !isFm &&
+      curList[curIndex].id != nowPlaybox.curList[curIndex].id
+    ) {
+      nextProps.dispatch(fetchSingleSong(curList[curIndex].id));
     }
+
     //switch到fm时一定播放，switch到music时music list无歌曲不播放
     //专辑和歌单的播放按钮会导致switch，并改变index
     //不让fm的list过界

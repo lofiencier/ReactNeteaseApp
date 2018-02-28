@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Header from "../components/Header";
+import { Link } from "react-router-dom";
 import Banner from "../components/Banner";
 import Day from "../components/Day";
 import { Recommand, TopAlbum, Billboard, Boutique } from "../components/common";
@@ -28,7 +29,7 @@ export default class IndexPage extends React.Component {
       <div className="root_content">
         <Banner />
         <Recommand />
-        <Day loged={this.props.user.loged} />
+        <Day />
         <TopAlbum offset={1} />
         <Boutique />
         <Billboard
