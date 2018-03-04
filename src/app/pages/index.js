@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import Banner from "../components/Banner";
 import Day from "../components/Day";
 import { Recommand, TopAlbum, Billboard, Boutique } from "../components/common";
-import { copyAllSongs, unshift_song_list } from "../redux/actions";
 import Playbox from "../components/Playbox";
+import { unshiftSong, coverList } from "../redux/actions";
 
 @connect(store => {
   return {
@@ -16,13 +16,11 @@ import Playbox from "../components/Playbox";
   };
 })
 export default class IndexPage extends React.Component {
-  playHandler(id) {
-    this.props.dispatch(unshift_song_list(id));
+  playHandler(song) {
+    this.props.dispatch(unshiftSong(song));
   }
   playAllHandler(songs) {
-    // console.log("1")
-    // console.log(this,songs);
-    this.props.dispatch(copyAllSongs(songs));
+    this.props.dispatch(coverList(songs));
   }
   render() {
     return (

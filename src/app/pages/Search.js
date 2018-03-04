@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import {
   fetchSearchList,
-  fetchSingleSong,
-  unshift_song_list,
-  push_song_list
+  unshiftSongById,
+  pushSongById,
+  coverList
 } from "../redux/actions";
 import StackBlur from "stackblur-canvas";
 import { Blur_bg, List } from "../components/common";
@@ -40,13 +40,11 @@ export default class Search extends React.Component {
       nextProps.dispatch(fetchSearchList(nextProps.location.search, 1));
     }
   }
-  playHandler(e) {
-    let song_id = e.currentTarget.getAttribute("data-id");
-    this.props.dispatch(unshift_song_list(song_id));
+  playHandler(song) {
+    this.props.dispatch(unshiftSongById(song.id));
   }
-  addHandler(e) {
-    var id = e.currentTarget.getAttribute("data-id");
-    this.props.dispatch(push_song_list(id));
+  addHandler(song) {
+    this.props.dispatch(pushSongById(song.id));
   }
 
   render() {
@@ -61,7 +59,6 @@ export default class Search extends React.Component {
             />
             <div className="pagination_wrap">
               <Pagination
-                showQuickJumper
                 current={this.props.searchlist.offset}
                 total={this.props.searchlist.songCount}
                 defaultPageSize={30}

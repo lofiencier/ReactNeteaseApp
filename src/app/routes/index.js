@@ -12,6 +12,7 @@ import Playbox from "../components/Playbox";
 import FM from "../components/FM";
 import MV from "../pages/mv";
 import Mine from "../pages/mine";
+import { Loginfirst, NonMatch } from "../pages/loginfirst";
 import { getCookie } from "../utils/common";
 // import MV from "../pages"
 
@@ -46,6 +47,8 @@ export class Routers extends React.Component {
             <Route path="/login" component={Login} />
             <Route path="/playlist" component={Playlist} />
             <Route path="/album" component={Album} />
+            <Route path="/loginfirst" component={Loginfirst} />
+
             <Route
               path="/mine"
               render={renderProps => {
@@ -62,6 +65,7 @@ export class Routers extends React.Component {
               }}
             />
             <Route path="/mv" component={MV} />
+            <Route path="*" component={NonMatch} />
           </Switch>
         </main>
       </HashRouter>

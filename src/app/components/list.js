@@ -24,13 +24,13 @@ export default class List extends React.Component {
             <a
               href="javascript:void(0)"
               className="col-xs-3"
-              onClick={this.props.addSong.bind(this, song.id)}
+              onClick={this.props.addSong.bind(this, song)}
             >
               &#xe6fa;
             </a>
             <a
               href="javascript:void(0)"
-              onClick={this.props.playHandler.bind(this, song.id)}
+              onClick={this.props.playHandler.bind(this, song)}
               className="col-xs-3"
             >
               <Icon type="caret-right" style={{ color: "#999" }} />

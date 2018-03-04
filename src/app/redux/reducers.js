@@ -19,7 +19,7 @@ export function userReducer(state = initialState, action) {
       break;
     }
     case "COOKIE_ALIVE": {
-      state = { ...state, loged: action.loged, profile: action.profile };
+      state = { ...state, loged: true, profile: action.payload };
       break;
     }
     case "TRY_LOGIN": {
@@ -104,138 +104,117 @@ export function playlistReducer(state = initialState, action) {
 
 export function PlayboxReducer(state = initialState, action) {
   switch (action.type) {
-    case "DEL_SONG": {
+    case "UNSHIFT_SONG": {
+      // state.curList.push(action.payload);
       let { curList } = state;
-      const arr = curList.filter((item, index) => index !== action.index);
-      if (arr.length === 0) {
-        state.AudioDom.src = "";
-        state.AudioDom.currentTime = 0;
-        state.AudioDom.pause();
-        state = { ...state, curList: arr, isFm: false, isPlaying: false };
-      } else {
-        state = { ...state, curList: arr, isFm: false, isPlaying: true };
-      }
-      break;
-    }
-    case "CHANGE_PLAY_POSITION": {
-      // state.AudioDom.currentTime=action.position/100*state.AudioDom.
-      state = { ...state, isPlaying: true };
-      console.log(state.AudioDom.volume);
-      state.AudioDom.currentTime = action.position;
-      break;
-    }
-    case "CHANGE_VOL": {
-      state = { ...state, volume: action.vol };
-      state.AudioDom.volume = state.volume;
-      break;
-    }
-    case "TOGGLE_PLAY_STATE": {
-      state.isPlaying = !state.isPlaying;
-      // state={...state,isPlaying:!s};
-      state.isPlaying ? state.AudioDom.play() : state.AudioDom.pause();
-      state = { ...state };
-      break;
-    }
-    case "PLAY_SINGLE_SONG": {
-      state = {
-        ...state,
-        fetching: false,
-        fetched: true,
-        curMusicUrl: action.url,
-        isPlaying: true
-      };
-      if (state.AudioDom.src !== action.url) {
-        state.AudioDom.src = action.url;
-      }
-      break;
-    }
-    case "UNSHIFT_LIST": {
-      // state.curList.unshift(action.single);
-      let { curList } = state;
-      // curList.unshift(action.single);
-      curList = [action.single, ...curList];
-      var arr = uniqueArray(curList, "id");
-      state = {
-        ...state,
-        curIndex: 0,
-        isPlaying: true,
-        curList: arr,
-        isFm: false
-      };
-      break;
-    }
-    case "PUSH_LIST": {
-      state.curList.push(action.single);
-      var arr = uniqueArray(state.curList, "id");
-      if (state.curList.length > 0 && state.curList.length < 2) {
-        state = { ...state, curIndex: 0, isPlaying: true, curList: arr };
-      } else {
-        state = { ...state, curList: arr };
-      }
-      break;
-    }
-
-    case "SWITCH_MODE": {
-      state = { ...state, isFm: action.isFm };
-      console.warn("ISFM:", state.isFm);
+      let { payload } = action;
+      let arr = [action.payload, ...curList];
+      arr = uniqueArray(arr, "id");
+      state = { ...state, curList: arr };
       break;
     }
     case "TOGGLE_LIST": {
-      state = { ...state, showList: action.showlist };
-      break;
-    }
-    case "COPY_SONG_INFO_UNSHIFT": {
-      state.curList.unshift(action.song);
-      var arr = uniqueArray(state.curList, "id");
-      state = {
-        ...state,
-        curIndex: 0,
-        isPlaying: true,
-        isFm: false,
-        curList: arr
-      };
-      break;
-    }
-    case "COPY_ALL_SONGS": {
-      state = {
-        ...state,
-        curList: action.songs,
-        curIndex: 0,
-        isPlaying: true,
-        isFm: false
-      };
-      state.curList = uniqueArray(state.curList, "id");
-      break;
-    }
-    case "EMPTY_LIST": {
-      state = { ...state, curList: [], isPlaying: false };
+      state = { ...state, showList: !state.showList };
       break;
     }
     case "CHANGE_INDEX": {
-      // if (state.isFm && action.index > state.fmList.length - 1) {
-      //   state = { ...state, curIndex: 0 };
-      //   console.log("FM OVERID");
-      //   break;
-      // } else if (!state.isFm && action.index > state.curList.length - 1) {
-      //   console.log("MUSIC OVERID");
-      //   state = { ...state, curIndex: 0 };
-      //   break;
-      // } else {
-      state = { ...state, curIndex: action.index, isPlaying: true };
+      state = { ...state, curIndex: action.payload };
       break;
-      // }
+    }
+    case "START_PLAY": {
+      state = { ...state, isPlaying: true };
+      break;
+    }
+    case "STOP_PLAY": {
+      state.AudioDom.pause();
+      state.AudioDom.currentTime = 0;
+      state.AudioDom.src = "";
+      state = { ...state, isPlaying: false };
+      break;
+    }
+    case "COVER_MUSIC_LIST": {
+      state = { ...state, curList: action.payload };
+      break;
+    }
+    case "DEL_SONG": {
+      let { curList } = state;
+      const payload = curList.filter((item, index) => index !== action.payload);
+      state = { ...state, curList: payload };
+      break;
+    }
+    case "TOGGLE_PLAY_STATUS": {
+      let { AudioDom, isPlaying } = state;
+      isPlaying ? AudioDom.pause() : AudioDom.play();
+      state = { ...state, isPlaying: !state.isPlaying };
+      break;
+    }
+    case "TOGGLE_MODE": {
+      state = { ...state, isFm: action.payload };
+      break;
     }
     case "RECEIVE_FM_SONG": {
-      state = { ...state, fmList: action.songs, curIndex: 0, isPlaying: true };
+      state = { ...state, fmList: action.payload };
       break;
     }
     case "PRELOAD_FM_SONG": {
-      state = { ...state, fm_preload: action.songs };
+      const { fmList } = state;
+      const payload = [...fmList, ...action.payload];
+      state = { ...state, fmList: payload };
       break;
     }
-    case "IMPORT_FM_BUFFER": {
-      state.fmList = state.fm_preload;
-      state = { ...state };
+    case "IMPORT_FM_PRELOAD": {
+      state = { ...state, fmList: state.fm_preload };
+      break;
+    }
+    case "DEL_FM_SONG": {
+      let { fmList } = state;
+      const payload = fmList.filter((item, index) => index !== action.payload);
+      state = { ...state, fmList: payload };
+      break;
+    }
+    case "GET_MUSIC_URL": {
+      state = { ...state, curMusicUrl: action.payload };
+      break;
+    }
+    case "CHNAGE_FM_INDEX": {
+      state = { ...state, curIndex: action.payload };
+      break;
+    }
+    case "CHANGE_PLAY_POSITION": {
+      state.AudioDom.currentTime = action.payload;
+      break;
+    }
+    case "CHANGE_VOL": {
+      state.AudioDom.volume = action.payload;
+      break;
+    }
+    case "PUSH_SONG": {
+      let payload = state.curList.concat(action.payload);
+      payload = uniqueArray(payload, "id");
+      state = { ...state, curList: payload };
+      break;
+    }
+    case "TOGGLE_PLAY_BOX": {
+      if (state.showPlaybox) {
+        document.querySelector("body").style.overflow = "auto";
+      } else {
+        document.querySelector("body").style.overflow = "hidden";
+      }
+      state = { ...state, showPlaybox: !state.showPlaybox };
+      break;
+    }
+    case "FETCHING_LRC": {
+      state = { ...state, lyric: action.payload };
+      break;
+    }
+    case "RECIEVE_LRC": {
+      let payload = action.payload;
+
+      state = { ...state, lyric: action.payload };
+      break;
+    }
+    case "FETCH_LRC_ERROR": {
+      state = { ...state, lyric: action.payload };
       break;
     }
   }

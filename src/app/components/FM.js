@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchFm } from "../redux/actions";
 
 @connect(store => {
   return {
@@ -8,18 +7,7 @@ import { fetchFm } from "../redux/actions";
   };
 })
 export default class FM extends React.Component {
-  componentDidMount() {
-    console.log("FM MODULE MOUNT");
-  }
-  componentWillReceiveProps(nextProps) {
-    // if (
-    //   nextProps.Playbox.isFm &&
-    //   this.props.Playbox.isFm != nextProps.Playbox.isFm
-    // ) {
-    //   this.props.dispatch(fetchFm());
-    // }
-  }
   render() {
-    return <div className="fm_root_content" />;
+    return null;
   }
 }

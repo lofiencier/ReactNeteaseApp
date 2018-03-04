@@ -1,21 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-  switchMode,
-  unshift_song_list,
-  fetchSingleSong,
   toggleList,
   changeCurIndex,
-  emptyList,
-  changeIndex,
-  togglePlayState,
-  changeVolume,
   changePlayPosition,
-  delSong
+  changeMusicIndex,
+  delSong,
+  togglePlayStatus,
+  toggleMode,
+  changeFmIndex,
+  changeVolume,
+  toggleShowPlaybox,
+  songEnded
 } from "../redux/actions";
 import { Changer, PlayboxList, InfoBox } from "../components/common";
-import AudioThunk from "../components/AudioThunk";
+import Lyric from "./Lyric";
 import { Icon, Switch, Button, Menu, Dropdown, Slider } from "antd";
+import { getDefault, getTrans } from "./transform";
 
 @connect(store => {
   return {
@@ -27,14 +28,28 @@ export default class Playbox extends React.Component {
     super();
     this.state = {
       time: "00:00",
+      currentTime: 0,
       percent: 0,
       slideMode: false,
-      localUrl: ""
+      localUrl: "",
+      baseOffsetWidth: (document.documentElement.offsetWidth - 1200) / 2 + 30,
+      baseOffsetHeight: document.documentElement.offsetHeight / 2
     };
     this.switchModeHandler = this.switchModeHandler.bind(this);
-    this.changeIndexHandler = this.changeIndexHandler.bind(this);
+    this.changeMusicIndexHandler = this.changeMusicIndexHandler.bind(this);
+    window.addEventListener("resize", this.changeOffset.bind(this));
+  }
+  changeOffset() {
+    let { offsetWidth, offsetHeight } = document.documentElement;
+    this.setState({
+      baseOffsetWidth: (offsetWidth - 1200) / 2 + 30,
+      baseOffsetHeight: offsetHeight / 2
+    });
   }
   componentDidMount() {
+    const { AudioDom } = this.props.Playbox;
+    AudioDom.addEventListener("ended", this.songEndHandler.bind(this));
+    AudioDom.addEventListener("timeupdate", this.timeUpdateHandler.bind(this));
     this.refs.process.rcSlider.sliderRef.addEventListener(
       "mousedown",
       this.startSlide.bind(this),
@@ -43,6 +58,12 @@ export default class Playbox extends React.Component {
     document.addEventListener("mouseup", this.stopSlide.bind(this), false);
   }
   componentWillUnmount() {
+    const { AudioDom } = this.props.Playbox;
+    AudioDom.removeEventListener("ended", this.songEndHandler.bind(this));
+    AudioDom.removeEventListener(
+      "timeupdate",
+      this.timeUpdateHandler.bind(this)
+    );
     this.refs.process.rcSlider.sliderRef.removeEventListener(
       "mousedown",
       this.startSlide,
@@ -55,19 +76,21 @@ export default class Playbox extends React.Component {
       false
     );
   }
-
+  songEndHandler() {
+    this.props.dispatch(songEnded());
+  }
   switchModeHandler() {
-    this.props.dispatch(switchMode(this.props.Playbox.isFm));
+    // this.props.dispatch(switchMode(this.props.Playbox.isFm));
+    this.props.dispatch(toggleMode());
   }
   toggleListHandler() {
     this.props.dispatch(toggleList(this.props.Playbox.showList));
   }
-  changeIndexHandler(e) {
-    e = e || window.event;
-    let index = e.currentTarget.getAttribute("data-index");
-    let id = e.currentTarget.getAttribute("data-id");
-    console.log(index, id);
-    this.props.dispatch(changeIndex(index));
+  changeMusicIndexHandler(index) {
+    this.props.dispatch(changeMusicIndex(index));
+  }
+  changeFmIndexHandler() {
+    this.props.dispatch(changeFmIndex(index));
   }
   timeUpdateHandler(e) {
     e = e || window.event;
@@ -77,7 +100,8 @@ export default class Playbox extends React.Component {
     let play_percent = parseInt(curTime / dur * 10000) / 100 || 0;
     // this.refs.process.
     this.setState({
-      percent: play_percent
+      percent: play_percent,
+      currentTime: e.path[0].currentTime
     });
 
     if (e.currentTarget.readyState == 4) {
@@ -97,16 +121,21 @@ export default class Playbox extends React.Component {
     }
   }
   prevSong() {
-    this.props.dispatch(changeIndex(parseInt(this.props.Playbox.curIndex) - 1));
+    let { curIndex } = this.props.Playbox;
+    this.props.dispatch(changeMusicIndex(curIndex - 1));
   }
   nextSong() {
-    this.props.dispatch(changeIndex(parseInt(this.props.Playbox.curIndex) + 1));
+    let { curIndex, isFm } = this.props.Playbox;
+    isFm
+      ? this.props.dispatch(changeFmIndex(curIndex + 1))
+      : this.props.dispatch(changeMusicIndex(curIndex + 1));
   }
   emptyListHandler() {
-    this.props.dispatch(emptyList());
+    // this.props.dispatch(emptyList());
   }
   playHandler() {
-    this.props.dispatch(togglePlayState());
+    // this.props.dispatch(togglePlayState());
+    this.props.dispatch(togglePlayStatus());
   }
   changeVol(vol) {
     // console.log(vol);
@@ -162,6 +191,15 @@ export default class Playbox extends React.Component {
   downloadHandler() {
     this.refs.download.click();
   }
+  transformer() {
+    let { isFm, curList } = this.props.Playbox;
+    if (isFm || (!isFm && curList.length > 0)) {
+      this.props.dispatch(toggleShowPlaybox());
+    }
+  }
+  shutBox() {
+    this.props.dispatch(toggleShowPlaybox());
+  }
   render() {
     const {
       curList,
@@ -169,13 +207,17 @@ export default class Playbox extends React.Component {
       isPlaying,
       isFm,
       AudioDom,
-      curMusicUrl
+      curMusicUrl,
+      showPlaybox
     } = this.props.Playbox;
     const style = {
       height: "90%",
       margin: "2px 10px",
       padding: "2px 4px"
     };
+    const transformStyle = showPlaybox
+      ? getTrans(this.state.baseOffsetWidth, this.state.baseOffsetHeight)
+      : getDefault();
     const download = isPlaying ? { download: curList[curIndex] } : {};
     const menu = (
       <Menu>
@@ -202,6 +244,7 @@ export default class Playbox extends React.Component {
               AudioDom.duration ? this.currentPositon.bind(this) : () => false
             }
             tipFormatter={this.tipformate.bind(this)}
+            style={transformStyle.process}
           />
         ))
       : (proSlider = (
@@ -211,35 +254,60 @@ export default class Playbox extends React.Component {
             value={this.state.percent}
             min={1}
             tipFormatter={this.tipformate.bind(this)}
+            style={transformStyle.process}
           />
         ));
     return (
-      <div id="playbox">
-        <AudioThunk timeUpdateHandler={this.timeUpdateHandler.bind(this)} />
-        {proSlider}
-        <div className="playbox_content">
+      <div id="playbox" style={transformStyle.box}>
+        {showPlaybox && (
+          <Button
+            className="box_shut"
+            shape="circle"
+            icon="close"
+            onClick={this.shutBox.bind(this)}
+          />
+        )}
+
+        <div className="ant_slider_bar">{proSlider}</div>
+        <div className="playbox_content" style={transformStyle.content}>
+          {showPlaybox && (
+            <Lyric
+              offsetHeight={this.state.baseOffsetHeight}
+              offsetWidth={this.state.baseOffsetWidth}
+              currentTime={this.state.currentTime}
+            />
+          )}
           <div
             className="left_side"
             style={isFm ? { width: "84px" } : { width: "128px" }}
           >
-            <Changer
-              text1="MU"
-              text2="FM"
-              value={this.props.Playbox.isFm}
-              clickHandler={this.switchModeHandler}
-            />
+            {!showPlaybox && (
+              <Changer
+                text2="&#xe868;"
+                text1="&#xe6b1;"
+                value={this.props.Playbox.isFm}
+                clickHandler={this.switchModeHandler}
+              />
+            )}
             <InfoBox
               list={
                 this.props.Playbox.isFm
                   ? this.props.Playbox.fmList
                   : this.props.Playbox.curList
               }
+              transformer={this.transformer.bind(this)}
               index={this.props.Playbox.curIndex}
-              transformer={this.transformer}
+              transformStyle={transformStyle}
+              showPlaybox={showPlaybox}
+              isPlaying={isPlaying}
             />
           </div>
 
-          <div className="control_center" ref="control_center">
+          <div
+            className="control_center"
+            ref="control_center"
+            style={transformStyle.control}
+          >
             <Button
               shape="circle"
               icon="download-custom"
@@ -277,7 +345,9 @@ export default class Playbox extends React.Component {
             <Button
               shape="circle"
               onClick={
-                curList.length || isFm ? this.nextSong.bind(this) : () => false
+                curList.length || isFm
+                  ? this.nextSong.bind(this)
+                  : this.changeFmIndexHandler.bind(this)
               }
               icon="right"
               size="small"
@@ -296,7 +366,7 @@ export default class Playbox extends React.Component {
             )}
           </div>
 
-          <div className="right_side">
+          <div className="right_side" style={transformStyle.right}>
             <Dropdown overlay={menu} placement="topCenter" trigger={["click"]}>
               <Button
                 shape="circle"
@@ -322,8 +392,10 @@ export default class Playbox extends React.Component {
           show={this.props.Playbox.showList}
           curList={this.props.Playbox.curList}
           curIndex={this.props.Playbox.curIndex}
-          changeIndexHandler={this.changeIndexHandler.bind(this)}
+          changeMusicIndex={this.changeMusicIndexHandler.bind(this)}
+          changeFmIndex={this.changeFmIndexHandler.bind(this)}
           delHandler={this.delHandler.bind(this)}
+          showPlaybox={showPlaybox}
         />
       </div>
     );

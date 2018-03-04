@@ -5,7 +5,13 @@ import { Link } from "react-router-dom";
 import LoginBox from "./loginbox";
 import { Icon, Dropdown, Menu } from "antd";
 import { getCookie, delCookie, setCookie } from "../utils/common";
-import { cookie_alive, toggleLoginBox, logout } from "../redux/actions";
+import {
+  cookie_alive,
+  toggleLoginBox,
+  logout,
+  toggleShowPlaybox,
+  toggleMode
+} from "../redux/actions";
 
 @connect(store => {
   return {
@@ -27,6 +33,10 @@ export class Header extends React.Component {
         })
       );
     }
+  }
+  showPlaybox() {
+    this.props.dispatch(toggleMode("fm"));
+    this.props.dispatch(toggleShowPlaybox());
   }
   popUpLogin() {
     this.props.dispatch(toggleLoginBox());
@@ -103,7 +113,12 @@ export class Header extends React.Component {
                 pathname === "/fm" ? "header_nav active" : "header_nav"
               }
             >
-              <a href="javascript:void(0)">FM</a>
+              <a
+                href="javascript:void(0)"
+                onClick={this.showPlaybox.bind(this)}
+              >
+                FM
+              </a>
             </div>
             <div
               className={
@@ -128,7 +143,7 @@ export class Header extends React.Component {
                   href="javascript:void(0)"
                   onClick={this.popUpLogin.bind(this)}
                 >
-                  <span>Login</span>
+                  <span style={{ color: "#fff" }}>Login</span>
                 </a>
               )}
             </div>

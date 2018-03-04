@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import {
   getCollect,
   fetchPlaylist,
-  unshift_song_list,
-  push_song_list
+  unshiftSong,
+  pushSong,
+  coverList
 } from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
 import { Blur_bg, UserInfo } from "../components/common";
-import { Card } from "antd";
+import { Icon } from "antd";
 
 @connect(store => {
   return {
@@ -20,6 +21,9 @@ export default class AlbumPage extends React.Component {
   constructor() {
     super();
     // this.playHandler = this.playHandler.bind(this);
+    this.state = {
+      index: 0
+    };
   }
 
   componentWillMount() {
@@ -36,8 +40,6 @@ export default class AlbumPage extends React.Component {
         "/mine?playlist=" + nextProps.user.collections[0].playlistId
       );
     } else if (nextProps.location.search != this.props.location.search) {
-      // console.log(nextProps.location.search)
-      // console.log()
       nextProps.dispatch(
         fetchPlaylist("?id=" + nextProps.location.search.split("=")[1], true)
       );
@@ -53,19 +55,32 @@ export default class AlbumPage extends React.Component {
     };
   }
   playHandler(id) {
-    this.props.dispatch(unshift_song_list(id));
+    this.props.dispatch(unshiftSong(id));
   }
   addHandler(id) {
-    this.props.dispatch(push_song_list(id));
+    this.props.dispatch(pushSong(id));
+  }
+  getIndex(index) {
+    // console.log(index)
+    this.setState({
+      index: index
+    });
+  }
+  playAllHandler() {
+    const { curPlaylist } = this.props.user;
+    this.props.dispatch(coverList(curPlaylist));
   }
   render() {
     let collections = this.props.user.collections;
     return (
-      <div className="root_content">
+      <div className="mine_root_content">
         <div className="playlist_content_wrap">
           <UserInfo
             cols={collections}
             profile={JSON.parse(localStorage.profile)}
+            getIndex={this.getIndex.bind(this)}
+            curIndex={this.state.index}
+            playall={this.playAllHandler.bind(this)}
           />
           <div className="playlist_content_wrap">
             <div className="album_list_bg">

@@ -17,14 +17,17 @@ function initialState() {
       fetching: false,
       fetched: false,
       err: null,
-      showlist: false,
+      showList: false,
       isFm: false,
       isPlaying: false,
       curIndex: NaN,
       volume: 0.1,
       curList: [],
       fmList: [],
-      fm_preload: []
+      fm_preload: [],
+      curMusicUrl: "",
+      showPlaybox: false,
+      lyric: []
     },
     playlist: {
       fetching: false,

@@ -2,11 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { ListFloat } from "../components/common";
 import {
-  unshift_song_list,
-  push_song_list,
-  copyAllSongs
+  unshiftSong,
+  pushSong,
+  coverList,
+  toggleLoginBox
 } from "../redux/actions";
-import { Button, Icon } from "antd";
+import { Button, Icon, Spin } from "antd";
 
 const fetchConfig = {
   withCredentials: true
@@ -31,7 +32,14 @@ export default class Day extends React.Component {
       this.fetchList();
     }
   }
-
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.user.loged &&
+      nextProps.user.loged !== this.props.user.loged
+    ) {
+      this.fetchList();
+    }
+  }
   fetchList() {
     var _this = this;
     axios.get(`/recommend/songs`, fetchConfig).then(({ data }) => {
@@ -54,15 +62,16 @@ export default class Day extends React.Component {
     });
   }
   playAllHandler() {
-    this.props.dispatch(copyAllSongs(this.state.list));
+    this.props.dispatch(coverList(this.state.list));
   }
-  playSong(e) {
-    e = e || window.event;
-    var id = e.currentTarget.getAttribute("data-id");
-    this.props.dispatch(unshift_song_list(id));
+  playSong(song) {
+    this.props.dispatch(unshiftSong(song));
   }
-  addSong(id) {
-    this.props.dispatch(push_song_list(id));
+  goLogin() {
+    this.props.dispatch(toggleLoginBox());
+  }
+  addSong(song) {
+    this.props.dispatch(pushSong(song));
   }
   downSong() {}
   render() {
@@ -81,22 +90,20 @@ export default class Day extends React.Component {
       );
     }
     const nowDate = new Date();
+    let logOrPlay = loged
+      ? { onClick: this.playAllHandler.bind(this) }
+      : { onClick: this.goLogin.bind(this) };
+    let logOrPlayText = loged ? "PLAY ALL" : "GO LOGIN";
     return (
       <div className="day_recommand">
         <div className="day_recommand_wrap">
           <div className="index_title">
             <h1 className="daily_tile">
               DAILY
-              {loged && (
-                <Button
-                  ghost={true}
-                  size="small"
-                  onClick={this.playAllHandler.bind(this)}
-                >
-                  <Icon type="plus" />
-                  PLAY ALL
-                </Button>
-              )}
+              <Button ghost={true} size="small" {...logOrPlay}>
+                <Icon type="plus" />
+                {logOrPlayText}
+              </Button>
             </h1>
             {loged ? (
               <span className="daily_info">

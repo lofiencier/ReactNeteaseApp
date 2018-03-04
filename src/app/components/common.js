@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Radio, Icon, Spin, Button, Card } from "antd";
 import LazyLoad from "react-lazy-load";
 import loadingSvg from "../assets/images/loading-bars.svg";
+import ScrollArea from "react-scrollbar";
+import { mount, unmount } from "./stopBodyScroll";
 
 const fetchConfig = {
   withCredentials: true
@@ -10,14 +12,19 @@ const fetchConfig = {
 
 export class Album_hoz extends React.Component {
   render() {
+    const { index, getIndex, active, id, name } = this.props;
     return (
       <div className="user_collections_item">
-        <Link to={"/mine?playlist=" + this.props.id}>
+        <Link
+          to={"/mine?playlist=" + id}
+          className={active ? "user_album_href active" : "user_album_href"}
+          onClick={getIndex.bind(this, index)}
+        >
           <div className="item_cover">
             <img src={this.props.url + "?param=38y38"} alt="" />
           </div>
           <div className="item_info">
-            <p>{this.props.name}</p>
+            <p>{name}</p>
             <small>{this.props.count}</small>
           </div>
         </Link>
@@ -27,45 +34,78 @@ export class Album_hoz extends React.Component {
 }
 
 export class UserInfo extends React.Component {
+  constructor() {
+    super();
+  }
+  componentDidMount() {
+    const { content } = this.refs.scrollArea;
+    mount(content);
+  }
+  componentWillUnmount() {
+    const { content } = this.refs.scrollArea;
+    unmount(content);
+  }
   render() {
     let i = this.props.cols;
     let lis = <span>LOADING...</span>;
+
     if (i) {
       lis = i.map((playlist, index) => {
+        const active = this.props.curIndex === index;
         return (
           <Album_hoz
             key={index}
+            index={index}
             id={playlist.playlistId}
             name={playlist.playlistName}
             count={playlist.trackCount}
             url={playlist.coverImgUrl}
+            getIndex={this.props.getIndex}
+            active={active}
           />
         );
       });
     }
+    let scrollbarStyles = { borderRadius: 5 };
     return (
       <div className="user_root_content">
-        <div className="userinfo_wrap">
-          <div className="avatar">
-            <img src={this.props.profile.avatarUrl + "?param=80y80"} alt="" />
-          </div>
-          <div className="user_info">
-            <p>Name</p>
-            <div className="social_info row">
-              <span className="social_info_deltail col-xs-4">
-                NES<br />1
-              </span>
-              <span className="social_info_deltail col-xs-4">
-                FOLLOW<br />3
-              </span>
-              <span className="social_info_deltail col-xs-4">
-                FANS<br />2
-              </span>
-            </div>
-          </div>
+        <div
+          className="user_collections_item"
+          style={{
+            height: "60px",
+            display: "flex",
+            alignItems: "center",
+            borderBottom: "1px solid #e3e3e3"
+          }}
+        >
+          <Icon
+            type="heart"
+            style={{ fontSize: "12px", color: "#e65454", margin: "0 10px" }}
+          />
+          <span>我的收藏</span>
         </div>
-        <div className="user_collections_wrap">
-          <div className="user_collections">{lis}</div>
+        <ScrollArea
+          className="user_collections_wrap"
+          contentClassName="content"
+          verticalScrollbarStyle={scrollbarStyles}
+          verticalContainerStyle={scrollbarStyles}
+          horizontalScrollbarStyle={scrollbarStyles}
+          horizontalContainerStyle={scrollbarStyles}
+          smoothScrolling={true}
+          minScrollSize={40}
+          ref="scrollArea"
+        >
+          {lis}
+        </ScrollArea>
+        <div className="user_play_all">
+          <Button
+            type="primary"
+            size="large"
+            style={{ width: "100%", height: "45px" }}
+            onClick={this.props.playall}
+          >
+            播放当前歌单
+          </Button>
         </div>
       </div>
     );
@@ -73,22 +113,31 @@ export class UserInfo extends React.Component {
 }
 export class InfoBox extends React.Component {
   render() {
+    const size = this.props.showPlaybox ? "240y240" : "45y45";
     return (
       <div className="song_info">
-        <div className="song_cover">
-          <a href="javascript:void:(0)" onClick={this.props.transformer}>
+        <div
+          className={
+            this.props.showPlaybox && this.props.isPlaying
+              ? "song_cover custom_spin"
+              : "song_cover"
+          }
+          style={this.props.transformStyle.cover}
+        >
+          <a href="javascript:void(0)" onClick={this.props.transformer}>
             <img
               src={
                 this.props.list[this.props.index]
                   ? this.props.list[this.props.index].album.picUrl +
-                    "?param=45y45"
+                    "?param=" +
+                    size
                   : "../static/images/mixtape_rebound.png"
               }
               alt=""
             />
           </a>
         </div>
-        <div className="song_text">
+        <div className="song_text" style={this.props.transformStyle.texts}>
           <p className="song_name">
             {this.props.list[this.props.index]
               ? this.props.list[this.props.index].name
@@ -367,13 +416,14 @@ export class PlayboxList extends React.Component {
     super();
   }
   componentDidMount() {
-    let ele = document.getElementsByClassName("playbox_list_content")[0];
-    ele.addEventListener("mousewheel", function(e) {
-      let height = ele.querySelectorAll(".playbox_lit_wrap")[0].clientHeight;
-      e = e || window.event;
-      e.stopPropagation();
-    });
+    const { content } = this.refs.scrollArea;
+    mount(content);
   }
+  componentWillUnmount() {
+    const { content } = this.refs.scrollArea;
+    unmount(content);
+  }
+
   componentWillReceiveProps(nextProps) {}
   render() {
     let els = (
@@ -389,7 +439,7 @@ export class PlayboxList extends React.Component {
             <a
               href="javascript:void(0)"
               className="item_href"
-              onClick={this.props.changeIndexHandler}
+              onClick={this.props.changeMusicIndex.bind(this, index)}
               data-id={song.id}
               data-index={index}
             >
@@ -417,19 +467,33 @@ export class PlayboxList extends React.Component {
         );
       });
     }
+    let scrollbarStyles = { borderRadius: 5 };
     return (
-      <div
+      <ScrollArea
         className={
           this.props.show && !this.props.isFm
             ? "playbox_list_content"
             : "playbox_list_content animate"
         }
-        style={{
-          height: document.documentElement.clientHeight - 66 + "px"
-        }}
+        style={
+          this.props.showPlaybox
+            ? { height: "100%" }
+            : {
+                height: document.documentElement.clientHeight - 66 + "px"
+              }
+        }
+        contentClassName="playbox_lit_wrap"
+        verticalScrollbarStyle={{ ...scrollbarStyles, background: "#fff" }}
+        verticalContainerStyle={scrollbarStyles}
+        horizontalScrollbarStyle={scrollbarStyles}
+        horizontalContainerStyle={scrollbarStyles}
+        smoothScrolling={true}
+        minScrollSize={40}
+        ref="scrollArea"
+        smoothScrolling={true}
       >
-        <div className="playbox_lit_wrap">{els}</div>
-      </div>
+        {els}
+      </ScrollArea>
     );
   }
 }
@@ -545,17 +609,16 @@ export class ListFloat extends React.Component {
               href="javascript:void(0)"
               className="col-xs-3"
               data-id={song.id}
-              onClick={this.props.addSong.bind(this, song.id)}
+              onClick={this.props.addSong.bind(this, song)}
             >
               &#xe6fa;
             </a>
             <a
               href="javascript:void(0)"
-              onClick={this.props.playHandler}
+              onClick={this.props.playSong.bind(this, song)}
               data-id={song.id}
               data-i={index}
               className="col-xs-3"
-              onClick={this.props.playSong}
             >
               <Icon type="caret-right" />
             </a>
@@ -616,14 +679,14 @@ export class List extends React.Component {
               href="javascript:void(0)"
               className="col-xs-3"
               data-id={song.id}
-              onClick={this.props.addHandler}
+              onClick={this.props.addHandler.bind(this, song)}
             >
               &#xe6fa;
             </a>
 
             <a
               href="javascript:void(0)"
-              onClick={this.props.playHandler}
+              onClick={this.props.playHandler.bind(this, song)}
               data-id={song.id}
               data-i={index}
               className="col-xs-3"
@@ -755,7 +818,7 @@ export class Billboard extends React.Component {
           <a
             className="billboard_list_child first row"
             key={index}
-            onClick={this.props.playSong.bind(this, item.id)}
+            onClick={this.props.playSong.bind(this, item)}
           >
             <span className="index col-xs-1">{"0" + (index + 1 - "")}</span>
             <span className="pic col-xs-3">
@@ -773,7 +836,7 @@ export class Billboard extends React.Component {
           <a
             className="billboard_list_child row"
             key={index}
-            onClick={this.props.playSong.bind(this, item.id)}
+            onClick={this.props.playSong.bind(this, item)}
           >
             <span className="index col-xs-1">{"0" + (index + 1 - "")}</span>
 

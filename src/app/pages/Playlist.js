@@ -2,12 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import {
   fetchPlaylist,
-  copySongInfo,
-  copyAllSongs,
-  fetchSingleSong,
-  changeIndex,
-  unshift_song_list,
-  push_song_list
+  coverList,
+  unshiftSong,
+  pushSong
 } from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
@@ -33,7 +30,7 @@ export default class Playlist extends React.Component {
     };
   }
   playAllHandler() {
-    this.props.dispatch(copyAllSongs(this.props.playlist.songs));
+    this.props.dispatch(coverList(this.props.playlist.songs));
   }
   componentDidMount() {
     // console.log("axios:",axios);
@@ -47,11 +44,11 @@ export default class Playlist extends React.Component {
     }
     axios.get(`/simi/playlist${listId}`, fetchConfig).then(({ data }) => {});
   }
-  playHandler(id) {
-    this.props.dispatch(unshift_song_list(id));
+  playHandler(song) {
+    this.props.dispatch(unshiftSong(song));
   }
-  addHandler(id) {
-    this.props.dispatch(push_song_list(id));
+  addHandler(song) {
+    this.props.dispatch(pushSong(song));
   }
   render() {
     return (

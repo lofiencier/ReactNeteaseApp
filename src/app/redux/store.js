@@ -6,4 +6,7 @@ import reducers from "./reducers";
 import initialState from "./initialState";
 
 const middleware = applyMiddleware(promise(), thunk, logger);
-export default createStore(reducers, initialState, middleware);
+var store = createStore(reducers, initialState, middleware);
+
+console.log(store.getState());
+export default store;

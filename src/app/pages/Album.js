@@ -3,11 +3,9 @@ import { connect } from "react-redux";
 import {
   fetchArtistAlbum,
   fetchAlbum,
-  fetchSingleSong,
-  changeCurId,
-  unshift_song_list,
-  copyAllSongs,
-  push_song_list
+  pushSong,
+  unshiftSong,
+  coverList
 } from "../redux/actions";
 import List from "../components/list";
 import StackBlur from "stackblur-canvas";
@@ -45,13 +43,13 @@ export default class AlbumPage extends React.Component {
     }
   }
   playAllHandler() {
-    this.props.dispatch(copyAllSongs(this.props.album.songs));
+    this.props.dispatch(coverList(this.props.album.songs));
   }
-  playHandler(id) {
-    this.props.dispatch(unshift_song_list(id));
+  playHandler(song) {
+    this.props.dispatch(unshiftSong(song));
   }
-  addHandler(id) {
-    this.props.dispatch(push_song_list(id));
+  addHandler(song) {
+    this.props.dispatch(pushSong(song));
   }
   render() {
     let hotAlbumsView = <h1>Loading...</h1>;
