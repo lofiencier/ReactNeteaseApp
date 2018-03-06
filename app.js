@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 const apicache = require("apicache");
-
+const compression = require("compression");
 const app = express();
 let cache = apicache.middleware;
 
@@ -20,6 +20,12 @@ app.all("*", function(req, res, next) {
 const onlyStatus200 = (req, res) => res.statusCode === 200;
 
 app.use(cache("2 minutes", onlyStatus200));
+
+app.use(compression({ filter: shouldCompress }));
+
+function shouldCompress(req, res) {
+  return compression.filter(req, res);
+}
 
 app.use(express.static("public"));
 

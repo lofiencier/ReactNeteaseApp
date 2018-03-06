@@ -10,7 +10,6 @@ import "../less/reset.css"
 ReactDOM.render(
 	<Provider store={store}>
 		<Routers/>
-		
 	</Provider>
 	, document.getElementById('root'));
 

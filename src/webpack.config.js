@@ -4,26 +4,30 @@ module.exports = function(env) {
   // 生成环境下webpack使用-p参数开启代码压缩
   // webpack[-dev-server]使用--env dev参数指定编译环境
   var isDev = env == "dev";
+  var UglifyJsPlugin = require("uglifyjs-webpack-plugin");
   var path = require("path");
   var webpack = require("webpack");
   var CleanWebpackPlugin = require("clean-webpack-plugin");
+  var CopyWebpackPlugin = require("copy-webpack-plugin");
   var HtmlWebpackPlugin = require("html-webpack-plugin");
   var WebkitPrefixer = require("autoprefixer");
+  var WebpackMd5Hash = require("webpack-md5-hash");
   var BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
     .BundleAnalyzerPlugin;
 
   var sourcedir = path.resolve(__dirname, "app/"); // 源码和资源文件的放置位置
   var outputdir = path.resolve(__dirname, "../public"); // 编译结果的放置位置
   var theme = require(path.resolve(__dirname, "./theme.js"));
-  console.log("theme:", theme);
   var webContextRoot = "/"; // 应用的实际访问路径，默认是'/'
+  // antd的图标字体文件的实际访问路径，利用less-load的变量替换功能
+  // var antd_fonticon = webContextRoot + 'assets/antd_fonticon/iconfont';
+  var axios = require("axios");
   var hasValue = function(item) {
     return item != null;
   };
-  var axios = require("axios");
   return {
-    devtool: "source-map",
-    // contentBase: "./public",
+    //context: path.resolve( __dirname ),
+    devtool: "cheap-source-map",
     devServer: {
       port: 8080,
       historyApiFallback: true,
@@ -46,7 +50,23 @@ module.exports = function(env) {
         // 搭配webpack-dev-server --hot命令实现react组件的hot reload
         isDev ? "react-hot-loader/patch" : null,
         path.resolve(sourcedir, "index.jsx")
-      ].filter(hasValue)
+      ].filter(hasValue),
+      // 第三方库汇总输出
+      vendor: [
+        "react",
+        "react-dom",
+        "react-router",
+        "redux",
+        "react-redux",
+        "moment",
+        "lodash",
+        "immutable",
+        "whatwg-fetch",
+        // 只含antd的js部分
+        "antd",
+        // 各控件还需引入各自的样式文件
+        "antd/lib/style/index.less"
+      ]
     },
     output: {
       path: outputdir,
@@ -61,7 +81,7 @@ module.exports = function(env) {
       rules: [
         {
           test: /\.jsx?$/,
-          exclude: /node_modules/,
+          exclude: /(node_modules|bower_components)/,
           use: [
             {
               // 编译新版本js语法为低版本js语法
@@ -137,14 +157,14 @@ module.exports = function(env) {
           ]
         },
         {
-          test: /\.(jpg|png|gif|svg)$/,
+          test: /\.(jpg|png|gif)$/,
           use: {
             loader: "url-loader",
             options: {
               // 编码为dataUrl的最大尺寸
               limit: 10000,
               // 输出路径，相对于publicPath
-              outputPath: "./static/images/",
+              outputPath: "assets/",
               name: isDev ? "[name].[ext]" : "[name]_[hash:8].[ext]"
             }
           }
@@ -156,7 +176,7 @@ module.exports = function(env) {
             options: {
               limit: 10000,
               mimetype: "application/font-woff",
-              outputPath: "./static/fonts/",
+              outputPath: "assets/",
               name: isDev ? "[name].[ext]" : "[name]_[hash:8].[ext]"
             }
           }
@@ -168,7 +188,31 @@ module.exports = function(env) {
             options: {
               limit: 10000,
               mimetype: "application/octet-stream",
-              outputPath: "./static/fonts/",
+              outputPath: "assets/",
+              name: isDev ? "[name].[ext]" : "[name]_[hash:8].[ext]"
+            }
+          }
+        },
+        {
+          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+          use: {
+            loader: "url-loader",
+            options: {
+              limit: 10000,
+              mimetype: "application/vnd.ms-fontobject",
+              outputPath: "assets/",
+              name: isDev ? "[name].[ext]" : "[name]_[hash:8].[ext]"
+            }
+          }
+        },
+        {
+          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+          use: {
+            loader: "url-loader",
+            options: {
+              limit: 10000,
+              mimetype: "application/svg+xml",
+              outputPath: "assets/",
               name: isDev ? "[name].[ext]" : "[name]_[hash:8].[ext]"
             }
           }
@@ -181,11 +225,28 @@ module.exports = function(env) {
         "window.axios": "axios"
       }),
       // momentjs包含大量本地化代码，需筛选
+      new webpack.ContextReplacementPlugin(
+        /moment[\/\\]locale$/,
+        /en-ca|zh-cn/
+      ),
+      new webpack.optimize.OccurrenceOrderPlugin(true),
       // 复制无需编译的文件至输出目录
+      new CopyWebpackPlugin([
+        {
+          from: path.resolve(sourcedir, "assets"),
+          to: "assets"
+        }
+      ]),
+      // 修复webpack的chunkhash不以chunk文件实际内容为准的问题
+      new WebpackMd5Hash(),
+      // 单独打包输出第三方组件，和webpack生成的运行时代码
+      new webpack.optimize.CommonsChunkPlugin({
+        name: ["vendor", "manifest"]
+      }),
       // 自动填充js、css引用进首页
       new HtmlWebpackPlugin({
         title: "wzp react",
-        template: path.resolve(outputdir, "index.html"),
+        template: path.resolve(sourcedir, "index.html"),
         inject: "body" // Inject all scripts into the body
       }),
       // 设置环境变量
