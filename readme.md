@@ -40,7 +40,9 @@ npm install
 npm run build
 node app
 ```
-访问http://localhost:3000，或者直接访问我挂上服务器的版本http://52.68.157.228:3000
+访问http://localhost:3000，
+<br>
+或者直接访问我挂上服务器的版本http://52.68.157.228:3000
 
 ### 生产环境
 #### 前端

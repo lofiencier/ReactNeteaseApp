@@ -138,10 +138,10 @@ webpackJsonp(
     },
     ,
     ,
-    ,
     function(t, e, n) {
       t.exports = { default: n(754), __esModule: !0 };
     },
+    ,
     ,
     function(t, e, n) {
       var a = n(67);
@@ -153,13 +153,13 @@ webpackJsonp(
     ,
     ,
     ,
-    ,
     function(t, e) {
       t.exports = function(t) {
         if ("function" != typeof t) throw TypeError(t + " is not a function!");
         return t;
       };
     },
+    ,
     ,
     ,
     ,
@@ -239,14 +239,14 @@ webpackJsonp(
     ,
     ,
     function(t, e, n) {
-      var a = n(127),
+      var a = n(126),
         o = n(67);
       t.exports = function(t) {
         return a(o(t));
       };
     },
     function(t, e, n) {
-      var a = n(128),
+      var a = n(127),
         o = n(90),
         r = n(51),
         i = n(66),
@@ -397,7 +397,7 @@ webpackJsonp(
     ,
     ,
     function(t, e, n) {
-      var a = n(38);
+      var a = n(37);
       t.exports = function(t, e, n) {
         if ((a(t), void 0 === e)) return t;
         switch (n) {
@@ -690,7 +690,7 @@ webpackJsonp(
         function b(e) {
           return function(n) {
             t
-              .get("/music/url?id=" + e, A)
+              .get("/music/url?id=" + e + "&proxy=http://52.68.157.228:3000", A)
               .then(function(t) {
                 var e = t.data,
                   a = e.data[0].url;
@@ -713,18 +713,16 @@ webpackJsonp(
           return function(e, n) {
             var a = n().Playbox,
               o = a.AudioDom,
-              r = a.volume,
-              i = a.curMusicUrl,
-              l = a.curIndex;
+              r = (a.volume, a.curMusicUrl),
+              i = a.curIndex;
             a.isFm, a.curList, a.fmList;
-            i !== o.src &&
+            r !== o.src &&
               (t
                 ? ((o.src = t), o.play())
                 : setTimeout(function() {
-                    e({ type: "CAN_NOT_PLAY" }), e(y(l + 1));
+                    e({ type: "CAN_NOT_PLAY" }), e(y(i + 1));
                   }, 3e3)),
               o.play(),
-              (o.volume = r),
               e({ type: "START_PLAY" });
           };
         }
@@ -791,7 +789,9 @@ webpackJsonp(
                   : { type: "TOGGLE_MODE", payload: !1 }
               ),
                 r
-                  ? i.length > 0 ? n(b(i[0].id), !1) : n(w())
+                  ? i.length > 0
+                    ? n(b(i[0].id), !1)
+                    : i.length <= 0 && !r && n(w())
                   : ((r || t) && "fm" !== t) || n(C());
             }
           );
@@ -1012,7 +1012,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       var a = n(59),
-        o = n(127),
+        o = n(126),
         r = n(32),
         i = n(26),
         l = n(217);
@@ -1079,7 +1079,7 @@ webpackJsonp(
           g = n(94),
           v = n(66),
           y = n(44),
-          x = n(129),
+          x = n(128),
           _ = n(17),
           w = n(32),
           k = n(214),
@@ -1734,7 +1734,7 @@ webpackJsonp(
           p = a(f),
           h = n(2),
           m = a(h),
-          b = n(30),
+          b = n(29),
           g = a(b),
           v = n(1),
           y = a(v),
@@ -1744,7 +1744,7 @@ webpackJsonp(
           k = a(w),
           E = n(4),
           S = a(E);
-        n(905), n(140), n(120);
+        n(905), n(140), n(119);
         var O = n(0),
           C = a(O),
           P = n(172),
@@ -3700,10 +3700,9 @@ webpackJsonp(
     ,
     ,
     ,
-    ,
     function(t, e, n) {
       "use strict";
-      n(40), n(908);
+      n(39), n(908);
     },
     ,
     ,
@@ -3752,6 +3751,7 @@ webpackJsonp(
                   : l;
       };
     },
+    ,
     ,
     ,
     ,
@@ -4666,7 +4666,7 @@ webpackJsonp(
     ,
     function(t, e, n) {
       "use strict";
-      n(40);
+      n(39);
     },
     ,
     ,
@@ -4803,7 +4803,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       var a = n(11),
-        o = n(38),
+        o = n(37),
         r = n(20)("species");
       t.exports = function(t, e) {
         var n,
@@ -4950,7 +4950,7 @@ webpackJsonp(
     function(t, e, n) {
       "use strict";
       var a = n(8),
-        o = n(38),
+        o = n(37),
         r = n(59),
         i = n(99);
       t.exports = function(t) {
@@ -5057,7 +5057,7 @@ webpackJsonp(
     function(t, e, n) {
       "use strict";
       Object.defineProperty(e, "__esModule", { value: !0 });
-      var a = n(14),
+      var a = n(13),
         o = (function(t) {
           return t && t.__esModule ? t : { default: t };
         })(a),
@@ -5389,7 +5389,7 @@ webpackJsonp(
       };
     },
     function(t, e, n) {
-      var a = n(129),
+      var a = n(128),
         o = n(20)("iterator"),
         r = n(112);
       t.exports = n(65).getIteratorMethod = function(t) {
@@ -5587,7 +5587,7 @@ webpackJsonp(
           (this.resolve = o(e)),
           (this.reject = o(n));
       }
-      var o = n(38);
+      var o = n(37);
       t.exports.f = function(t) {
         return new a(t);
       };
@@ -5947,7 +5947,7 @@ webpackJsonp(
     ,
     function(t, e, n) {
       "use strict";
-      n(40), n(862);
+      n(39), n(862);
     },
     function(t, e, n) {
       "use strict";
@@ -6187,7 +6187,7 @@ webpackJsonp(
         (e.default = void 0);
       var o = n(79),
         r = a(o),
-        i = n(30),
+        i = n(29),
         l = a(i),
         s = n(1),
         u = a(s),
@@ -6345,7 +6345,7 @@ webpackJsonp(
         u = a(s),
         c = n(400),
         d = a(c),
-        f = n(30),
+        f = n(29),
         p = a(f),
         h = n(1),
         m = a(h),
@@ -6359,7 +6359,7 @@ webpackJsonp(
       var w = n(0),
         k = a(w),
         E = n(172),
-        S = n(39),
+        S = n(38),
         O = n(936),
         C = a(O),
         P = n(187),
@@ -6754,7 +6754,7 @@ webpackJsonp(
       Object.defineProperty(e, "__esModule", { value: !0 });
       var v = n(2),
         y = a(v),
-        x = n(31),
+        x = n(30),
         _ = a(x);
       (e.argumentContainer = r),
         (e.identity = i),
@@ -6769,7 +6769,7 @@ webpackJsonp(
         (e.isEmptyObject = m),
         (e.hasRules = b),
         (e.startsWith = g);
-      var w = n(130),
+      var w = n(129),
         k = a(w);
     },
     ,
@@ -6985,9 +6985,9 @@ webpackJsonp(
       "use strict";
       var a = n(93),
         o = n(150),
-        r = n(128),
+        r = n(127),
         i = n(32),
-        l = n(127),
+        l = n(126),
         s = Object.assign;
       t.exports =
         !s ||
@@ -7026,7 +7026,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       "use strict";
-      var a = n(38),
+      var a = n(37),
         o = n(17),
         r = n(308),
         i = [].slice,
@@ -7152,9 +7152,9 @@ webpackJsonp(
       };
     },
     function(t, e, n) {
-      var a = n(38),
+      var a = n(37),
         o = n(32),
-        r = n(127),
+        r = n(126),
         i = n(26);
       t.exports = function(t, e, n, l, s) {
         a(e);
@@ -7598,7 +7598,7 @@ webpackJsonp(
     function(t, e, n) {
       var a = n(93),
         o = n(51),
-        r = n(128).f;
+        r = n(127).f;
       t.exports = function(t) {
         return function(e) {
           for (var n, i = o(e), l = a(i), s = l.length, u = 0, c = []; s > u; )
@@ -7608,7 +7608,7 @@ webpackJsonp(
       };
     },
     function(t, e, n) {
-      var a = n(129),
+      var a = n(128),
         o = n(333);
       t.exports = function(t) {
         return function() {
@@ -8281,7 +8281,7 @@ webpackJsonp(
       var a,
         o,
         r,
-        i = n(115),
+        i = n(114),
         l = n(897),
         s = n(350),
         u = n(231),
@@ -8950,15 +8950,15 @@ webpackJsonp(
     ,
     function(t, e, n) {
       "use strict";
-      n(40), n(930), n(120);
+      n(39), n(930), n(119);
     },
     function(t, e, n) {
       "use strict";
-      n(40), n(932), n(406);
+      n(39), n(932), n(406);
     },
     function(t, e, n) {
       "use strict";
-      n(40), n(934);
+      n(39), n(934);
     },
     ,
     ,
@@ -9368,7 +9368,7 @@ webpackJsonp(
         b = a(m),
         g = n(415),
         v = a(g),
-        y = n(14),
+        y = n(13),
         x = (a(y), n(417)),
         _ = a(x),
         w = n(181),
@@ -9892,7 +9892,7 @@ webpackJsonp(
         m = a(h),
         b = n(400),
         g = a(b),
-        v = n(30),
+        v = n(29),
         y = a(v),
         x = n(1),
         _ = a(x),
@@ -9902,10 +9902,10 @@ webpackJsonp(
         S = a(E),
         O = n(4),
         C = a(O);
-      n(1044), n(404), n(120), n(1047), n(405);
+      n(1044), n(404), n(119), n(1047), n(405);
       var P = n(0),
         M = a(P),
-        N = n(39),
+        N = n(38),
         I = n(63),
         T = n(84),
         z = n(1050),
@@ -9960,10 +9960,11 @@ webpackJsonp(
                     key: "componentDidMount",
                     value: function() {
                       var t = this.props.Playbox.AudioDom;
-                      t.addEventListener(
-                        "ended",
-                        this.songEndHandler.bind(this)
-                      ),
+                      (t.volume = this.props.Playbox.volume),
+                        t.addEventListener(
+                          "ended",
+                          this.songEndHandler.bind(this)
+                        ),
                         t.addEventListener(
                           "timeupdate",
                           this.timeUpdateHandler.bind(this)
@@ -10753,7 +10754,7 @@ webpackJsonp(
         _ = a(x),
         w = n(7),
         k = a(w),
-        E = n(14),
+        E = n(13),
         S = (a(E), n(1040)),
         O = a(S),
         C = n(1041),
@@ -11042,7 +11043,7 @@ webpackJsonp(
             .forEach(function(t) {
               [][t] && e(Array, t, Function.call.bind([][t]));
             });
-      }.call(e, n(29)));
+      }.call(e, n(31)));
     },
     function(t, e, n) {
       n(519),
@@ -11387,7 +11388,7 @@ webpackJsonp(
         (E.f = Z),
         (S.f = Y),
         (n(96).f = k.f = J),
-        (n(128).f = X),
+        (n(127).f = X),
         (n(150).f = Q),
         r && !n(92) && l(H, "propertyIsEnumerable", X, !0),
         (h.f = function(t) {
@@ -11468,7 +11469,7 @@ webpackJsonp(
     function(t, e, n) {
       var a = n(93),
         o = n(150),
-        r = n(128);
+        r = n(127);
       t.exports = function(t) {
         var e = a(t),
           n = o.f;
@@ -11594,7 +11595,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       "use strict";
-      var a = n(129),
+      var a = n(128),
         o = {};
       (o[n(20)("toStringTag")] = "z"),
         o + "" != "[object z]" &&
@@ -12499,7 +12500,7 @@ webpackJsonp(
       var a = n(8),
         o = n(51),
         r = [].join;
-      a(a.P + a.F * (n(127) != Object || !n(61)(r)), "Array", {
+      a(a.P + a.F * (n(126) != Object || !n(61)(r)), "Array", {
         join: function(t) {
           return r.call(o(this), void 0 === t ? "," : t);
         }
@@ -12540,7 +12541,7 @@ webpackJsonp(
     function(t, e, n) {
       "use strict";
       var a = n(8),
-        o = n(38),
+        o = n(37),
         r = n(32),
         i = n(15),
         l = [].sort,
@@ -12941,10 +12942,10 @@ webpackJsonp(
         l = n(92),
         s = n(12),
         u = n(59),
-        c = n(129),
+        c = n(128),
         d = n(8),
         f = n(17),
-        p = n(38),
+        p = n(37),
         h = n(98),
         m = n(99),
         b = n(156),
@@ -13329,7 +13330,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       var a = n(8),
-        o = n(38),
+        o = n(37),
         r = n(11),
         i = (n(12).Reflect || {}).apply,
         l = Function.apply;
@@ -13352,7 +13353,7 @@ webpackJsonp(
     function(t, e, n) {
       var a = n(8),
         o = n(95),
-        r = n(38),
+        r = n(37),
         i = n(11),
         l = n(17),
         s = n(15),
@@ -13588,7 +13589,7 @@ webpackJsonp(
         o = n(329),
         r = n(32),
         i = n(26),
-        l = n(38),
+        l = n(37),
         s = n(217);
       a(a.P, "Array", {
         flatMap: function(t) {
@@ -13750,7 +13751,7 @@ webpackJsonp(
       "use strict";
       var a = n(8),
         o = n(32),
-        r = n(38),
+        r = n(37),
         i = n(25);
       n(24) &&
         a(a.P + n(159), "Object", {
@@ -13763,7 +13764,7 @@ webpackJsonp(
       "use strict";
       var a = n(8),
         o = n(32),
-        r = n(38),
+        r = n(37),
         i = n(25);
       n(24) &&
         a(a.P + n(159), "Object", {
@@ -14140,7 +14141,7 @@ webpackJsonp(
     function(t, e, n) {
       var a = n(76),
         o = n(11),
-        r = n(38),
+        r = n(37),
         i = a.key,
         l = a.set;
       a.exp({
@@ -14170,7 +14171,7 @@ webpackJsonp(
         r = n(65),
         i = n(221)(),
         l = n(20)("observable"),
-        s = n(38),
+        s = n(37),
         u = n(11),
         c = n(98),
         d = n(100),
@@ -14846,7 +14847,7 @@ webpackJsonp(
               ? window
               : "object" == typeof self ? self : this
         );
-      }.call(e, n(29)));
+      }.call(e, n(31)));
     },
     function(t, e, n) {
       n(717), (t.exports = n(65).RegExp.escape);
@@ -14882,7 +14883,7 @@ webpackJsonp(
         r = a(o),
         i = n(10),
         l = a(i),
-        s = n(39),
+        s = n(38),
         u = n(753),
         c = n(1056),
         d = a(c);
@@ -14940,7 +14941,7 @@ webpackJsonp(
         (e.Routers = void 0);
       var o,
         r,
-        i = n(30),
+        i = n(29),
         l = a(i),
         s = n(1),
         u = a(s),
@@ -14955,7 +14956,7 @@ webpackJsonp(
         v = n(172),
         y = n(804),
         x = a(y),
-        _ = n(39),
+        _ = n(38),
         w = n(805),
         k = a(w),
         E = n(918),
@@ -15092,7 +15093,7 @@ webpackJsonp(
     function(t, e, n) {
       var a = n(62),
         o = n(33),
-        r = n(116);
+        r = n(115);
       t.exports = function(t, e) {
         var n = (o.Object || {})[t] || Object[t],
           i = {};
@@ -15168,7 +15169,7 @@ webpackJsonp(
               ? Object.setPrototypeOf(t, e)
               : (t.__proto__ = e));
       }
-      var i = n(14),
+      var i = n(13),
         l = n.n(i),
         s = n(0),
         u = n.n(s),
@@ -15245,7 +15246,7 @@ webpackJsonp(
             }
             return t;
           },
-        i = n(14),
+        i = n(13),
         l = a(i),
         s = n(54),
         u = a(s),
@@ -15496,7 +15497,7 @@ webpackJsonp(
               ? Object.setPrototypeOf(t, e)
               : (t.__proto__ = e));
       }
-      var i = n(14),
+      var i = n(13),
         l = n.n(i),
         s = n(0),
         u = n.n(s),
@@ -15559,7 +15560,7 @@ webpackJsonp(
             }
             return t;
           },
-        r = n(14),
+        r = n(13),
         i = a(r),
         l = n(54),
         s = a(l),
@@ -15935,7 +15936,7 @@ webpackJsonp(
       }
       Object.defineProperty(e, "__esModule", { value: !0 }),
         (e.default = void 0);
-      var o = n(30),
+      var o = n(29),
         r = a(o),
         i = n(1),
         l = a(i),
@@ -16052,7 +16053,7 @@ webpackJsonp(
         r,
         i = n(806),
         l = a(i),
-        s = n(30),
+        s = n(29),
         u = a(s),
         c = n(1),
         d = a(c),
@@ -16065,7 +16066,7 @@ webpackJsonp(
       n(854);
       var v = n(0),
         y = a(v),
-        x = n(39),
+        x = n(38),
         _ = n(63),
         w = n(138),
         k = (a(w), n(84)),
@@ -16418,7 +16419,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       "use strict";
-      n(40), n(857), n(859), n(250);
+      n(39), n(857), n(859), n(250);
     },
     ,
     ,
@@ -16440,7 +16441,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       "use strict";
-      n(40), n(860), n(250);
+      n(39), n(860), n(250);
     },
     function(t, e, n) {
       var a = n(861);
@@ -17216,7 +17217,7 @@ webpackJsonp(
         i,
         l = n(167),
         s = n(48),
-        u = n(115),
+        u = n(114),
         c = n(254),
         d = n(62),
         f = n(104),
@@ -17467,7 +17468,7 @@ webpackJsonp(
       };
     },
     function(t, e, n) {
-      var a = n(115),
+      var a = n(114),
         o = n(389),
         r = n(390),
         i = n(71),
@@ -17903,7 +17904,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       "use strict";
-      n(40), n(906);
+      n(39), n(906);
     },
     function(t, e, n) {
       var a = n(907);
@@ -17944,7 +17945,7 @@ webpackJsonp(
     ,
     function(t, e) {
       t.exports =
-        "data:application/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSJ3aGl0ZSI+CiAgPHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMikiIGQ9Ik0wIDEyIFYyMCBINCBWMTJ6Ij4gCiAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJkIiB2YWx1ZXM9Ik0wIDEyIFYyMCBINCBWMTJ6OyBNMCA0IFYyOCBINCBWNHo7IE0wIDEyIFYyMCBINCBWMTJ6OyBNMCAxMiBWMjAgSDQgVjEyeiIgZHVyPSIxLjJzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgYmVnaW49IjAiIGtleXRpbWVzPSIwOy4yOy41OzEiIGtleVNwbGluZXM9IjAuMiAwLjIgMC40IDAuODswLjIgMC42IDAuNCAwLjg7MC4yIDAuOCAwLjQgMC44IiBjYWxjTW9kZT0ic3BsaW5lIiAgLz4KICA8L3BhdGg+CiAgPHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOCkiIGQ9Ik0wIDEyIFYyMCBINCBWMTJ6Ij4KICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9ImQiIHZhbHVlcz0iTTAgMTIgVjIwIEg0IFYxMno7IE0wIDQgVjI4IEg0IFY0ejsgTTAgMTIgVjIwIEg0IFYxMno7IE0wIDEyIFYyMCBINCBWMTJ6IiBkdXI9IjEuMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBiZWdpbj0iMC4yIiBrZXl0aW1lcz0iMDsuMjsuNTsxIiBrZXlTcGxpbmVzPSIwLjIgMC4yIDAuNCAwLjg7MC4yIDAuNiAwLjQgMC44OzAuMiAwLjggMC40IDAuOCIgY2FsY01vZGU9InNwbGluZSIgIC8+CiAgPC9wYXRoPgogIDxwYXRoIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0KSIgZD0iTTAgMTIgVjIwIEg0IFYxMnoiPgogICAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iZCIgdmFsdWVzPSJNMCAxMiBWMjAgSDQgVjEyejsgTTAgNCBWMjggSDQgVjR6OyBNMCAxMiBWMjAgSDQgVjEyejsgTTAgMTIgVjIwIEg0IFYxMnoiIGR1cj0iMS4ycyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGJlZ2luPSIwLjQiIGtleXRpbWVzPSIwOy4yOy41OzEiIGtleVNwbGluZXM9IjAuMiAwLjIgMC40IDAuODswLjIgMC42IDAuNCAwLjg7MC4yIDAuOCAwLjQgMC44IiBjYWxjTW9kZT0ic3BsaW5lIiAvPgogIDwvcGF0aD4KICA8cGF0aCB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMCkiIGQ9Ik0wIDEyIFYyMCBINCBWMTJ6Ij4KICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9ImQiIHZhbHVlcz0iTTAgMTIgVjIwIEg0IFYxMno7IE0wIDQgVjI4IEg0IFY0ejsgTTAgMTIgVjIwIEg0IFYxMno7IE0wIDEyIFYyMCBINCBWMTJ6IiBkdXI9IjEuMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBiZWdpbj0iMC42IiBrZXl0aW1lcz0iMDsuMjsuNTsxIiBrZXlTcGxpbmVzPSIwLjIgMC4yIDAuNCAwLjg7MC4yIDAuNiAwLjQgMC44OzAuMiAwLjggMC40IDAuOCIgY2FsY01vZGU9InNwbGluZSIgLz4KICA8L3BhdGg+CiAgPHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYpIiBkPSJNMCAxMiBWMjAgSDQgVjEyeiI+CiAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJkIiB2YWx1ZXM9Ik0wIDEyIFYyMCBINCBWMTJ6OyBNMCA0IFYyOCBINCBWNHo7IE0wIDEyIFYyMCBINCBWMTJ6OyBNMCAxMiBWMjAgSDQgVjEyeiIgZHVyPSIxLjJzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgYmVnaW49IjAuOCIga2V5dGltZXM9IjA7LjI7LjU7MSIga2V5U3BsaW5lcz0iMC4yIDAuMiAwLjQgMC44OzAuMiAwLjYgMC40IDAuODswLjIgMC44IDAuNCAwLjgiIGNhbGNNb2RlPSJzcGxpbmUiIC8+CiAgPC9wYXRoPgo8L3N2Zz4K";
+        "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSJ3aGl0ZSI+CiAgPHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMikiIGQ9Ik0wIDEyIFYyMCBINCBWMTJ6Ij4gCiAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJkIiB2YWx1ZXM9Ik0wIDEyIFYyMCBINCBWMTJ6OyBNMCA0IFYyOCBINCBWNHo7IE0wIDEyIFYyMCBINCBWMTJ6OyBNMCAxMiBWMjAgSDQgVjEyeiIgZHVyPSIxLjJzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgYmVnaW49IjAiIGtleXRpbWVzPSIwOy4yOy41OzEiIGtleVNwbGluZXM9IjAuMiAwLjIgMC40IDAuODswLjIgMC42IDAuNCAwLjg7MC4yIDAuOCAwLjQgMC44IiBjYWxjTW9kZT0ic3BsaW5lIiAgLz4KICA8L3BhdGg+CiAgPHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOCkiIGQ9Ik0wIDEyIFYyMCBINCBWMTJ6Ij4KICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9ImQiIHZhbHVlcz0iTTAgMTIgVjIwIEg0IFYxMno7IE0wIDQgVjI4IEg0IFY0ejsgTTAgMTIgVjIwIEg0IFYxMno7IE0wIDEyIFYyMCBINCBWMTJ6IiBkdXI9IjEuMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBiZWdpbj0iMC4yIiBrZXl0aW1lcz0iMDsuMjsuNTsxIiBrZXlTcGxpbmVzPSIwLjIgMC4yIDAuNCAwLjg7MC4yIDAuNiAwLjQgMC44OzAuMiAwLjggMC40IDAuOCIgY2FsY01vZGU9InNwbGluZSIgIC8+CiAgPC9wYXRoPgogIDxwYXRoIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0KSIgZD0iTTAgMTIgVjIwIEg0IFYxMnoiPgogICAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iZCIgdmFsdWVzPSJNMCAxMiBWMjAgSDQgVjEyejsgTTAgNCBWMjggSDQgVjR6OyBNMCAxMiBWMjAgSDQgVjEyejsgTTAgMTIgVjIwIEg0IFYxMnoiIGR1cj0iMS4ycyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGJlZ2luPSIwLjQiIGtleXRpbWVzPSIwOy4yOy41OzEiIGtleVNwbGluZXM9IjAuMiAwLjIgMC40IDAuODswLjIgMC42IDAuNCAwLjg7MC4yIDAuOCAwLjQgMC44IiBjYWxjTW9kZT0ic3BsaW5lIiAvPgogIDwvcGF0aD4KICA8cGF0aCB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMCkiIGQ9Ik0wIDEyIFYyMCBINCBWMTJ6Ij4KICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9ImQiIHZhbHVlcz0iTTAgMTIgVjIwIEg0IFYxMno7IE0wIDQgVjI4IEg0IFY0ejsgTTAgMTIgVjIwIEg0IFYxMno7IE0wIDEyIFYyMCBINCBWMTJ6IiBkdXI9IjEuMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBiZWdpbj0iMC42IiBrZXl0aW1lcz0iMDsuMjsuNTsxIiBrZXlTcGxpbmVzPSIwLjIgMC4yIDAuNCAwLjg7MC4yIDAuNiAwLjQgMC44OzAuMiAwLjggMC40IDAuOCIgY2FsY01vZGU9InNwbGluZSIgLz4KICA8L3BhdGg+CiAgPHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYpIiBkPSJNMCAxMiBWMjAgSDQgVjEyeiI+CiAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJkIiB2YWx1ZXM9Ik0wIDEyIFYyMCBINCBWMTJ6OyBNMCA0IFYyOCBINCBWNHo7IE0wIDEyIFYyMCBINCBWMTJ6OyBNMCAxMiBWMjAgSDQgVjEyeiIgZHVyPSIxLjJzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgYmVnaW49IjAuOCIga2V5dGltZXM9IjA7LjI7LjU7MSIga2V5U3BsaW5lcz0iMC4yIDAuMiAwLjQgMC44OzAuMiAwLjYgMC40IDAuODswLjIgMC44IDAuNCAwLjgiIGNhbGNNb2RlPSJzcGxpbmUiIC8+CiAgPC9wYXRoPgo8L3N2Zz4K";
     },
     function(t, e, n) {
       !(function(e, a) {
@@ -20842,7 +20843,7 @@ webpackJsonp(
         (e.default = void 0);
       var o,
         r,
-        i = n(30),
+        i = n(29),
         l = a(i),
         s = n(1),
         u = a(s),
@@ -20854,7 +20855,7 @@ webpackJsonp(
         m = a(h),
         b = n(0),
         g = a(b),
-        v = n(39),
+        v = n(38),
         y = n(63),
         x = { width: "100px", height: "100px", listStyle: "none" },
         _ =
@@ -21006,7 +21007,7 @@ webpackJsonp(
           (e.default = void 0);
         var o,
           r,
-          i = n(30),
+          i = n(29),
           l = a(i),
           s = n(1),
           u = a(s),
@@ -21018,7 +21019,7 @@ webpackJsonp(
           m = a(h),
           b = n(0),
           g = a(b),
-          v = n(39),
+          v = n(38),
           y = n(63),
           x = n(257),
           _ = a(x),
@@ -21776,7 +21777,7 @@ webpackJsonp(
         g = a(b),
         v = n(1017),
         y = a(v),
-        x = n(30),
+        x = n(29),
         _ = a(x),
         w = n(1),
         k = a(w),
@@ -21786,10 +21787,10 @@ webpackJsonp(
         C = a(O),
         P = n(4),
         M = a(P);
-      n(1023), n(120), n(250), n(140), n(1029);
+      n(1023), n(119), n(250), n(140), n(1029);
       var N = n(0),
         I = a(N),
-        T = n(39),
+        T = n(38),
         z = (n(187), n(63)),
         F = u.default.Item,
         j =
@@ -23073,7 +23074,7 @@ webpackJsonp(
         r = a(o),
         i = n(2),
         l = a(i),
-        s = n(31),
+        s = n(30),
         u = a(s),
         c = n(1),
         d = a(c),
@@ -23294,7 +23295,7 @@ webpackJsonp(
         r = a(o),
         i = n(2),
         l = a(i),
-        s = n(31),
+        s = n(30),
         u = a(s),
         c = n(1),
         d = a(c),
@@ -24204,7 +24205,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       "use strict";
-      n(40), n(1024), n(1026);
+      n(39), n(1024), n(1026);
     },
     function(t, e, n) {
       var a = n(1025);
@@ -24224,7 +24225,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       "use strict";
-      n(40), n(1027);
+      n(39), n(1027);
     },
     function(t, e, n) {
       var a = n(1028);
@@ -24244,7 +24245,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       "use strict";
-      n(40), n(1030), n(120);
+      n(39), n(1030), n(119);
     },
     function(t, e, n) {
       var a = n(1031);
@@ -24271,7 +24272,7 @@ webpackJsonp(
         (e.default = void 0);
       var o,
         r,
-        i = n(30),
+        i = n(29),
         l = a(i),
         s = n(1),
         u = a(s),
@@ -24283,7 +24284,7 @@ webpackJsonp(
         m = a(h),
         b = n(0),
         g = a(b),
-        v = n(39),
+        v = n(38),
         y = n(63),
         x = n(257),
         _ = a(x),
@@ -24457,7 +24458,7 @@ webpackJsonp(
         (e.default = void 0);
       var o,
         r,
-        i = n(30),
+        i = n(29),
         l = a(i),
         s = n(1),
         u = a(s),
@@ -24469,7 +24470,7 @@ webpackJsonp(
         m = a(h),
         b = n(0),
         g = a(b),
-        v = n(39),
+        v = n(38),
         y = n(258),
         x = (a(y), n(172), n(1034)),
         _ = a(x),
@@ -24539,7 +24540,7 @@ webpackJsonp(
       }
       Object.defineProperty(e, "__esModule", { value: !0 }),
         (e.default = void 0);
-      var o = n(30),
+      var o = n(29),
         r = a(o),
         i = n(1),
         l = a(i),
@@ -24603,7 +24604,7 @@ webpackJsonp(
           u = a(s),
           c = n(2),
           d = a(c),
-          f = n(30),
+          f = n(29),
           p = a(f),
           h = n(1),
           m = a(h),
@@ -24613,10 +24614,10 @@ webpackJsonp(
           y = a(v),
           x = n(4),
           _ = a(x);
-        n(120), n(140);
+        n(119), n(140);
         var w = n(0),
           k = a(w),
-          E = n(39),
+          E = n(38),
           S = n(84),
           O = n(63),
           C = { withCredentials: !0 },
@@ -25059,7 +25060,7 @@ webpackJsonp(
         p = a(f),
         h = n(5),
         m = a(h),
-        b = n(14),
+        b = n(13),
         g = (a(b), n(429)),
         v = a(g),
         y = n(430),
@@ -25225,7 +25226,7 @@ webpackJsonp(
         l = a(i),
         s = n(7),
         u = a(s),
-        c = n(14),
+        c = n(13),
         d = a(c),
         f = function(t, e, n, a, o, r) {
           (0, d.default)(
@@ -25530,7 +25531,7 @@ webpackJsonp(
         g = a(b),
         v = n(50),
         y = a(v),
-        x = n(14),
+        x = n(13),
         _ = a(x),
         w = n(429),
         k = a(w),
@@ -25825,7 +25826,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       "use strict";
-      n(40), n(1045);
+      n(39), n(1045);
     },
     function(t, e, n) {
       var a = n(1046);
@@ -25845,7 +25846,7 @@ webpackJsonp(
     },
     function(t, e, n) {
       "use strict";
-      n(40), n(1048), n(406);
+      n(39), n(1048), n(406);
     },
     function(t, e, n) {
       var a = n(1049);
@@ -25874,7 +25875,7 @@ webpackJsonp(
         r,
         i = n(2),
         l = a(i),
-        s = n(30),
+        s = n(29),
         u = a(s),
         c = n(1),
         d = a(c),
@@ -25886,7 +25887,7 @@ webpackJsonp(
         g = a(b),
         v = n(0),
         y = a(v),
-        x = n(39),
+        x = n(38),
         _ = (n(63),
         (o = (0, x.connect)(function(t) {
           return { Playbox: t.Playbox };
@@ -26017,7 +26018,7 @@ webpackJsonp(
         (e.default = void 0);
       var o,
         r,
-        i = n(30),
+        i = n(29),
         l = a(i),
         s = n(1),
         u = a(s),
@@ -26029,7 +26030,7 @@ webpackJsonp(
         m = a(h),
         b = n(0),
         g = a(b),
-        v = n(39),
+        v = n(38),
         y =
           (o = (0, v.connect)(function(t) {
             return { Playbox: t.Playbox };
@@ -26068,7 +26069,7 @@ webpackJsonp(
         }
         Object.defineProperty(e, "__esModule", { value: !0 }),
           (e.default = void 0);
-        var o = n(30),
+        var o = n(29),
           r = a(o),
           i = n(1),
           l = a(i),
@@ -26233,7 +26234,7 @@ webpackJsonp(
         (e.default = void 0);
       var o,
         r,
-        i = n(30),
+        i = n(29),
         l = a(i),
         s = n(1),
         u = a(s),
@@ -26245,7 +26246,7 @@ webpackJsonp(
         m = a(h),
         b = n(0),
         g = a(b),
-        v = n(39),
+        v = n(38),
         y = n(63),
         x = n(257),
         _ = a(x),
@@ -26422,7 +26423,7 @@ webpackJsonp(
       }
       Object.defineProperty(e, "__esModule", { value: !0 }),
         (e.NonMatch = e.Loginfirst = void 0);
-      var o = n(30),
+      var o = n(29),
         r = a(o),
         i = n(1),
         l = a(i),
@@ -26997,7 +26998,7 @@ webpackJsonp(
       (e = t.exports = n(35)(void 0)),
         e.push([
           t.i,
-          '@font-face{font-family:iconfont;src:url("//at.alicdn.com/t/font_571206_2veha9wq08bprpb9.eot");src:url("//at.alicdn.com/t/font_571206_2veha9wq08bprpb9.eot?#iefix") format("embedded-opentype"),url("//at.alicdn.com/t/font_571206_2veha9wq08bprpb9.woff") format("woff"),url("//at.alicdn.com/t/font_571206_2veha9wq08bprpb9.ttf") format("truetype"),url("//at.alicdn.com/t/font_571206_2veha9wq08bprpb9.svg#iconfont") format("svg")}.root_content{margin-bottom:60px;height:auto;overflow:hidden}.root_content.search{margin-top:60px}a{text-decoration:none!important;-webkit-text-decoration-line:none!important;text-decoration-line:none!important}a,a:active{color:#000}body{color:#333}.header_fixed{position:fixed;z-index:999;color:#fff;line-height:60px;width:100%;height:60px;top:0;background:rgba(0,0,0,.65)}.header_fixed .header_content{margin:0 auto;width:1200px;height:100%;font-size:12px}.header_fixed .header_content .logo{display:block;width:100px;height:inherit;float:left;font-size:20px}.header_fixed .header_content .logo a{color:#fff}.header_fixed .header_content .header_nav{float:left;height:inherit}.header_fixed .header_content .header_nav a{color:#c3c3c3;text-align:center;display:block;width:100px;height:inherit;overflow:hidden}.header_fixed .header_content .header_nav.active a{color:#fff}.header_fixed .header_content .header_nav_login{float:right;width:auto}.header_fixed .header_content .header_nav_login .nav_drop_menu{color:#fff;text-align:center;display:block;width:60px;height:inherit;overflow:hidden;display:flex;align-items:center}.header_fixed .header_content .header_nav_login .nav_drop_menu img{display:block;margin:16px auto;border-radius:4px;overflow:hidden}.header_fixed .header_content .header_nav_login .nav_drop_menu i{font-size:12px;color:#666}.header_fixed .header_content .header_nav_search{float:left;height:inherit;width:200px;margin:0 20px}.header_fixed .header_content .header_nav_search a{color:#c3c3c3;text-align:center;display:block;width:100px;height:inherit;overflow:hidden}.header_fixed .header_content .header_nav_search span{position:relative;margin:12px 0;display:block;border-radius:4px;background:rgba(0,0,0,.3);width:100%;height:36px}.header_fixed .header_content .header_nav_search span input{color:#fff;position:absolute;border:none;outline:medium;background:none;width:96%;height:100%;margin-left:4%;padding:0}#index_banner{width:100%;height:auto;min-height:600px;background:#222}#index_banner img{display:block;width:100%;height:auto}.recommand_playlist{width:1200px;margin:0 auto;height:auto;background:#fff;overflow:hidden}.recommand_playlist .recommand_wrap{width:1300px;margin-bottom:100px;height:220px}.recommand_playlist .recommand_wrap .feather_title{color:#333;font-weight:700;font-size:20px;line-height:60px;margin:10px 0;display:flex;align-items:center;justify-content:space-between}.recommand_playlist .recommand_wrap .album_cover_bg{overflow:hidden;width:170px;height:230px;margin-right:36px;float:left}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover_bg_href{display:block;width:100%;height:100%}.recommand_playlist .recommand_wrap .album_cover_bg .album_info{color:#000;font-size:12px}.recommand_playlist .recommand_wrap .album_cover_bg .album_info p{padding:8px 0;line-height:20px}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover{position:relative;width:100%;height:170px;background:#f3f3f3}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover img{display:block;width:100%;height:auto;border-radius:4px}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover .loading{position:absolute;top:0;left:0;z-index:2;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7)}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover .loading img{width:32%;height:32%}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover .album_info_playCount{display:block;width:100%;height:20px;background:rgba(0,0,0,.4);position:absolute;bottom:0;z-index:10}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover .album_info_playCount span{padding:0 8px;font-size:12px;color:#fff}#playbox{border-top:1px solid #e8e8e8;width:100%;background:#fff;position:fixed;bottom:0;z-index:999;display:flex;flex-direction:column;justify-content:flex-end;transition:height .36s cubic-bezier(.78,.14,.15,.86)}#playbox .lyric_box{position:absolute;text-align:center;font-size:14px;line-height:2em;color:#aaa;right:0;transition:all .36s cubic-bezier(.78,.14,.15,.86) 3s}#playbox .lyric_box .lyric_wraper{transition:all .36s cubic-bezier(.78,.14,.15,.86);width:480px}#playbox .lyric_box p{min-height:28px;transition:all .36s cubic-bezier(.78,.14,.15,.86)}#playbox .lyric_box .playing{color:#333;font-size:16px;line-height:2em}#playbox .box_shut{position:absolute;top:20px;right:20px;border:none;font-size:22px}#playbox .ant_slider_bar{position:absolute;bottom:53px;width:100%;z-index:9999}#playbox .process_bar{transition:all .36s cubic-bezier(.78,.14,.15,.86)}#playbox .process_bar.ant-slider{margin:0 4px}#playbox .process_bar.ant-slider .ant-slider-handle{display:none}#playbox .process_bar.ant-slider .ant-slider-step{width:0;z-index:0;background:#e3e3e3}#playbox .process_bar.ant-slider .ant-slider-track{min-width:2px;z-index:1;background:#e65454}#playbox .process_bar.ant-slider .ant-slider-handle{z-index:2}#playbox .process_bar:hover .ant-slider-handle{display:block}#playbox .song_total_process{width:100%;height:4px;border:1px solid #f3f3f3}#playbox .song_total_process .song_buffered{position:absolute;background:#e3e3e3;height:4px}#playbox .song_total_process .song_played{border:1px solid #d64141;position:absolute;top:0;height:inherit;background:#e65454}#playbox .playbox_content{transition:all .36s cubic-bezier(.78,.14,.15,.86);width:100%;height:53px;margin:0 auto;min-width:1200px;display:flex;align-items:center;position:relative;justify-content:space-between}#playbox .playbox_content .left_side{display:flex;flex:0 0 auto;position:relative;z-index:0}#playbox .playbox_content .right_side{display:flex;align-items:center;padding:0 10px;z-index:1}#playbox .playbox_content .right_side .btns{margin:10px 20px;border-color:transparent}#playbox .playbox_content .right_side .btns i{font-size:20px}#playbox .playbox_content .song_info{display:flex}#playbox .playbox_content .song_info .song_cover{transition:all .36s cubic-bezier(.78,.14,.15,.86);flex:0 0 auto;width:45px;height:45px;margin:4px;overflow:hidden}#playbox .playbox_content .song_info .song_cover img{display:block;border-radius:4px;width:100%;height:auto}#playbox .playbox_content .song_info .song_text{max-width:360px;padding:4px;line-height:20px;font-size:14px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}#playbox .playbox_content .song_info .song_text .song_name{display:inline}#playbox .playbox_content .song_info .song_text small{font-size:12px;color:#585858}#playbox .playbox_content .control_center{transition:all .36s cubic-bezier(.78,.14,.15,.86);display:inline-block;text-align:center;width:100%;height:100%;display:flex;justify-content:center;align-items:center;z-index:1}#playbox .playbox_content .control_center .ant-btn{border-color:transparent;width:auto;height:auto;margin:4px 28px;font-size:20px}#playbox .playbox_content .control_center .ant-btn#download-custom .anticon-download-custom:before{content:"\\E616";font-family:iconfont!important;font-size:22px}#playbox .playbox_content .control_center .ant-btn.play{font-size:32px}#playbox .playbox_content .control_center .ant-btn.play i{color:#e65454}#playbox .playbox_content .control_center .ant-btn.playing{font-size:28px}#playbox .playbox_content .control_center .ant-btn.disabled{color:#666}#playbox .playbox_content .control_center .ant-btn i{display:block}.canvasHolder,.mine_root_content{background:#333}.bg_content{position:fixed;top:0;width:100%;height:100%;overflow:hidden;z-index:-999}.bg_content .album_page_bg{position:absolute;width:100%;height:100%;z-index:-99;overflow:hidden}.bg_content .album_page_bg img{display:block;width:auto;height:100%;margin:0 auto}.bg_content .canvasHolder{position:absolute;width:100%;height:100%;z-index:-98}.bg_content .canvasHolder #album_blur_canvas{width:auto!important;height:100%!important}.album_content_wrap{position:relative;width:1200px;height:auto;margin:0 auto;margin-top:100px}.album_content_wrap .album_info{position:fixed;float:left;width:300px;height:auto;background:#fff}.album_content_wrap .album_info .album_info_cover{position:relative;width:270px;height:270px;margin:15px;border-radius:4px;overflow:hidden;background:#f3f3f3;border:1px solid #ddd}.album_content_wrap .album_info .album_info_cover img{width:100%;height:auto}.album_content_wrap .album_info .album_info_details{width:270px;height:auto;margin:10px auto}.album_content_wrap .album_info .album_info_details .album_info_name{color:#000;font-size:14px;line-height:24px}.album_content_wrap .album_info .album_info_details .album_info_name i{font-size:12px;padding:2px 10px;line-height:inherit;background:#333;border-radius:14px;color:#fff;margin-right:8px}.album_content_wrap .album_info .album_info_details .album_company,.album_content_wrap .album_info .album_info_details .album_public_time,.album_content_wrap .album_info .album_info_details .playlist_creator,.album_content_wrap .album_info .album_info_details .playlist_play_count{color:#666;font-size:12px;line-height:28px;padding:0 8px 0 0}.album_content_wrap .album_info .album_info_details .album_action_playall{margin:8px 0;width:100%;height:auto}.album_content_wrap .album_info .album_info_details .album_action_playall a{display:block;width:100%;height:40px;background:#e65454;border-radius:4px}.album_content_wrap .album_info .album_info_details .album_action_playall a p{text-align:center;font-size:14px;color:#fff;line-height:40px}.album_content_wrap .album_list_bg{width:860px;height:auto;float:right;background:#fff}.album_content_wrap .album_list_bg .album_list_wrap{width:800px;margin:30px auto}.album_content_wrap .album_list_bg .album_list_wrap .album_h1{font-size:20px;font-weight:700;line-height:60px;color:#333}.album_content_wrap .album_list_bg .album_list_wrap .description_more{margin-top:20px;float:right;text-align:center;line-height:20px;font-size:10px;display:block;padding:0 10px;color:#ddd;border:2px solid #ddd;height:20px}.album_content_wrap .album_list_bg .album_list_wrap .album_description p{clear:both;line-height:20px;font-size:10px;color:#666}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums{width:100%;height:auto;overflow:hidden}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap{width:110%;height:auto}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg{margin-right:25px;float:left}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href{display:block;width:140px;height:180px}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover{width:100%;height:140px;border-radius:4px;background:#ddd;border:1px solid #ddd;position:relative}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .loading{position:absolute;top:0;left:0;z-index:2;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7)}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .loading img{width:32%;height:32%}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover img{display:block;width:100%;height:auto}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .album_info_subType{position:absolute;width:100%;height:20px;background:rgba(0,0,0,.4);bottom:0;color:#fff}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .album_info_subType span{margin:0 8px;font-size:12px;line-height:100%}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_info{position:relative;margin:10px 0;width:100%;height:auto;font-size:12px}.list_table{margin:40px 0;border:1px solid #ddd;border-radius:4px;overflow:hidden;width:100%;height:auto;font-size:12px}.list_table .list_row_head{height:40px;line-height:40px;background:#333;color:#fff}.list_table .list_row{height:30px;overflow:hidden}.list_table .list_row .list_col_body{text-overflow:ellipsis;white-space:nowrap;overflow:hidden;line-height:30px}.list_table .list_row .list_col_body.list_col_name span{margin:0 4px;font-size:10px;line-height:inherit;color:#666}.list_table .list_row .list_col_body.actions a{float:right;font-family:iconfont;font-size:14px;color:#999}.list_table .list_row:nth-child(2n){background:#f3f3f3}.playlist_content_wrap{position:relative;width:1200px;height:auto;margin:0 auto;margin-top:100px}.playlist_content_wrap .album_info{position:fixed;float:left;width:300px;height:auto;background:#fff}.playlist_content_wrap .album_info .album_info_cover{position:relative;width:270px;height:270px;margin:15px;border-radius:4px;overflow:hidden;background:#f3f3f3;border:1px solid #ddd}.playlist_content_wrap .album_info .album_info_cover img{width:100%;height:auto}.playlist_content_wrap .album_info .album_info_details{width:270px;height:auto;margin:10px auto}.playlist_content_wrap .album_info .album_info_details .album_info_name{color:#000;font-size:14px;line-height:24px}.playlist_content_wrap .album_info .album_info_details .album_info_name i{font-size:12px;padding:2px 10px;line-height:inherit;background:#333;border-radius:14px;color:#fff;margin-right:8px}.playlist_content_wrap .album_info .album_info_details .album_company,.playlist_content_wrap .album_info .album_info_details .album_public_time,.playlist_content_wrap .album_info .album_info_details .playlist_creator,.playlist_content_wrap .album_info .album_info_details .playlist_play_count{color:#666;font-size:12px;line-height:28px;padding:0 8px 0 0}.playlist_content_wrap .album_info .album_info_details .album_action_playall{margin:8px 0;width:100%;height:auto}.playlist_content_wrap .album_info .album_info_details .album_action_playall a{display:block;width:100%;height:40px;background:#e65454;border-radius:4px}.playlist_content_wrap .album_info .album_info_details .album_action_playall a p{text-align:center;font-size:14px;color:#fff;line-height:40px}.playlist_content_wrap .album_list_bg{width:860px;height:auto;float:right;background:#fff}.playlist_content_wrap .album_list_bg .album_list_wrap .album_h1{font-size:20px;font-weight:700;line-height:60px;color:#333}.playlist_content_wrap .album_list_bg .album_list_wrap .description_more{margin-top:20px;float:right;text-align:center;line-height:20px;font-size:10px;display:block;padding:0 10px;color:#ddd;border:2px solid #ddd;height:20px}.playlist_content_wrap .album_list_bg .album_list_wrap .album_description p{clear:both;line-height:20px;font-size:10px;color:#666}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums{width:100%;height:auto;overflow:hidden}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap{width:110%;height:auto}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg{margin-right:25px;float:left}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href{display:block;width:140px;height:180px}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover{width:100%;height:140px;border-radius:4px;background:#ddd;border:1px solid #ddd;position:relative}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .loading{position:absolute;top:0;left:0;z-index:2;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7)}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .loading img{width:32%;height:32%}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover img{display:block;width:100%;height:auto}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .album_info_subType{position:absolute;width:100%;height:20px;background:rgba(0,0,0,.4);bottom:0;color:#fff}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .album_info_subType span{margin:0 8px;font-size:12px;line-height:100%}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_info{position:relative;margin:10px 0;width:100%;height:auto;font-size:12px}.playlist_content_wrap .album_info{max-height:480px}.playlist_content_wrap .album_info_name{font-size:12px}.playlist_content_wrap .album_list_bg .album_list_wrap{width:800px;margin:30px auto}.changer_content{margin:4px;width:22.5px;flex:0 0 auto;height:45px;display:block;border-radius:12px;overflow:hidden;position:relative}.changer_content .changer_brick{position:absolute;top:1px;left:1px;background:#fff;display:block;width:21px;height:21px;border-radius:10px}.changer_content .changer_brick.fm{top:auto;bottom:1px}.changer_content .changer_bg{display:block;width:100%;height:100%;background:#333}.changer_content .changer_bg .changer_text{font-family:iconfont}.changer_content .changer_bg .changer_text p{line-height:22.5px;color:#fff;font-size:16px;text-align:center}.playbox_list_content{position:fixed;overflow:hidden;top:0;right:0;width:260px;background:#111113;z-index:99999;color:#fff;-webkit-transform:translateZ(0);transform:translateZ(0);transition:all .36s cubic-bezier(.78,.14,.15,.86)}.playbox_list_content.animate{-webkit-transform:translate3d(260px,0,0);transform:translate3d(260px,0,0)}.playbox_list_content .playbox_lit_wrap{height:auto;position:relative}.playbox_list_content .playbox_lit_wrap .playbox_empty{display:flex;flex-direction:column;align-items:center;color:#80808c;font-size:14px}.playbox_list_content .playbox_lit_wrap .playbox_empty img{width:200px;height:auto}.playbox_list_content .playbox_lit_wrap .playbox_list_item{width:100%;height:60px;margin-bottom:6px;display:flex;align-items:center}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_delete{color:#80808c}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_delete:hover{color:#f28480}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_delete:active{color:#e76767}.playbox_list_content .playbox_lit_wrap .playbox_list_item .col-xs-6{float:left;display:block;height:100%;color:#fff;text-align:center}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_delete{padding:8px}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href{color:#80808c;width:100%;height:auto;padding:10px;overflow:hidden;line-height:40px;display:flex;align-items:center}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href.playing{border-left:4px solid red}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href:hover{color:#f28480}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href:active{color:#e76767}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href .list_item_cover img{display:block;width:100%;height:auto}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href .list_item_info{text-align:left;margin:6px}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href .list_item_info p{line-height:16px}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href .list_item_info .song_name{font-size:12px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href .list_item_info .song_ar{font-size:10px}.loginbox_root_content{margin:200px auto;position:absolute;z-index:9999999;width:100%;height:100%}.loginbox_root_content .loginbox_wrap{margin:0 auto;width:400px;height:200px;background:#fff}.mine_content_wrap{width:1200px;margin:0 auto}.mine_content_wrap .user_playlist{margin:100px 0;float:right;width:860px;background:#fff;height:auto}.mine_content_wrap .user_playlist .playlist_wrap{width:800px;height:auto;margin:0 auto;min-height:800px}.user_root_content{position:fixed;width:300px;background:#fff;top:100px;border-radius:4px;overflow:hidden}.user_root_content .user_play_all{width:100%}.user_root_content .userinfo_wrap{width:100%;height:100px}.user_root_content .userinfo_wrap .avatar{width:80px;height:80px;float:left;margin:10px}.user_root_content .userinfo_wrap .user_info{float:left;width:200px;margin-top:20px}.user_root_content .userinfo_wrap .user_info .social_info{text-align:center;margin-left:-20px}.user_root_content .userinfo_wrap .user_info p{line-height:36px}.user_collections_wrap{width:100%;max-height:300px;overflow:hidden;position:relative}.user_collections_wrap .user_collections_item .user_album_href{display:flex;height:60px;width:100%;align-items:center}.user_collections_wrap .user_collections_item .user_album_href.active,.user_collections_wrap .user_collections_item .user_album_href:active{background:#ddd}.user_collections_wrap .user_collections_item .user_album_href .item_cover{margin:0 8px}.user_collections_wrap .user_collections_item .user_album_href .item_info{max-width:200px}.user_collections_wrap .user_collections_item .user_album_href .item_info p{width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}.user_collections_wrap .user_collections_item .user_album_href .item_info small{font-size:10px}.mv_content{width:1200px;height:auto;margin:100px auto;background:#fff}.mv_content .mv_content_wrap{width:1160px;height:auto;margin:0 auto;overflow:hidden}.mv_content .mv_content_wrap .info{margin:20px 0}.mv_content .mv_content_wrap .info .song_name{font-size:16px;font-weight:700;line-height:2em}.mv_content .mv_content_wrap .info .song_name span{font-size:12px;padding:2px;color:#fff;background:#e65454;margin:0 4px 0 0}.mv_content .mv_content_wrap .info .song_ar{font-size:12px}.mv_content .mv_box{width:864px;height:540px;background:#333;margin-bottom:20px;position:relative}.mv_content .mv_box .mv_cover{position:relative;width:100%;height:100%;overflow:hidden}.mv_content .mv_box .mv_cover .mv_cover_mask{position:absolute;z-index:99;top:0;width:100%;height:100%;background:rgba(0,0,0,.4)}.mv_content .mv_box .mv_cover .mv_cover_mask a{color:#fff}.mv_content .mv_box .mv_cover img{display:block;width:auto;height:100%}.search_content_wrap{width:1200px;height:auto;margin:0 auto;background:#fff}.search_content_wrap .content_wrap{overflow:hidden;width:1120px;height:auto;margin:40px auto}.pagination_wrap{text-align:center;margin:40px 0}.day_recommand{width:100%;max-height:480px;min-height:136px;background:#101010;color:#9a9a9a}.day_recommand.animate{min-height:480px}.day_recommand a{color:#9a9a9a}.day_recommand .day_recommand_wrap{width:1200px;height:100%;margin:0 auto;background:url("/static/images/dayly.jpg");overflow:hidden;padding-bottom:40px}.day_recommand .day_recommand_wrap .list_table{width:1310px;border:none;border-radius:none}.day_recommand .day_recommand_wrap .list_table .list_row{background:rgba(0,0,0,.3)}.day_recommand .day_recommand_wrap .list_table .list_row:hover{background:rgba(0,0,0,.8);color:#fff}.day_recommand .day_recommand_wrap .list_table .list_row:hover a{color:#fff}.day_recommand .index_title .daily_info{font-size:12px}.day_recommand .index_title .daily_tile{font-size:20px;font-weight:700;line-height:60px;color:#fff;margin:10px 0;display:flex;justify-content:space-between;align-items:center}.day_recommand .index_title .daily_tile a{color:#fff}.day_recommand .index_title p{font-size:14px;color:#555}.index_hot_albums .album_info_subType{display:block;width:100%;height:20px;background:rgba(0,0,0,.4);position:absolute;bottom:0;z-index:10}.index_hot_albums .album_info_subType span{padding:0 8px;font-size:12px;color:#fff}.index_hot_albums .index_title a{color:#333}.index_hot_albums .shuffle{margin-right:100px;font-size:12px}.index_boutique .index_title{justify-content:space-between}.index_boutique .index_title,.index_boutique .index_title .feather_title{display:flex;align-items:center}.index_boutique .index_title .boutique_radio_group{padding-right:100px}.billboard_content{width:100%;height:600px;background:#333;background-image:url("/static/images/billboard_bg.jpg")}.billboard_content .billboard_wrap{width:1200px;height:100%;margin:0 auto;overflow:hidden}.billboard_content .billboard_wrap .billboard_list_wrap{width:1300px;height:auto;margin-top:40px}.billboard_content .billboard_list{width:360px;height:auto;margin-right:60px;float:left}.billboard_content .billboard_list.red a:hover{background:#fe0905;color:#fff}.billboard_content .billboard_list.yellow a:hover{background:#febb00;color:#fff}.billboard_content .billboard_list.green a:hover{background:#039a79;color:#fff}.billboard_content .billboard_head{cursor:pointer;width:100%;height:140px;position:relative;box-shadow:2px 0 4px rgba(0,0,0,.4)}.billboard_content .billboard_head .title{position:absolute;top:20px;right:10px;font-size:24px;color:#fff}.billboard_content .billboard_head .title_icon{position:absolute;right:10px;bottom:20px;color:#fff;font-size:50px;font-weight:400}.billboard_content .billboard_head.red{background:#fe0905;background-image:url("/static/images/1.png")}.billboard_content .billboard_head.yellow{background:#febb00;background-image:url("/static/images/2.png")}.billboard_content .billboard_head.green{background:#039a79;background-image:url("/static/images/3.png")}.billboard_content .billboard_list_child{display:block;color:#333;width:100%;height:40px;margin:7px 0;background:rgba(0,0,0,.45);line-height:40px}.billboard_content .billboard_list_child .index{text-align:center}.billboard_content .billboard_list_child.first{line-height:75px;height:75px;color:#fff}.billboard_content .billboard_list_child.first .index{font-size:32px}.billboard_content .billboard_list_child.first .info{padding-top:18px;line-height:20px}.billboard_content .billboard_list_child.first .info small{font-size:12px}.billboard_content .billboard_list_child.first .pic{width:40px;height:40px;margin:20px}.billboard_content .billboard_list_child.first .pic img{display:block;width:100%;height:auto}.index_banner_wrap{width:100%;background:#1c1c1c}.index_banner_wrap .index_banner{width:1200px;margin:0 auto;max-height:545px}.login_first{width:100%;height:100%;position:absolute;background:#1c1c1c;display:flex;flex-direction:column;justify-content:center;align-items:center}@-webkit-keyframes custom-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes custom-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}.custom_spin{-webkit-animation:8s custom-spin linear .36s infinite;animation:8s custom-spin linear .36s infinite}',
+          '@font-face{font-family:iconfont;src:url("//at.alicdn.com/t/font_571206_2veha9wq08bprpb9.eot");src:url("//at.alicdn.com/t/font_571206_2veha9wq08bprpb9.eot?#iefix") format("embedded-opentype"),url("//at.alicdn.com/t/font_571206_2veha9wq08bprpb9.woff") format("woff"),url("//at.alicdn.com/t/font_571206_2veha9wq08bprpb9.ttf") format("truetype"),url("//at.alicdn.com/t/font_571206_2veha9wq08bprpb9.svg#iconfont") format("svg")}.root_content{margin-bottom:60px;height:auto;overflow:hidden}.root_content.search{margin-top:60px}a{text-decoration:none!important;-webkit-text-decoration-line:none!important;text-decoration-line:none!important}a,a:active{color:#000}body{color:#333}.header_fixed{position:fixed;z-index:999;color:#fff;line-height:60px;width:100%;height:60px;top:0;background:rgba(0,0,0,.65)}.header_fixed .header_content{margin:0 auto;width:1200px;height:100%;font-size:12px}.header_fixed .header_content .logo{display:block;width:100px;height:inherit;float:left;font-size:20px}.header_fixed .header_content .logo a{color:#fff}.header_fixed .header_content .header_nav{float:left;height:inherit}.header_fixed .header_content .header_nav a{color:#c3c3c3;text-align:center;display:block;width:100px;height:inherit;overflow:hidden}.header_fixed .header_content .header_nav.active a{color:#fff}.header_fixed .header_content .header_nav_login{float:right;width:auto}.header_fixed .header_content .header_nav_login .nav_drop_menu{color:#fff;text-align:center;display:block;width:60px;height:inherit;overflow:hidden;display:flex;align-items:center}.header_fixed .header_content .header_nav_login .nav_drop_menu img{display:block;margin:16px auto;border-radius:4px;overflow:hidden}.header_fixed .header_content .header_nav_login .nav_drop_menu i{font-size:12px;color:#666}.header_fixed .header_content .header_nav_search{float:left;height:inherit;width:200px;margin:0 20px}.header_fixed .header_content .header_nav_search a{color:#c3c3c3;text-align:center;display:block;width:100px;height:inherit;overflow:hidden}.header_fixed .header_content .header_nav_search span{position:relative;margin:12px 0;display:block;border-radius:4px;background:rgba(0,0,0,.3);width:100%;height:36px}.header_fixed .header_content .header_nav_search span input{color:#fff;position:absolute;border:none;outline:medium;background:none;width:96%;height:100%;margin-left:4%;padding:0}#index_banner{width:100%;height:auto;min-height:600px;background:#222}#index_banner img{display:block;width:100%;height:auto}.recommand_playlist{width:1200px;margin:0 auto;height:auto;background:#fff;overflow:hidden}.recommand_playlist .recommand_wrap{width:1300px;margin-bottom:100px;height:220px}.recommand_playlist .recommand_wrap .feather_title{color:#333;font-weight:700;font-size:20px;line-height:60px;margin:10px 0;display:flex;align-items:center;justify-content:space-between}.recommand_playlist .recommand_wrap .album_cover_bg{overflow:hidden;width:170px;height:230px;margin-right:36px;float:left}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover_bg_href{display:block;width:100%;height:100%}.recommand_playlist .recommand_wrap .album_cover_bg .album_info{color:#000;font-size:12px}.recommand_playlist .recommand_wrap .album_cover_bg .album_info p{padding:8px 0;line-height:20px}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover{position:relative;width:100%;height:170px;background:#f3f3f3}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover img{display:block;width:100%;height:auto;border-radius:4px}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover .loading{position:absolute;top:0;left:0;z-index:2;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7)}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover .loading img{width:32%;height:32%}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover .album_info_playCount{display:block;width:100%;height:20px;background:rgba(0,0,0,.4);position:absolute;bottom:0;z-index:10}.recommand_playlist .recommand_wrap .album_cover_bg .album_cover .album_info_playCount span{padding:0 8px;font-size:12px;color:#fff}#playbox{border-top:1px solid #e8e8e8;width:100%;background:#fff;position:fixed;bottom:0;z-index:999;display:flex;flex-direction:column;justify-content:flex-end;transition:height .36s cubic-bezier(.78,.14,.15,.86)}#playbox .lyric_box{position:absolute;text-align:center;font-size:14px;line-height:2em;color:#aaa;right:0;transition:all .36s cubic-bezier(.78,.14,.15,.86) 3s}#playbox .lyric_box .lyric_wraper{transition:all .36s cubic-bezier(.78,.14,.15,.86);width:480px}#playbox .lyric_box p{min-height:28px;transition:all .36s cubic-bezier(.78,.14,.15,.86)}#playbox .lyric_box .playing{color:#333;font-size:16px;line-height:2em}#playbox .box_shut{position:absolute;top:20px;right:20px;border:none;font-size:22px}#playbox .ant_slider_bar{position:absolute;bottom:53px;width:100%;z-index:9999}#playbox .process_bar{transition:all .36s cubic-bezier(.78,.14,.15,.86)}#playbox .process_bar.ant-slider{margin:0 4px}#playbox .process_bar.ant-slider .ant-slider-handle{display:none}#playbox .process_bar.ant-slider .ant-slider-step{width:0;z-index:0;background:#e3e3e3}#playbox .process_bar.ant-slider .ant-slider-track{min-width:2px;z-index:1;background:#e65454}#playbox .process_bar.ant-slider .ant-slider-handle{z-index:2}#playbox .process_bar:hover .ant-slider-handle{display:block}#playbox .song_total_process{width:100%;height:4px;border:1px solid #f3f3f3}#playbox .song_total_process .song_buffered{position:absolute;background:#e3e3e3;height:4px}#playbox .song_total_process .song_played{border:1px solid #d64141;position:absolute;top:0;height:inherit;background:#e65454}#playbox .playbox_content{transition:all .36s cubic-bezier(.78,.14,.15,.86);width:100%;height:53px;margin:0 auto;min-width:1200px;display:flex;align-items:center;position:relative;justify-content:space-between}#playbox .playbox_content .left_side{display:flex;flex:0 0 auto;position:relative;z-index:0}#playbox .playbox_content .right_side{display:flex;align-items:center;padding:0 10px;z-index:1}#playbox .playbox_content .right_side .btns{margin:10px 20px;border-color:transparent}#playbox .playbox_content .right_side .btns i{font-size:20px}#playbox .playbox_content .song_info{display:flex}#playbox .playbox_content .song_info .song_cover{position:relative;transition:all .36s cubic-bezier(.78,.14,.15,.86);flex:0 0 auto;width:45px;height:45px;margin:4px;overflow:hidden}#playbox .playbox_content .song_info .song_cover:hover a:before{position:absolute;font-family:anticon;border-radius:4px;line-height:46px;text-align:center;font-size:28px;color:#fff;width:100%;height:100%;content:"\\E615";background:rgba(0,0,0,.5)}#playbox .playbox_content .song_info .song_cover img{display:block;border-radius:4px;width:100%;height:auto}#playbox .playbox_content .song_info .song_text{max-width:360px;padding:4px;line-height:20px;font-size:14px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}#playbox .playbox_content .song_info .song_text .song_name{display:inline}#playbox .playbox_content .song_info .song_text small{font-size:12px;color:#585858}#playbox .playbox_content .control_center{transition:all .36s cubic-bezier(.78,.14,.15,.86);display:inline-block;text-align:center;width:100%;height:100%;display:flex;justify-content:center;align-items:center;z-index:1}#playbox .playbox_content .control_center .ant-btn{border-color:transparent;width:auto;height:auto;margin:4px 28px;font-size:20px}#playbox .playbox_content .control_center .ant-btn#download-custom .anticon-download-custom:before{content:"\\E616";font-family:iconfont!important;font-size:22px}#playbox .playbox_content .control_center .ant-btn.play{font-size:32px}#playbox .playbox_content .control_center .ant-btn.play i{color:#e65454}#playbox .playbox_content .control_center .ant-btn.playing{font-size:28px}#playbox .playbox_content .control_center .ant-btn.disabled{color:#666}#playbox .playbox_content .control_center .ant-btn i{display:block}.canvasHolder,.mine_root_content{background:#333}.bg_content{position:fixed;top:0;width:100%;height:100%;overflow:hidden;z-index:-999}.bg_content .album_page_bg{position:absolute;width:100%;height:100%;z-index:-99;overflow:hidden}.bg_content .album_page_bg img{display:block;width:auto;height:100%;margin:0 auto}.bg_content .canvasHolder{position:absolute;width:100%;height:100%;z-index:-98}.bg_content .canvasHolder #album_blur_canvas{width:auto!important;height:100%!important}.album_content_wrap{position:relative;width:1200px;height:auto;margin:0 auto;margin-top:100px}.album_content_wrap .album_info{position:fixed;float:left;width:300px;height:auto;background:#fff}.album_content_wrap .album_info .album_info_cover{position:relative;width:270px;height:270px;margin:15px;border-radius:4px;overflow:hidden;background:#f3f3f3;border:1px solid #ddd}.album_content_wrap .album_info .album_info_cover img{width:100%;height:auto}.album_content_wrap .album_info .album_info_details{width:270px;height:auto;margin:10px auto}.album_content_wrap .album_info .album_info_details .album_info_name{color:#000;font-size:14px;line-height:24px}.album_content_wrap .album_info .album_info_details .album_info_name i{font-size:12px;padding:2px 10px;line-height:inherit;background:#333;border-radius:14px;color:#fff;margin-right:8px}.album_content_wrap .album_info .album_info_details .album_company,.album_content_wrap .album_info .album_info_details .album_public_time,.album_content_wrap .album_info .album_info_details .playlist_creator,.album_content_wrap .album_info .album_info_details .playlist_play_count{color:#666;font-size:12px;line-height:28px;padding:0 8px 0 0}.album_content_wrap .album_info .album_info_details .album_action_playall{margin:8px 0;width:100%;height:auto}.album_content_wrap .album_info .album_info_details .album_action_playall a{display:block;width:100%;height:40px;background:#e65454;border-radius:4px}.album_content_wrap .album_info .album_info_details .album_action_playall a p{text-align:center;font-size:14px;color:#fff;line-height:40px}.album_content_wrap .album_list_bg{width:860px;height:auto;float:right;background:#fff}.album_content_wrap .album_list_bg .album_list_wrap{width:800px;margin:30px auto}.album_content_wrap .album_list_bg .album_list_wrap .album_h1{font-size:20px;font-weight:700;line-height:60px;color:#333}.album_content_wrap .album_list_bg .album_list_wrap .description_more{margin-top:20px;float:right;text-align:center;line-height:20px;font-size:10px;display:block;padding:0 10px;color:#ddd;border:2px solid #ddd;height:20px}.album_content_wrap .album_list_bg .album_list_wrap .album_description p{clear:both;line-height:20px;font-size:10px;color:#666}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums{width:100%;height:auto;overflow:hidden}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap{width:110%;height:auto}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg{margin-right:25px;float:left}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href{display:block;width:140px;height:180px}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover{width:100%;height:140px;border-radius:4px;background:#ddd;border:1px solid #ddd;position:relative}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .loading{position:absolute;top:0;left:0;z-index:2;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7)}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .loading img{width:32%;height:32%}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover img{display:block;width:100%;height:auto}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .album_info_subType{position:absolute;width:100%;height:20px;background:rgba(0,0,0,.4);bottom:0;color:#fff}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .album_info_subType span{margin:0 8px;font-size:12px;line-height:100%}.album_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_info{position:relative;margin:10px 0;width:100%;height:auto;font-size:12px}.list_table{margin:40px 0;border:1px solid #ddd;border-radius:4px;overflow:hidden;width:100%;height:auto;font-size:12px}.list_table .list_row_head{height:40px;line-height:40px;background:#333;color:#fff}.list_table .list_row{height:30px;overflow:hidden}.list_table .list_row .list_col_body{text-overflow:ellipsis;white-space:nowrap;overflow:hidden;line-height:30px}.list_table .list_row .list_col_body.list_col_name span{margin:0 4px;font-size:10px;line-height:inherit;color:#666}.list_table .list_row .list_col_body.actions a{float:right;font-family:iconfont;font-size:14px;color:#999}.list_table .list_row:nth-child(2n){background:#f3f3f3}.playlist_content_wrap{position:relative;width:1200px;height:auto;margin:0 auto;margin-top:100px}.playlist_content_wrap .album_info{position:fixed;float:left;width:300px;height:auto;background:#fff}.playlist_content_wrap .album_info .album_info_cover{position:relative;width:270px;height:270px;margin:15px;border-radius:4px;overflow:hidden;background:#f3f3f3;border:1px solid #ddd}.playlist_content_wrap .album_info .album_info_cover img{width:100%;height:auto}.playlist_content_wrap .album_info .album_info_details{width:270px;height:auto;margin:10px auto}.playlist_content_wrap .album_info .album_info_details .album_info_name{color:#000;font-size:14px;line-height:24px}.playlist_content_wrap .album_info .album_info_details .album_info_name i{font-size:12px;padding:2px 10px;line-height:inherit;background:#333;border-radius:14px;color:#fff;margin-right:8px}.playlist_content_wrap .album_info .album_info_details .album_company,.playlist_content_wrap .album_info .album_info_details .album_public_time,.playlist_content_wrap .album_info .album_info_details .playlist_creator,.playlist_content_wrap .album_info .album_info_details .playlist_play_count{color:#666;font-size:12px;line-height:28px;padding:0 8px 0 0}.playlist_content_wrap .album_info .album_info_details .album_action_playall{margin:8px 0;width:100%;height:auto}.playlist_content_wrap .album_info .album_info_details .album_action_playall a{display:block;width:100%;height:40px;background:#e65454;border-radius:4px}.playlist_content_wrap .album_info .album_info_details .album_action_playall a p{text-align:center;font-size:14px;color:#fff;line-height:40px}.playlist_content_wrap .album_list_bg{width:860px;height:auto;float:right;background:#fff}.playlist_content_wrap .album_list_bg .album_list_wrap .album_h1{font-size:20px;font-weight:700;line-height:60px;color:#333}.playlist_content_wrap .album_list_bg .album_list_wrap .description_more{margin-top:20px;float:right;text-align:center;line-height:20px;font-size:10px;display:block;padding:0 10px;color:#ddd;border:2px solid #ddd;height:20px}.playlist_content_wrap .album_list_bg .album_list_wrap .album_description p{clear:both;line-height:20px;font-size:10px;color:#666}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums{width:100%;height:auto;overflow:hidden}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap{width:110%;height:auto}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg{margin-right:25px;float:left}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href{display:block;width:140px;height:180px}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover{width:100%;height:140px;border-radius:4px;background:#ddd;border:1px solid #ddd;position:relative}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .loading{position:absolute;top:0;left:0;z-index:2;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7)}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .loading img{width:32%;height:32%}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover img{display:block;width:100%;height:auto}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .album_info_subType{position:absolute;width:100%;height:20px;background:rgba(0,0,0,.4);bottom:0;color:#fff}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_cover .album_info_subType span{margin:0 8px;font-size:12px;line-height:100%}.playlist_content_wrap .album_list_bg .album_list_wrap .artist_hot_albums .hot_album_wrap .album_cover_bg .album_cover_bg_href .album_info{position:relative;margin:10px 0;width:100%;height:auto;font-size:12px}.playlist_content_wrap .album_info{max-height:480px}.playlist_content_wrap .album_info_name{font-size:12px}.playlist_content_wrap .album_list_bg .album_list_wrap{width:800px;margin:30px auto}.changer_content{margin:4px;width:22.5px;flex:0 0 auto;height:45px;display:block;border-radius:12px;overflow:hidden;position:relative}.changer_content .changer_brick{position:absolute;top:1px;left:1px;background:#fff;display:block;width:21px;height:21px;border-radius:10px}.changer_content .changer_brick.fm{top:auto;bottom:1px}.changer_content .changer_bg{display:block;width:100%;height:100%;background:#333}.changer_content .changer_bg .changer_text{font-family:iconfont}.changer_content .changer_bg .changer_text p{line-height:22.5px;color:#fff;font-size:16px;text-align:center}.playbox_list_content{position:fixed;overflow:hidden;top:0;right:0;width:260px;background:#111113;z-index:99999;color:#fff;-webkit-transform:translateZ(0);transform:translateZ(0);transition:all .36s cubic-bezier(.78,.14,.15,.86)}.playbox_list_content.animate{-webkit-transform:translate3d(260px,0,0);transform:translate3d(260px,0,0)}.playbox_list_content .playbox_lit_wrap{height:auto;position:relative}.playbox_list_content .playbox_lit_wrap .playbox_empty{display:flex;flex-direction:column;align-items:center;color:#80808c;font-size:14px}.playbox_list_content .playbox_lit_wrap .playbox_empty img{width:200px;height:auto}.playbox_list_content .playbox_lit_wrap .playbox_list_item{width:100%;height:60px;margin-bottom:6px;display:flex;align-items:center}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_delete{color:#80808c}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_delete:hover{color:#f28480}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_delete:active{color:#e76767}.playbox_list_content .playbox_lit_wrap .playbox_list_item .col-xs-6{float:left;display:block;height:100%;color:#fff;text-align:center}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_delete{padding:8px}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href{color:#80808c;width:100%;height:auto;padding:10px;overflow:hidden;line-height:40px;display:flex;align-items:center}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href.playing{border-left:4px solid red}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href:hover{color:#f28480}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href:active{color:#e76767}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href .list_item_cover img{display:block;width:100%;height:auto}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href .list_item_info{text-align:left;margin:6px}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href .list_item_info p{line-height:16px}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href .list_item_info .song_name{font-size:12px;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.playbox_list_content .playbox_lit_wrap .playbox_list_item .item_href .list_item_info .song_ar{font-size:10px}.loginbox_root_content{margin:200px auto;position:absolute;z-index:9999999;width:100%;height:100%}.loginbox_root_content .loginbox_wrap{margin:0 auto;width:400px;height:200px;background:#fff}.mine_content_wrap{width:1200px;margin:0 auto}.mine_content_wrap .user_playlist{margin:100px 0;float:right;width:860px;background:#fff;height:auto}.mine_content_wrap .user_playlist .playlist_wrap{width:800px;height:auto;margin:0 auto;min-height:800px}.user_root_content{position:fixed;width:300px;background:#fff;top:100px;border-radius:4px;overflow:hidden}.user_root_content .user_play_all{width:100%}.user_root_content .userinfo_wrap{width:100%;height:100px}.user_root_content .userinfo_wrap .avatar{width:80px;height:80px;float:left;margin:10px}.user_root_content .userinfo_wrap .user_info{float:left;width:200px;margin-top:20px}.user_root_content .userinfo_wrap .user_info .social_info{text-align:center;margin-left:-20px}.user_root_content .userinfo_wrap .user_info p{line-height:36px}.user_collections_wrap{width:100%;max-height:300px;overflow:hidden;position:relative}.user_collections_wrap .user_collections_item .user_album_href{display:flex;height:60px;width:100%;align-items:center}.user_collections_wrap .user_collections_item .user_album_href.active,.user_collections_wrap .user_collections_item .user_album_href:active{background:#ddd}.user_collections_wrap .user_collections_item .user_album_href .item_cover{margin:0 8px}.user_collections_wrap .user_collections_item .user_album_href .item_info{max-width:200px}.user_collections_wrap .user_collections_item .user_album_href .item_info p{width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}.user_collections_wrap .user_collections_item .user_album_href .item_info small{font-size:10px}.mv_content{width:1200px;height:auto;margin:100px auto;background:#fff}.mv_content .mv_content_wrap{width:1160px;height:auto;margin:0 auto;overflow:hidden}.mv_content .mv_content_wrap .info{margin:20px 0}.mv_content .mv_content_wrap .info .song_name{font-size:16px;font-weight:700;line-height:2em}.mv_content .mv_content_wrap .info .song_name span{font-size:12px;padding:2px;color:#fff;background:#e65454;margin:0 4px 0 0}.mv_content .mv_content_wrap .info .song_ar{font-size:12px}.mv_content .mv_box{width:864px;height:540px;background:#333;margin-bottom:20px;position:relative}.mv_content .mv_box .mv_cover{position:relative;width:100%;height:100%;overflow:hidden}.mv_content .mv_box .mv_cover .mv_cover_mask{position:absolute;z-index:99;top:0;width:100%;height:100%;background:rgba(0,0,0,.4)}.mv_content .mv_box .mv_cover .mv_cover_mask a{color:#fff}.mv_content .mv_box .mv_cover img{display:block;width:auto;height:100%}.search_content_wrap{width:1200px;height:auto;margin:0 auto;background:#fff}.search_content_wrap .content_wrap{overflow:hidden;width:1120px;height:auto;margin:40px auto}.pagination_wrap{text-align:center;margin:40px 0}.day_recommand{width:100%;max-height:480px;min-height:136px;background:#101010;color:#9a9a9a}.day_recommand.animate{min-height:480px}.day_recommand a{color:#9a9a9a}.day_recommand .day_recommand_wrap{width:1200px;height:100%;margin:0 auto;background:url("/static/images/dayly.jpg");overflow:hidden;padding-bottom:40px}.day_recommand .day_recommand_wrap .list_table{width:1310px;border:none;border-radius:none}.day_recommand .day_recommand_wrap .list_table .list_row{background:rgba(0,0,0,.3)}.day_recommand .day_recommand_wrap .list_table .list_row:hover{background:rgba(0,0,0,.8);color:#fff}.day_recommand .day_recommand_wrap .list_table .list_row:hover a{color:#fff}.day_recommand .index_title .daily_info{font-size:12px}.day_recommand .index_title .daily_tile{font-size:20px;font-weight:700;line-height:60px;color:#fff;margin:10px 0;display:flex;justify-content:space-between;align-items:center}.day_recommand .index_title .daily_tile a{color:#fff}.day_recommand .index_title p{font-size:14px;color:#555}.index_hot_albums .album_info_subType{display:block;width:100%;height:20px;background:rgba(0,0,0,.4);position:absolute;bottom:0;z-index:10}.index_hot_albums .album_info_subType span{padding:0 8px;font-size:12px;color:#fff}.index_hot_albums .index_title a{color:#333}.index_hot_albums .shuffle{margin-right:100px;font-size:12px}.index_boutique .index_title{justify-content:space-between}.index_boutique .index_title,.index_boutique .index_title .feather_title{display:flex;align-items:center}.index_boutique .index_title .boutique_radio_group{padding-right:100px}.billboard_content{width:100%;height:600px;background:#333;background-image:url("/static/images/billboard_bg.jpg")}.billboard_content .billboard_wrap{width:1200px;height:100%;margin:0 auto;overflow:hidden}.billboard_content .billboard_wrap .billboard_list_wrap{width:1300px;height:auto;margin-top:40px}.billboard_content .billboard_list{width:360px;height:auto;margin-right:60px;float:left}.billboard_content .billboard_list.red a:hover{background:#fe0905;color:#fff}.billboard_content .billboard_list.yellow a:hover{background:#febb00;color:#fff}.billboard_content .billboard_list.green a:hover{background:#039a79;color:#fff}.billboard_content .billboard_head{cursor:pointer;width:100%;height:140px;position:relative;box-shadow:2px 0 4px rgba(0,0,0,.4)}.billboard_content .billboard_head .title{position:absolute;top:20px;right:10px;font-size:24px;color:#fff}.billboard_content .billboard_head .title_icon{position:absolute;right:10px;bottom:20px;color:#fff;font-size:50px;font-weight:400}.billboard_content .billboard_head.red{background:#fe0905;background-image:url("/static/images/1.png")}.billboard_content .billboard_head.yellow{background:#febb00;background-image:url("/static/images/2.png")}.billboard_content .billboard_head.green{background:#039a79;background-image:url("/static/images/3.png")}.billboard_content .billboard_list_child{display:block;color:#333;width:100%;height:40px;margin:7px 0;background:rgba(0,0,0,.45);line-height:40px}.billboard_content .billboard_list_child .index{text-align:center}.billboard_content .billboard_list_child.first{line-height:75px;height:75px;color:#fff}.billboard_content .billboard_list_child.first .index{font-size:32px}.billboard_content .billboard_list_child.first .info{padding-top:18px;line-height:20px}.billboard_content .billboard_list_child.first .info small{font-size:12px}.billboard_content .billboard_list_child.first .pic{width:40px;height:40px;margin:20px}.billboard_content .billboard_list_child.first .pic img{display:block;width:100%;height:auto}.index_banner_wrap{width:100%;background:#1c1c1c}.index_banner_wrap .index_banner{width:1200px;margin:0 auto;max-height:545px}.login_first{width:100%;height:100%;position:absolute;background:#1c1c1c;display:flex;flex-direction:column;justify-content:center;align-items:center}@-webkit-keyframes custom-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}@keyframes custom-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}to{-webkit-transform:rotate(1turn);transform:rotate(1turn)}}.custom_spin{-webkit-animation:8s custom-spin linear .36s infinite;animation:8s custom-spin linear .36s infinite}',
           ""
         ]);
     },
@@ -27036,4 +27037,4 @@ webpackJsonp(
   ],
   [516]
 );
-//# sourceMappingURL=main_77bda02f.js.map
+//# sourceMappingURL=main_43f74a59.js.map
