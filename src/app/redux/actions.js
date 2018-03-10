@@ -278,7 +278,7 @@ export function unshiftSong(song) {
 export function fetchSong(id) {
   return function(dispatch) {
     axios
-      .get(`/music/url?id=${id}`, fetchConfig)
+      .get(`/music/url?id=${id}&proxy=http://52.68.157.228:3000`, fetchConfig)
       .then(function({ data }) {
         let url = data.data[0].url;
         dispatch({ type: "GET_MUSIC_URL", payload: url });
@@ -323,7 +323,6 @@ export function playSong(url) {
       }
     }
     AudioDom.play();
-    AudioDom.volume = volume;
     dispatch({ type: "START_PLAY" });
   };
 }
@@ -415,7 +414,7 @@ export function toggleMode(mode, doNotFetchSong) {
     if (isFm) {
       if (curList.length > 0) {
         dispatch(fetchSong(curList[0].id), false);
-      } else {
+      } else if (curList.length <= 0 && !isFm) {
         dispatch(stopPlay());
       }
     } else if ((!isFm && !mode) || mode === "fm") {

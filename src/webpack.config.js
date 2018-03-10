@@ -1,10 +1,8 @@
 "use strict";
 
 module.exports = function(env) {
-  // 生成环境下webpack使用-p参数开启代码压缩
   // webpack[-dev-server]使用--env dev参数指定编译环境
   var isDev = env == "dev";
-  var UglifyJsPlugin = require("uglifyjs-webpack-plugin");
   var path = require("path");
   var webpack = require("webpack");
   var CleanWebpackPlugin = require("clean-webpack-plugin");
@@ -19,8 +17,6 @@ module.exports = function(env) {
   var outputdir = path.resolve(__dirname, "../public"); // 编译结果的放置位置
   var theme = require(path.resolve(__dirname, "./theme.js"));
   var webContextRoot = "/"; // 应用的实际访问路径，默认是'/'
-  // antd的图标字体文件的实际访问路径，利用less-load的变量替换功能
-  // var antd_fonticon = webContextRoot + 'assets/antd_fonticon/iconfont';
   var axios = require("axios");
   var hasValue = function(item) {
     return item != null;
@@ -58,13 +54,8 @@ module.exports = function(env) {
         "react-router",
         "redux",
         "react-redux",
-        "moment",
-        "lodash",
-        "immutable",
-        "whatwg-fetch",
         // 只含antd的js部分
         "antd",
-        // 各控件还需引入各自的样式文件
         "antd/lib/style/index.less"
       ]
     },
@@ -199,8 +190,8 @@ module.exports = function(env) {
             loader: "url-loader",
             options: {
               limit: 10000,
-              mimetype: "application/vnd.ms-fontobject",
-              outputPath: "assets/",
+              // mimetype: "application/vnd.ms-fontobject",
+              // outputPath: "assets/",
               name: isDev ? "[name].[ext]" : "[name]_[hash:8].[ext]"
             }
           }
@@ -211,8 +202,6 @@ module.exports = function(env) {
             loader: "url-loader",
             options: {
               limit: 10000,
-              mimetype: "application/svg+xml",
-              outputPath: "assets/",
               name: isDev ? "[name].[ext]" : "[name]_[hash:8].[ext]"
             }
           }
@@ -245,7 +234,7 @@ module.exports = function(env) {
       }),
       // 自动填充js、css引用进首页
       new HtmlWebpackPlugin({
-        title: "wzp react",
+        title: "react",
         template: path.resolve(sourcedir, "index.html"),
         inject: "body" // Inject all scripts into the body
       }),

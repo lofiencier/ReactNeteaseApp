@@ -338,6 +338,7 @@ body {
             flex: 0 0 auto;
             position: relative;
             z-index: 0;
+            
         }
         .right_side {
             display: flex;
@@ -355,12 +356,26 @@ body {
         .song_info {
             display: flex;
             .song_cover {
+                position: relative;
                 transition: all .36s cubic-bezier(0.78, 0.14, 0.15, 0.86);
                 flex: 0 0 auto;
                 width: 45px;
                 height: 45px;
                 margin: 4px;
                 overflow: hidden;
+                &:hover a::before{
+                    position:absolute;
+                    font-family: "anticon";
+                    border-radius: 4px;
+                    line-height: 46px;
+                    text-align: center;
+                    font-size:28px;
+                    color:#fff;
+                    width: 100%;
+                    height:100%;
+                    content:"\E615";
+                    background: rgba(0,0,0,.5);
+                }
                 img {
                     display: block;
                     border-radius: 4px;

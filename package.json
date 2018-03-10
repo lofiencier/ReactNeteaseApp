@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "",
-    "build": "webpack -p --config=src/webpack.config.js ",
+    "build": "webpack --config=src/webpack.config.js ",
     "test": "mocha -r intelli-espower-loader -t 20000 test",
     "precommit": "lint-staged",
     "server": "webpack-dev-server --env dev --hot --config=src/webpack.config.js",

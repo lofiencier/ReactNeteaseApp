@@ -48,6 +48,7 @@ export default class Playbox extends React.Component {
   }
   componentDidMount() {
     const { AudioDom } = this.props.Playbox;
+    AudioDom.volume = this.props.Playbox.volume;
     AudioDom.addEventListener("ended", this.songEndHandler.bind(this));
     AudioDom.addEventListener("timeupdate", this.timeUpdateHandler.bind(this));
     this.refs.process.rcSlider.sliderRef.addEventListener(
